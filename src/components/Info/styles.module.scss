@@ -4,8 +4,24 @@
   background-color: vars.$primary-color;
   margin-top: -70px;
   padding: 20px 50px;
+  @include mixins.flex_box_custom(space-between, center, 10px);
 }
 
 .containerCard {
-  @include mixins.flex_box_custom(center, center, 5px);
+  @include mixins.flex_box_custom(center, center, 18px);
+  height: 104px;
+  width: 230px;
+}
+
+.containerContent {
+  @include mixins.flex_box_custom(center, flex-start, 10px);
+  flex-direction: column;
+  color: vars.$white-color;
+  font-weight: 300;
+  .title {
+    font-size: 14px;
+  }
+  .des {
+    font-size: 13px;
+  }
 }
