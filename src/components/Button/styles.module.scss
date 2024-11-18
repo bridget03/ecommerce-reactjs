@@ -1,0 +1,13 @@
+@use '../../assets/styles/mixin.module.scss' as mixins;
+@use '../../assets/styles/variable.module.scss' as vars;
+
+.btn {
+  @include mixins.btn(170px, 40px, 3%, #333);
+  color: vars.$white-color;
+  font-size: 14px;
+  font-weight: 400;
+  &:hover {
+    background-color: vars.$sub-color;
+    cursor: pointer;
+  }
+}

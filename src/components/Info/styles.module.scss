@@ -1,0 +1,11 @@
+@use '../../assets/styles/variable.module.scss' as vars;
+@use '../../assets/styles/_mixin.module.scss' as mixins;
+.container {
+  background-color: vars.$primary-color;
+  margin-top: -70px;
+  padding: 20px 50px;
+}
+
+.containerCard {
+  @include mixins.flex_box_custom(center, center, 5px);
+}
