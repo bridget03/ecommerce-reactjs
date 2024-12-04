@@ -1,0 +1,15 @@
+@use '../../assets/styles/mixin.module' as mixins;
+
+.containerItem {
+  @include mixins.flex_box_custom(center, center);
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.ProductItem {
+  width: calc(25% - 20px);
+  box-sizing: border-box;
+  @media (max-width: 768px) {
+    width: 50%; /* Full-width for mobile */
+  }
+}

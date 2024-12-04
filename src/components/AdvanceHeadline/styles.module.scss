@@ -1,7 +1,7 @@
-@import '../../assets/styles/mixin.module';
-@import '../../assets/styles/variable.module';
+@use '../../assets/styles/mixin.module' as mixins;
+@use '../../assets/styles/variable.module' as vars;
 .container {
-  @include flex_box_custom(center, center, 0px);
+  @include mixins.flex_box_custom(center, center, 0px);
   margin: 65px 0px 15px;
 }
 
@@ -10,23 +10,31 @@
   height: 2px;
   border-top: 1px solid #e1e1e1;
   border-bottom: 1px solid #e1e1e1;
+  @media (max-width: 712px) {
+    display: none;
+  }
 }
 
 .containerMiddleBox {
   padding: 0px 60px;
   width: 100%;
-  @include flex_box_custom(center, center, 0px);
+  @include mixins.flex_box_custom(center, center, 0px);
   flex-direction: column;
   margin-bottom: 45px;
 }
 
 .des {
   font-size: 14px;
-  color: $third-color;
+  color: vars.$third-color;
 }
 
 .title {
   font-size: 24px;
-  color: $primary-color;
+  color: vars.$primary-color;
   margin: 0px;
+  text-align: center;
+
+  @media (max-width: 830px) {
+    font-size: 20px;
+  }
 }
