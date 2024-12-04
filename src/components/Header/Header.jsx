@@ -33,7 +33,7 @@ function Header() {
           <img
             src={Logo}
             alt='Logo'
-            style={{ width: '200px', height: '83px' }}
+            style={{ marginTop: '10px', width: '190px', height: '150px' }}
           />
         </div>
         <div className={containerBox}>

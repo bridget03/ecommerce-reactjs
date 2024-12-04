@@ -1,0 +1,8 @@
+@use '../../assets/styles/mixin.module.scss' as mixins;
+@use '../../assets/styles/variable.module.scss' as vars;
+.container {
+  padding-top: 123px;
+  .functionBox {
+    @include mixins.flex_box_custom(space-between, center, 0px);
+  }
+}
