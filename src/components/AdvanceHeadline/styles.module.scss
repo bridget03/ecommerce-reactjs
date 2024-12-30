@@ -24,12 +24,15 @@
 }
 
 .des {
-  font-size: 14px;
+  font-size: 18px;
   color: vars.$third-color;
+  @media (max-width: 830px) {
+    font-size: 20px;
+  }
 }
 
 .title {
-  font-size: 24px;
+  font-size: 26px;
   color: vars.$primary-color;
   margin: 0px;
   text-align: center;

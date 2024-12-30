@@ -1,6 +1,7 @@
 import deliverIcon from '@icons/svg/deliverIcon.svg';
 import creditCard from '@icons/svg/creditCard.svg';
 import boxIcon from '@icons/svg/boxIcon.svg';
+import returnIcon from '@icons/svg/returnIcon.svg';
 import chatIcon from '@icons/svg/chatIcon.svg';
 export const dataInfo = [
   {
@@ -16,7 +17,7 @@ export const dataInfo = [
   {
     title: '14 Days Return',
     description: 'Shop with confidence',
-    src: boxIcon,
+    src: returnIcon,
   },
   {
     title: '24/7 Online Support',
