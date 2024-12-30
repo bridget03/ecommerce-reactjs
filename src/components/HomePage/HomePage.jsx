@@ -5,19 +5,17 @@ import Info from '@components/Info/Info.jsx';
 import AdvanceHeadline from '@components/AdvanceHeadline/AdvanceHeadline.jsx';
 import HeadlineListProduct from '@components/HeadlineListProduct/HeadlineListProduct.jsx';
 import { getProduct } from '../../apis/productService';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 function HomePage() {
+  const [listProducts, setListProducts] = useState([]);
   useEffect(() => {
-    getProduct();
+    getProduct().then((res) => {
+      setListProducts(res.contents);
+    });
   }, []);
-  // (async () => {
-  //   try {
-  //     const products = await getProduct();
-  //     console.log('Fetched products:', products);
-  //   } catch (error) {
-  //     console.error('Error:', error.message);
-  //   }
-  // })();
+
+  console.log(listProducts, 'listProducts');
+
   return (
     <div>
       <div>
@@ -25,7 +23,7 @@ function HomePage() {
         <Banner />
         <Info />
         <AdvanceHeadline />
-        <HeadlineListProduct />
+        <HeadlineListProduct data={listProducts.slice(0, 12)} />
         <div style={{ height: '200px' }}></div>
       </div>
     </div>
