@@ -1,9 +1,10 @@
 import Header from '@components/Header/Header.jsx';
-import Footer from '@components/Footer/Footer.jsx';
 import Banner from '@components/Banner/Banner.jsx';
+import SaleHomePage from '@components/SaleHomePage/SaleHomePage.jsx';
 import Info from '@components/Info/Info.jsx';
 import AdvanceHeadline from '@components/AdvanceHeadline/AdvanceHeadline.jsx';
 import HeadlineListProduct from '@components/HeadlineListProduct/HeadlineListProduct.jsx';
+import Footer from '@components/Footer/Footer.jsx';
 import { getProduct } from '../../apis/productService';
 import { useEffect, useState } from 'react';
 function HomePage() {
@@ -14,8 +15,6 @@ function HomePage() {
     });
   }, []);
 
-  console.log(listProducts, 'listProducts');
-
   return (
     <div>
       <div>
@@ -24,7 +23,8 @@ function HomePage() {
         <Info />
         <AdvanceHeadline />
         <HeadlineListProduct data={listProducts.slice(0, 12)} />
-        <div style={{ height: '200px' }}></div>
+        <SaleHomePage />
+        <Footer />
       </div>
     </div>
   );

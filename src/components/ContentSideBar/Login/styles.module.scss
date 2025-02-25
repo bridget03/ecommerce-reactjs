@@ -1,0 +1,82 @@
+@use '@styles/mixin.module.scss' as mixins;
+@use '@styles/variable.module.scss' as vars;
+
+.title {
+  text-align: center;
+  font-size: 24px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  label {
+    margin-top: 0.75rem;
+    font-size: 16px;
+  }
+  input {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    width: 95%;
+  }
+
+  .boxInput {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+    .btnIcon {
+      position: absolute;
+      top: 45px;
+      right: 10px;
+      font-size: 20px;
+      cursor: pointer;
+      color: vars.$third-color;
+    }
+  }
+
+  .btnGroup {
+    margin-top: 1.25rem;
+    text-align: center;
+    width: 100%;
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 5px;
+      border: none;
+      background-color: vars.$primary-color;
+      color: vars.$white-color;
+      cursor: pointer;
+    }
+  }
+
+  .checkBox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+
+    input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    span {
+      font-size: 14px;
+      color: #333;
+      cursor: pointer;
+    }
+  }
+
+  .forgotPassword {
+    margin-top: 1.5rem;
+    font-size: 14px;
+    color: vars.$sub-color;
+    cursor: pointer;
+    text-align: center;
+  }
+}

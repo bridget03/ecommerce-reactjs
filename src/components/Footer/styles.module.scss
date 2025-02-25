@@ -1,0 +1,11 @@
+@use '../../assets/styles/mixin.module.scss' as mixins;
+@use '../../assets/styles/variable.module.scss' as vars;
+
+.container {
+  margin-top: 80px;
+  padding: 50px 0;
+  @include mixins.flex_box_custom(space-around, center, 20px);
+  flex-direction: column;
+  background-color: vars.$bg-color;
+  color: vars.$white-color;
+}
