@@ -12,8 +12,16 @@ function ItemProduct() {
           <IoCloseOutline style={{ fontSize: '18px' }} />
         </div>
         <div className={styles.boxContent}>
-          <div className={styles.name}>Product name</div>
-          <div className={styles.price}>$99.99</div>
+          {/* <div>
+            <div className={styles.name}>Product name</div>
+            <div className={styles.price}>$99.99</div>
+          </div> */}
+          <div>
+            <div className={styles.name}>Product name</div>
+            <div className={styles.size}>Size: M</div>
+            <div className={styles.price}>1 * $99.99</div>
+            <div className={styles.code}>SKU: 12349</div>
+          </div>
         </div>
       </div>
     </div>
