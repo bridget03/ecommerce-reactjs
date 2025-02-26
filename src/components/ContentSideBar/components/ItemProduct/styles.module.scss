@@ -1,0 +1,45 @@
+@use '@styles/mixin.module' as mixins;
+@use '@styles/variable.module.scss' as vars;
+
+.container {
+  @include mixins.flex_box_custom(center, flex-start, 20px);
+  margin-top: 3rem;
+  .boxContainer {
+    position: relative;
+    width: 90%;
+    @include mixins.flex_box_custom(center, flex-start, 20px);
+    padding: 10px;
+    &:hover {
+      background-color: #f5f5f5;
+      .closeIcon {
+        right: 0;
+        transition: right 0.3s ease;
+      }
+    }
+    transition: all 0.5s ease;
+
+    .boxContent {
+      @include mixins.flex_box_custom(flex-start, flex-start, 10px);
+      flex-direction: column;
+    }
+    img {
+      width: 6rem;
+      aspect-ratio: 1/1;
+    }
+    .name {
+      margin-bottom: 0.5rem;
+      padding-top: 0.75rem;
+    }
+    .price {
+      font-size: 14px;
+      color: vars.$third-color;
+    }
+    .closeIcon {
+      position: absolute;
+      top: 10px;
+      right: -100px;
+      padding-right: 20px;
+      cursor: pointer;
+    }
+  }
+}

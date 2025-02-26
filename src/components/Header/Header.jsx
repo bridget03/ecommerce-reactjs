@@ -5,10 +5,10 @@ import Menu from './Menu/Menu';
 import { dataBoxIcon, dataMenu } from './constants';
 import styles from './styles.module.scss';
 import Logo from '@icons/images/logo.png';
-import reloadIcon from '@icons/svg/reloadIcon.svg';
-import heartIcon from '@icons/svg/heartIcon.svg';
-import cartIcon from '@icons/svg/cartIcon.svg';
+import { IoIosGitCompare } from 'react-icons/io';
 
+import { IoIosHeartEmpty } from 'react-icons/io';
+import { PiShoppingCartLight } from 'react-icons/pi';
 import useScrollHandling from '@hooks/useScrollHandling';
 
 import classNames from 'classnames';
@@ -26,9 +26,12 @@ function Header() {
 
   const { scrollPosition } = useScrollHandling();
   const [fixedPosition, setFixedPosition] = useState(false);
+  const { isOpen, setIsOpen, setType } = useContext(SideBarContext);
 
-  const { isOpen, setIsOpen } = useContext(SideBarContext);
-  console.log(isOpen);
+  const handleOpenSideBar = (type) => {
+    setIsOpen(true);
+    setType(type);
+  };
 
   useEffect(() => {
     {
@@ -74,9 +77,18 @@ function Header() {
             })}
           </div>
           <div className={containerBoxIcon}>
-            <img width={26} height={26} src={reloadIcon} alt='reloadIcon' />
-            <img width={26} height={26} src={heartIcon} alt='heartIcon' />
-            <img width={26} height={26} src={cartIcon} alt='cartIcon' />
+            <IoIosGitCompare
+              className={styles.icon}
+              onClick={() => handleOpenSideBar('compare')}
+            />
+            <IoIosHeartEmpty
+              className={styles.icon}
+              onClick={() => handleOpenSideBar('wishlist')}
+            />
+            <PiShoppingCartLight
+              className={styles.icon}
+              onClick={() => handleOpenSideBar('cart')}
+            />
           </div>
         </div>
       </div>

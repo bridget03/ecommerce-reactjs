@@ -36,7 +36,13 @@
 }
 
 .containerBoxIcon {
-  @include mixins.flex_box_custom(center, center, 10px);
+  @include mixins.flex_box_custom(center, center, 20px);
+  margin-left: 20px;
+  .icon {
+    font-size: 24px;
+    color: vars.$primary-color;
+    cursor: pointer;
+  }
 }
 .containerBox {
   @include mixins.flex_box_custom(center, center, 20px);
