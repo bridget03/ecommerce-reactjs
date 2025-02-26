@@ -36,6 +36,10 @@
       cursor: pointer;
       color: vars.$third-color;
     }
+    .error {
+      color: red;
+      font-size: 14px;
+    }
   }
 
   .btnGroup {

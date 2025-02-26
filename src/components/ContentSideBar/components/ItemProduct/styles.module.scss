@@ -30,9 +30,21 @@
       margin-bottom: 0.5rem;
       padding-top: 0.75rem;
     }
+    .size {
+      font-size: 14px;
+      color: vars.$third-color;
+      margin-bottom: 5px;
+    }
     .price {
       font-size: 14px;
       color: vars.$third-color;
+      margin-bottom: 5px;
+    }
+    .code {
+      font-size: 14px;
+      color: vars.$third-color;
+      margin-bottom: 5px;
+      text-decoration: underline;
     }
     .closeIcon {
       position: absolute;

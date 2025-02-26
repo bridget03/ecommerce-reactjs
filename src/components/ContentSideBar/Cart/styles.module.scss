@@ -1,0 +1,21 @@
+@use '@styles/mixin.module' as mixins;
+@use '@styles/variable.module.scss' as vars;
+
+.container {
+  @include mixins.flex_box_custom(space-between, space-between, 0px);
+  flex-direction: column;
+  height: 90vh;
+  .buttonContainer {
+    width: 100%;
+    @include mixins.flex_box_custom(center, center, 10px);
+    flex-direction: column;
+    .subtotal {
+      font-size: 18px;
+      color: vars.$primary-color;
+    }
+
+    button {
+      width: 280px;
+    }
+  }
+}
