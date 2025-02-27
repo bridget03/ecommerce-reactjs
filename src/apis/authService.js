@@ -8,10 +8,8 @@ const signIn = async (body) => {
   return await axiosClient.post('/login', body);
 };
 
-const getInfo = async () => {
-  return await axiosClient.get(
-    '/user/info/21c501ab-2725-4479-a912-2c04b097f5da'
-  );
+const getInfo = async (userId) => {
+  return await axiosClient.get(`/user/info/${userId}`);
 };
 
 export { register, signIn, getInfo };

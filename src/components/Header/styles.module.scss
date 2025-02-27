@@ -64,6 +64,20 @@
   padding-top: 10px;
   font-size: 15px;
   color: vars.$primary-color;
+  position: relative;
+  .dropdownMenu {
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    border: 1px solid vars.$primary-color;
+    &:hover {
+      background-color: vars.$primary-color;
+      color: #fff;
+    }
+    p {
+      text-align: center;
+    }
+  }
 }
 
 .menu::after {

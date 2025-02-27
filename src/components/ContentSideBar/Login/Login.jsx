@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { FiEye } from 'react-icons/fi';
 import { FiEyeOff } from 'react-icons/fi';
 import styles from './styles.module.scss';
@@ -10,6 +10,8 @@ import Button from '@components/Button/Button';
 import { ToastContext } from '@/contexts/ToastProvider';
 
 import { register, signIn, getInfo } from '@/apis/authService';
+import { SideBarContext } from '@/contexts/SideBarProvider';
+import { StoreContext } from '@/contexts/StoreProvider';
 import Cookies from 'js-cookie';
 
 function Login() {
@@ -18,6 +20,8 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useContext(ToastContext);
+  const { setIsOpen } = useContext(SideBarContext);
+  const { setUserId } = useContext(StoreContext);
 
   const formik = useFormik({
     initialValues: {
@@ -59,11 +63,16 @@ function Login() {
           .then((res) => {
             setIsLoading(false);
             const { id, token, refreshToken } = res.data;
+            setUserId(id);
             Cookies.set('token', token);
             Cookies.set('refreshToken', refreshToken);
+            Cookies.set('userId', id);
+            toast.success('Login successful');
+            setIsOpen(false);
           })
           .catch((err) => {
             setIsLoading(false);
+            toast.error('Login false');
           });
       }
     },
@@ -76,10 +85,6 @@ function Login() {
     setIsRegistered(!isRegistered);
     formik.resetForm();
   };
-
-  useEffect(() => {
-    getInfo();
-  }, []);
 
   return (
     <div>
