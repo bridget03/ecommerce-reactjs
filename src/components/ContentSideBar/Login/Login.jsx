@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { FiEye } from 'react-icons/fi';
 import { FiEyeOff } from 'react-icons/fi';
 import styles from './styles.module.scss';
@@ -6,8 +6,18 @@ import styles from './styles.module.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
+import Button from '@components/Button/Button';
+import { ToastContext } from '@/contexts/ToastProvider';
+
+import { register, signIn, getInfo } from '@/apis/authService';
+import Cookies from 'js-cookie';
+
 function Login() {
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { toast } = useContext(ToastContext);
 
   const formik = useFormik({
     initialValues: {
@@ -21,18 +31,59 @@ function Login() {
       password: Yup.string()
         .min(8, 'Password must be at least 8 characters')
         .required('Password is required'),
+      cfPassword: Yup.string().oneOf(
+        [Yup.ref('password'), null],
+        'Passwords must match'
+      ),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      if (isLoading) return;
+
+      const { email: username, password } = values;
+      setIsLoading(true);
+
+      if (!isRegistered) {
+        await register({ username, password })
+          .then((res) => {
+            toast.success(res.data.message);
+            setIsLoading(false);
+          })
+          .catch((err) => {
+            toast.error(err.response.data.message);
+            setIsLoading(false);
+          });
+      }
+
+      if (isRegistered) {
+        await signIn({ username, password })
+          .then((res) => {
+            setIsLoading(false);
+            const { id, token, refreshToken } = res.data;
+            Cookies.set('token', token);
+            Cookies.set('refreshToken', refreshToken);
+          })
+          .catch((err) => {
+            setIsLoading(false);
+          });
+      }
     },
   });
 
   const handleShowPassword = () => {
     setIsShowPassword(!isShowPassword);
   };
+  const handleToggle = () => {
+    setIsRegistered(!isRegistered);
+    formik.resetForm();
+  };
+
+  useEffect(() => {
+    getInfo();
+  }, []);
+
   return (
     <div>
-      <h2 className={styles.title}>Sign in</h2>
+      <h2 className={styles.title}>{isRegistered ? 'Sign In' : 'Sign Up'}</h2>
       <form className={styles.form} onSubmit={formik.handleSubmit}>
         <div className={styles.boxInput}>
           <label>
@@ -50,7 +101,6 @@ function Login() {
             <p className={styles.error}>{formik.errors.email}</p>
           )}
         </div>
-
         <div className={styles.boxInput}>
           <label>
             Password <span>*</span>
@@ -72,24 +122,72 @@ function Login() {
             <p className={styles.error}>{formik.errors.password}</p>
           )}
         </div>
-
-        <div className={styles.checkBox}>
-          <input
-            id='password'
-            type='checkbox'
-            // onBlur={handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.password}
-          />
-          <span>Remember me</span>
-        </div>
+        {!isRegistered ? (
+          <div className={styles.boxInput}>
+            <label>
+              Confirm Password <span>*</span>
+            </label>
+            <input
+              id='cfPassword'
+              name='cfPassword'
+              type={isShowPassword ? 'text' : 'password'}
+              placeholder='Confirm Password'
+              className={styles.password}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.cfPassword}
+              isRequired
+            />
+            <div className={styles.btnIcon} onClick={handleShowPassword}>
+              {isShowPassword ? <FiEyeOff /> : <FiEye />}
+            </div>
+            {formik.errors.cfPassword && formik.touched.cfPassword && (
+              <p className={styles.error}>{formik.errors.cfPassword}</p>
+            )}
+          </div>
+        ) : null}
+        {isRegistered ? (
+          <div className={styles.checkBox}>
+            <input
+              id='rememberMe'
+              type='checkbox'
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.password}
+            />
+            <span>Remember me</span>
+          </div>
+        ) : null}
 
         <div className={styles.btnGroup}>
-          <button type='submit'>Login</button>
+          <div
+            className={styles.btn}
+            // onClick={() => {
+            //   toast.success('Success');
+            // }}
+          >
+            <Button
+              type='submit'
+              content={
+                isLoading ? 'Loading...' : isRegistered ? 'Login' : 'Register'
+              }
+            />
+          </div>
+          <div className={styles.btn} onClick={handleToggle}>
+            <Button
+              type='button'
+              isPrimary={false}
+              content={
+                isRegistered
+                  ? "Don't have an account?"
+                  : 'Already have an account?'
+              }
+            />
+          </div>
         </div>
-
-        <div className={styles.forgotPassword}>Lost your password?</div>
       </form>
+
+      <div className={styles.forgotPassword}>Lost your password?</div>
     </div>
   );
 }
