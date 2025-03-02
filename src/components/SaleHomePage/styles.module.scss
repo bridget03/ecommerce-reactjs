@@ -2,6 +2,8 @@
 @use '../../assets/styles/variable.module.scss' as vars;
 
 .container {
+  max-width: 1370px;
+  margin: 0 auto;
   margin-top: 100px;
   @include mixins.flex_box_custom(space-around, center, 20px);
 }
@@ -21,4 +23,11 @@
   cursor: pointer;
   margin-top: 30px;
   text-align: center;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    margin-top: 50px;
+  }
 }

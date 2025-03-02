@@ -1,7 +1,12 @@
 import styles from './styles.module.scss';
 import Button from '@components/Button/Button.jsx';
+import { useNavigate } from 'react-router-dom';
+
 function Banner() {
+  const navigate = useNavigate();
+
   const { container, content, title, slogan } = styles;
+  const handleDirect = () => {};
   return (
     <div className={container}>
       <div className={content}>
@@ -9,7 +14,9 @@ function Banner() {
         <div className={slogan}>
           Make your home more special this year with beautiful
         </div>
-        <Button content={'Go to shop'} />
+        <div onClick={() => navigate('/shop')}>
+          <Button content={'Go to shop'} />
+        </div>
       </div>
     </div>
   );

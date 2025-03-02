@@ -1,0 +1,9 @@
+@use '../../assets/styles/variable.module' as vars;
+
+.timeBox {
+  background-color: #fff;
+  margin-right: 1rem;
+  padding: 0.5rem;
+  color: vars.$third-color;
+  border-radius: 3px;
+}

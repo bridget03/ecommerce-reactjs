@@ -1,0 +1,18 @@
+@use '../../assets/styles/mixin.module' as mixins;
+@use '../../assets/styles/variable.module' as vars;
+
+.container {
+  @include mixins.flex_box_custom(center, center, 45px);
+  flex-direction: column;
+  background-image: url('https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/photo-of-man-wearing-white-hoodie-5474310.jpeg');
+  height: 410px;
+  width: 60%;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .title {
+    color: vars.$primary-color;
+    margin-top: 1.25rem;
+    font-size: 1.75rem;
+  }
+}

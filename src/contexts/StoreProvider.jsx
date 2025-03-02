@@ -8,12 +8,12 @@ export const StoreContext = createContext();
 export const StoreProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [userId, setUserId] = useState(Cookies.get('userId'));
-
   const handleLogOut = () => {
     Cookies.remove('userId');
     Cookies.remove('token');
     Cookies.remove('refreshToken');
-    setUserInfo(null);
+    // setUserInfo(null);
+    setUserId(null);
     window.location.reload();
   };
 
@@ -31,7 +31,7 @@ export const StoreProvider = ({ children }) => {
   }, [userId]);
 
   return (
-    <StoreContext.Provider value={{ userInfo, handleLogOut, setUserId }}>
+    <StoreContext.Provider value={{ userInfo, setUserId, handleLogOut }}>
       {children}
     </StoreContext.Provider>
   );
