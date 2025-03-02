@@ -1,8 +1,24 @@
 .wrapLayout {
   display: flex;
   justify-content: center;
+  max-width: 1300px;
+  margin: 0 auto;
 }
 
 .container {
-  width: 1250px;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    width: 95%;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 12px;
+  }
 }

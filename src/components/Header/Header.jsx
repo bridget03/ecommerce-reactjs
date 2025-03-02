@@ -9,10 +9,14 @@ import { IoIosGitCompare } from 'react-icons/io';
 
 import { IoIosHeartEmpty } from 'react-icons/io';
 import { PiShoppingCartLight } from 'react-icons/pi';
+import { RxHamburgerMenu } from 'react-icons/rx';
 import useScrollHandling from '@hooks/useScrollHandling';
 
 import classNames from 'classnames';
 import { SideBarContext } from '@/contexts/SideBarProvider';
+
+import { Link } from 'react-router-dom';
+
 function Header() {
   const {
     containerBoxIcon,
@@ -22,11 +26,14 @@ function Header() {
     container,
     topContainer,
     fixedHeader,
+    mobileMenuIcon,
+    mobileMenu,
   } = styles;
 
   const { scrollPosition } = useScrollHandling();
   const [fixedPosition, setFixedPosition] = useState(false);
   const { isOpen, setIsOpen, setType } = useContext(SideBarContext);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const handleOpenSideBar = (type) => {
     setIsOpen(true);
@@ -47,9 +54,15 @@ function Header() {
       <div className={containerHeader}>
         <div className={containerBox}>
           <div className={containerBoxIcon}>
-            {dataBoxIcon.map((item) => {
-              return <BoxIcon type={item.type} href={item.href} />;
-            })}
+            <RxHamburgerMenu
+              className={mobileMenuIcon}
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+            />
+            <div className={styles.socialIcon}>
+              {dataBoxIcon.map((item) => {
+                return <BoxIcon type={item.type} href={item.href} />;
+              })}
+            </div>
           </div>
           <div className={containerMenu}>
             {dataMenu.slice(0, 3).map((item) => {
@@ -61,7 +74,7 @@ function Header() {
           <img
             src={Logo}
             alt='Logo'
-            style={{ marginTop: '10px', width: '190px', height: '150px' }}
+            style={{ width: '200px', height: '80px' }}
           />
         </div>
         <div className={containerBox}>
@@ -92,6 +105,34 @@ function Header() {
           </div>
         </div>
       </div>
+      {showMobileMenu && (
+        <div className={mobileMenu}>
+          <img
+            src={Logo}
+            alt='Logo'
+            style={{ width: '200px', height: '80px' }}
+          />
+          <div className={styles.mobileMenuItem}>
+            <Link to='/'>
+              {' '}
+              <div>Home</div>{' '}
+            </Link>
+            <Link to='/shop'>
+              {' '}
+              <div>Our Shop</div>{' '}
+            </Link>
+            <Link to='/about-us'>
+              <div>About Us</div>
+            </Link>
+            <Link to='/about-us'>
+              <div>Contact Us</div>
+            </Link>
+            <Link to='/about-us'>
+              <div>Account</div>
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
