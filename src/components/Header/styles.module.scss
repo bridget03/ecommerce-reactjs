@@ -2,8 +2,6 @@
 @use '../../assets/styles/variable.module.scss' as vars;
 .container {
   @include mixins.flex_box_custom(center, center, 0px);
-  max-width: 100%;
-  margin: 0 auto;
   left: 0;
   right: 0;
 }
@@ -33,13 +31,13 @@
   align-items: center;
   justify-content: space-between;
   height: 83px;
-  width: 1250px;
-  margin-top: 1rem;
+  width: 100%;
+  max-width: 1200px;
+  // margin: 1rem 2rem;
 }
 
 .containerBoxIcon {
   @include mixins.flex_box_custom(center, center, 20px);
-  margin-left: 20px;
   .icon {
     font-size: 24px;
     color: vars.$primary-color;
@@ -111,6 +109,10 @@
 }
 
 @media (max-width: 1024px) {
+  .containerHeader {
+    // margin: 0 2rem;
+    max-width: 95%;
+  }
   .containerMenu {
     display: none;
   }
@@ -151,5 +153,22 @@
 
   .mobileMenu div:last-child {
     border-bottom: none;
+  }
+}
+
+.cartIcon {
+  position: relative;
+  .cartCount {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background-color: vars.$primary-color;
+    color: #fff;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    font-size: 12px;
+
+    @include mixins.flex_box_custom(center, center, 0px);
   }
 }

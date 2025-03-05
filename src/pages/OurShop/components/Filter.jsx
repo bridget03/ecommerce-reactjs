@@ -1,7 +1,6 @@
 import styles from './styles.module.scss';
 import { BsFillGrid3X3GapFill } from 'react-icons/bs';
 import { FaListUl } from 'react-icons/fa';
-import cls from 'classnames';
 
 import { useContext } from 'react';
 import { OurShopContext } from '@contexts/OurShopProvider';
@@ -18,11 +17,6 @@ function Filter() {
     }
   };
   const handleShowType = (type) => {
-    // if (type === 'grid') {
-    //   setIsShowGrid(true);
-    // } else {
-    //   setIsShowGrid(false);
-    // }
     setIsShowGrid(type === 'grid');
   };
   return (

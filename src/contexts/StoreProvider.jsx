@@ -12,7 +12,6 @@ export const StoreProvider = ({ children }) => {
     Cookies.remove('userId');
     Cookies.remove('token');
     Cookies.remove('refreshToken');
-    // setUserInfo(null);
     setUserId(null);
     window.location.reload();
   };
@@ -21,7 +20,6 @@ export const StoreProvider = ({ children }) => {
     if (userId) {
       getInfo(userId)
         .then((res) => {
-          console.log(res);
           setUserInfo(res.data.data);
         })
         .catch((err) => {

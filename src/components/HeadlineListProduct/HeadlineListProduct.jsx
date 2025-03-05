@@ -3,6 +3,8 @@ import styles from './styles.module.scss';
 import ProductItem from '@components/ProductItem/ProductItem.jsx';
 import CountDownBanner from '@components/CountDownBanner/CountDownBanner.jsx';
 
+import { useContext } from 'react';
+
 function HeadlineListProduct({ data }) {
   return (
     <MainLayout>
@@ -17,6 +19,7 @@ function HeadlineListProduct({ data }) {
               prevSrc={item.images[1]}
               name={item.name}
               price={item.price}
+              details={item}
             />
           ))}
         </div>
@@ -32,6 +35,7 @@ function HeadlineListProduct({ data }) {
               prevSrc={item.images[1]}
               name={item.name}
               price={item.price}
+              details={item}
             />
           );
         })}

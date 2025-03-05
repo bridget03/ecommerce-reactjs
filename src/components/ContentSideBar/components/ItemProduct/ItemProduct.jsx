@@ -1,28 +1,58 @@
 import styles from './styles.module.scss';
 import { IoCloseOutline } from 'react-icons/io5';
-function ItemProduct() {
+import { deleteItem } from '@/apis/cartService';
+import { SideBarContext } from '@contexts/SideBarProvider';
+import { useContext, useState } from 'react';
+import LoadingCommon from '@components/LoadingCommon/LoadingCommon';
+
+function ItemProduct({
+  srcProduct,
+  nameProduct,
+  quantity,
+  priceProduct,
+  sizeProduct,
+  codeProduct,
+  productId,
+  userId,
+}) {
+  const [isDelete, setIsDelete] = useState(false);
+  const { handleGetListProductCart } = useContext(SideBarContext);
+
+  const handleDeleteItem = () => {
+    setIsDelete(true);
+
+    deleteItem({ productId, userId })
+      .then((res) => {
+        setIsDelete(false);
+        handleGetListProductCart(userId, 'cart');
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsDelete(false);
+      });
+  };
   return (
     <div className={styles.container}>
       <div className={styles.boxContainer}>
-        <img
-          src='https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-9.2-min.jpg'
-          alt='#'
-        />
-        <div className={styles.closeIcon}>
+        <img src={srcProduct} alt='#' />
+        <div className={styles.closeIcon} onClick={handleDeleteItem}>
           <IoCloseOutline style={{ fontSize: '18px' }} />
         </div>
         <div className={styles.boxContent}>
-          {/* <div>
-            <div className={styles.name}>Product name</div>
-            <div className={styles.price}>$99.99</div>
-          </div> */}
           <div>
-            <div className={styles.name}>Product name</div>
-            <div className={styles.size}>Size: M</div>
-            <div className={styles.price}>1 * $99.99</div>
-            <div className={styles.code}>SKU: 12349</div>
+            <div className={styles.name}>{nameProduct}</div>
+            <div className={styles.size}>Size: {sizeProduct}</div>
+            <div className={styles.price}>
+              {quantity} * {priceProduct}
+            </div>
+            <div className={styles.code}>SKU: {codeProduct}</div>
           </div>
         </div>
+        {isDelete && (
+          <div className={styles.overlayLoading}>
+            <LoadingCommon />
+          </div>
+        )}
       </div>
     </div>
   );
