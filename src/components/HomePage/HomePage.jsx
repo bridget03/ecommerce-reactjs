@@ -5,12 +5,19 @@ import Info from '@components/Info/Info.jsx';
 import AdvanceHeadline from '@components/AdvanceHeadline/AdvanceHeadline.jsx';
 import HeadlineListProduct from '@components/HeadlineListProduct/HeadlineListProduct.jsx';
 import Footer from '@components/Footer/Footer.jsx';
-import { getProduct } from '../../apis/productService';
+import { getProduct } from '@apis/productService';
 import { useEffect, useState } from 'react';
 function HomePage() {
   const [listProducts, setListProducts] = useState([]);
+
   useEffect(() => {
-    getProduct().then((res) => {
+    const query = {
+      sortType: 0,
+      page: 1,
+      limit: 10,
+    };
+
+    getProduct(query).then((res) => {
       setListProducts(res.contents);
     });
   }, []);

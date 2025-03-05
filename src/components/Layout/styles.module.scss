@@ -1,7 +1,7 @@
 .wrapLayout {
   display: flex;
   justify-content: center;
-  max-width: 1300px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -10,15 +10,23 @@
 }
 
 @media (max-width: 1024px) {
-  .container {
-    width: 95%;
-    padding: 16px;
+  .wrapLayout {
+    max-width: 95%;
   }
 }
 
-@media (max-width: 768px) {
-  .container {
-    width: 100%;
-    padding: 12px;
-  }
-}
+// /* Mobile View */
+// @media (max-width: 768px) {
+//   .container {
+//     max-width: 95%; // Further reduce width for smaller devices
+//     padding: 10px; // Less padding to save space
+//   }
+// }
+
+// /* Small Mobile Screens */
+// @media (max-width: 480px) {
+//   .container {
+//     max-width: 100%; // Full width for very small screens
+//     padding: 5px; // Minimal padding
+//   }
+// }

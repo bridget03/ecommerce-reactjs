@@ -32,7 +32,13 @@ function Header() {
 
   const { scrollPosition } = useScrollHandling();
   const [fixedPosition, setFixedPosition] = useState(false);
-  const { isOpen, setIsOpen, setType } = useContext(SideBarContext);
+  const {
+    isOpen,
+    setIsOpen,
+    setType,
+    listProductCart,
+    handleGetListProductCart,
+  } = useContext(SideBarContext);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const handleOpenSideBar = (type) => {
@@ -98,10 +104,13 @@ function Header() {
               className={styles.icon}
               onClick={() => handleOpenSideBar('wishlist')}
             />
-            <PiShoppingCartLight
-              className={styles.icon}
-              onClick={() => handleOpenSideBar('cart')}
-            />
+            <div className={styles.cartIcon}>
+              <PiShoppingCartLight
+                className={styles.icon}
+                onClick={() => handleOpenSideBar('cart')}
+              />
+              <div className={styles.cartCount}>{listProductCart.length}</div>
+            </div>
           </div>
         </div>
       </div>
