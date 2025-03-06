@@ -6,12 +6,23 @@ import { PiShoppingCartLight } from 'react-icons/pi';
 import ItemProduct from '@components/ContentSideBar/components/ItemProduct/ItemProduct';
 import Button from '@components/Button/Button';
 import { SideBarContext } from '@contexts/SideBarProvider';
+import LoadingCommon from '@components/LoadingCommon/LoadingCommon';
+import { useNavigate } from 'react-router';
 
 function Cart() {
-  const { listProductCart } = useContext(SideBarContext);
+  const navigate = useNavigate();
+  const { listProductCart, isLoading, setIsOpen } = useContext(SideBarContext);
   const total = listProductCart.reduce((sum, product) => {
     return sum + product.price * product.quantity;
   }, 0);
+
+  const handleNavigateToShop = () => {
+    navigate('/shop');
+    setIsOpen(false);
+  };
+  const handleNavigateToCart = () => {
+    navigate('/cart');
+  };
   return (
     <div className={styles.container}>
       <div className={styles.mainCart}>
@@ -19,26 +30,47 @@ function Cart() {
           <HeaderSideBar icon={<PiShoppingCartLight />} title={'Cart'} />
         </div>
 
-        {listProductCart.map((product, index) => {
-          return (
-            <ItemProduct
-              srcProduct={product.images[0]}
-              nameProduct={product.name}
-              quantity={product.quantity}
-              priceProduct={product.price}
-              sizeProduct={product.size}
-              codeProduct={product.sku}
-              productId={product.productId}
-              userId={product.userId}
-            />
-          );
-        })}
-      </div>
-
-      <div className={styles.buttonContainer}>
-        <div className={styles.subtotal}>Subtotal: ${total.toFixed(2)}</div>
-        <Button content={'VIEW WISHLIST'} />
-        <Button content={'ADD ALL TO CART'} isPrimary={false} />
+        {listProductCart.length ? (
+          <div className={styles.containerCart}>
+            <div className={styles.itemCart}>
+              {listProductCart.map((product, index) => {
+                return (
+                  <ItemProduct
+                    srcProduct={product.images[0]}
+                    nameProduct={product.name}
+                    quantity={product.quantity}
+                    priceProduct={product.price}
+                    sizeProduct={product.size}
+                    codeProduct={product.sku}
+                    productId={product.productId}
+                    userId={product.userId}
+                  />
+                );
+              })}
+              {isLoading && (
+                <div className={styles.overlayLoading}>
+                  <LoadingCommon />
+                </div>
+              )}
+            </div>
+            <div className={styles.buttonContainer}>
+              <div className={styles.subtotal}>
+                Subtotal: ${total.toFixed(2)}
+              </div>
+              <div onClick={handleNavigateToCart}>
+                <Button content={'VIEW CART'} />
+              </div>
+              <Button content={'CHECK OUT'} isPrimary={false} />
+            </div>
+          </div>
+        ) : (
+          <div className={styles.emptyBox}>
+            <p>No product in your cart.</p>
+            <div onClick={handleNavigateToShop}>
+              <Button content={'Return to shop'} isPrimary={false} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

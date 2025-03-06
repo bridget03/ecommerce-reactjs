@@ -5,7 +5,13 @@ function InfoCard({ content, description, src }) {
   const { containerCard, containerContent, title, des } = styles;
   return (
     <div className={containerCard}>
-      <img width={40} height={41} src={src} alt='containerCardIcon' />
+      <img
+        width={40}
+        height={41}
+        src={src}
+        className={styles.svg}
+        alt='containerCardIcon'
+      />
       <div className={containerContent}>
         <div className={title}>{content}</div>
         <div className={des}>{description}</div>
