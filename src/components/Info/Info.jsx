@@ -3,11 +3,11 @@ import { dataInfo } from './constants';
 import InfoCard from './InfoCard/InfoCard.jsx';
 import styles from './styles.module.scss';
 function Info() {
-  const { container } = styles;
   return (
     <div>
       <MainLayout>
-        <div className={container}>
+        <div className={styles.container}>
+          <div className={styles.bgOverlay}></div>
           {dataInfo.map((item) => {
             return (
               <InfoCard

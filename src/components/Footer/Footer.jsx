@@ -12,6 +12,7 @@ import {
 function Footer() {
   return (
     <div className={styles.container}>
+      <div className={styles.bgOverlay}></div>
       <div className={styles.logo}>
         <img
           src={Logo}

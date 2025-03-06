@@ -1,0 +1,5 @@
+@use '@styles/mixin.module.scss' as mixins;
+@use '@styles/variable.module.scss' as vars;
+.cartContainer {
+  @include mixins.flex_box_custom(center, center, 0px);
+}
