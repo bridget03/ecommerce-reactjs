@@ -2,45 +2,64 @@ import React, { useState } from 'react';
 import styles from '../styles.module.scss';
 import Button from '@components/Button/Button.jsx';
 
-const Item = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: 'Amet faucibus nunc',
-      size: 'M',
-      price: 1879.99,
-      sku: 87654,
-      quantity: 1,
-      image:
-        '  https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.1-min.jpg',
-    },
-    {
-      id: 2,
-      name: 'Dignissim molestie pellentesque',
-      size: 'M',
-      price: 879.99,
-      sku: 34567,
-      quantity: 2,
-      image:
-        'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.1-min.jpg',
-    },
-  ]);
+import { deleteItem, deleteAll } from '@/apis/cartService';
+import { getCart } from '@/apis/cartService';
 
-  const handleQuantityChange = (id, newQuantity) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
+import { useContext, useEffect } from 'react';
+import { SideBarContext } from '@contexts/SideBarProvider';
+
+function Item({ productCart }) {
+  // const handleQuantityChange = (id, newQuantity) => {
+  //   setCartItems(
+  //     productCart.map((item) =>
+  //       item.id === id ? { ...item, quantity: newQuantity } : item
+  //     )
+  //   );
+  // };
+
+  const {
+    listProductCart,
+    handleGetListProductCart,
+    userId,
+    setListProductCart,
+    // isLoading,
+    // setIsLoading,
+  } = useContext(SideBarContext);
+  const handleClearAll = () => {
+    // setIsLoading(true);
+    deleteAll({ userId })
+      .then((res) => {
+        console.log(res);
+        handleGetListProductCart(userId, 'cart');
+      })
+      .catch((error) => {
+        console.log(error);
+        // setIsLoading(false);
+      });
+  };
+  const handleRemove = (productId, userId) => {
+    // setIsLoading(true);
+    deleteItem({ productId, userId })
+      .then((res) => {
+        handleGetListProductCart(userId, 'cart');
+      })
+      .catch((err) => {
+        console.log(err);
+        // setIsLoading(false);
+      });
   };
 
-  const handleRemove = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-  };
-
-  const handleClearCart = () => {
-    setCartItems([]);
-  };
+  // useEffect(() => {
+  //   getCart(userId)
+  //     .then((res) => {
+  //       setListProductCart(res.data.data);
+  //       setIsLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       setListProductCart([]);
+  //       setIsLoading(false);
+  //     });
+  // }, []);
 
   return (
     <div className={styles.itemContainer}>
@@ -56,11 +75,11 @@ const Item = () => {
           </tr>
         </thead>
         <tbody>
-          {cartItems.map((item) => (
+          {productCart.map((item) => (
             <tr key={item.id}>
               <td className={styles.flexItem}>
                 <img
-                  src={item.image}
+                  src={item.images[0]}
                   alt={item.name}
                   className={styles.productImage}
                 />
@@ -74,7 +93,7 @@ const Item = () => {
               <td>
                 <button
                   className={styles.removeBtn}
-                  onClick={() => handleRemove(item.id)}
+                  onClick={() => handleRemove(item.productId, item.userId)}
                 >
                   🗑️
                 </button>
@@ -110,24 +129,16 @@ const Item = () => {
             className={styles.couponInput}
           />
           <div className={styles.okBtn}>
-            <Button
-              content={'OK'}
-              isPrimary={false}
-              btnWidth={'40'}
-              btnHeight={'37'}
-              btnBorderRadius={'0'}
-            />
+            <Button content={'OK'} isPrimary={false} />
           </div>
         </div>
 
-        <Button
-          content={'🗑️ Clear Shopping Cart'}
-          isPrimary={false}
-          btnWidth={'230'}
-        />
+        <div onClick={handleClearAll}>
+          <Button content={'🗑️ Clear Shopping Cart'} isPrimary={false} />
+        </div>
       </div>
     </div>
   );
-};
+}
 
 export default Item;

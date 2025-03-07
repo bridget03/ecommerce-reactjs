@@ -30,16 +30,8 @@ function CartTotal() {
             <div className={styles.totalValue}>$100 </div>
           </div>
           <div className={styles.btnGroup}>
-            <Button
-              content={'PROCEED TO CHECKOUT'}
-              isPrimary={true}
-              isWidthFull={true}
-            />
-            <Button
-              content={'CONTINUE SHOPPING'}
-              isPrimary={false}
-              isWidthFull={true}
-            />
+            <Button content={'PROCEED TO CHECKOUT'} isPrimary={true} />
+            <Button content={'CONTINUE SHOPPING'} isPrimary={false} />
           </div>
         </div>
       </div>

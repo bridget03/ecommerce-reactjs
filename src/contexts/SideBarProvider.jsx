@@ -40,6 +40,8 @@ export const SideBarProvider = ({ children }) => {
         handleGetListProductCart,
         listProductCart,
         isLoading,
+        setIsLoading,
+        userId,
       }}
     >
       {children}
