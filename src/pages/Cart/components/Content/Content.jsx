@@ -13,7 +13,7 @@ function Content() {
         <Item productCart={listProductCart} />
       </div>
       <div className={styles.totalAndPayment}>
-        <CartTotal />
+        <CartTotal productCart={listProductCart} />
       </div>
     </div>
   );

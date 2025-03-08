@@ -6,7 +6,7 @@ import paypal from '@icons/paymentMethods/paypal.jpeg';
 import amex from '@icons/paymentMethods/american-express.jpeg';
 import maestro from '@icons/paymentMethods/maestro.jpeg';
 import bitcoin from '@icons/paymentMethods/bitcoin.jpeg';
-function CartTotal() {
+function CartTotal({ productCart }) {
   const paymentMethods = [
     { src: visa, alt: 'Visa' },
     { src: mastercard, alt: 'Mastercard' },
