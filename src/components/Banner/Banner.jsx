@@ -10,9 +10,10 @@ function Banner() {
   return (
     <div className={container}>
       <div className={content}>
-        <h1 className={title}>Viet Wood Demo</h1>
+        <h1 className={title}>Sato Store Demo</h1>
         <div className={slogan}>
-          Make your home more special this year with beautiful
+          Your wardrobe should be as unique as you are—discover trendy, elegant,
+          and timeless pieces made just for you.
         </div>
         <div onClick={() => navigate('/shop')}>
           <Button content={'Go to shop'} />
