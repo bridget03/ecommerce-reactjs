@@ -40,6 +40,7 @@ function Header() {
     handleGetListProductCart,
   } = useContext(SideBarContext);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  console.log('lpdc:' + listProductCart.length);
 
   const handleOpenSideBar = (type) => {
     setIsOpen(true);
@@ -109,7 +110,12 @@ function Header() {
                 className={styles.icon}
                 onClick={() => handleOpenSideBar('cart')}
               />
-              <div className={styles.cartCount}>{listProductCart.length}</div>
+              <div className={styles.cartCount}>
+                {listProductCart.reduce(
+                  (total, item) => total + item.quantity,
+                  0
+                )}
+              </div>
             </div>
           </div>
         </div>

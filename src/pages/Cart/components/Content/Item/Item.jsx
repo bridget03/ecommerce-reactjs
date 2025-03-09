@@ -9,13 +9,14 @@ import { useContext, useEffect } from 'react';
 import { SideBarContext } from '@contexts/SideBarProvider';
 
 function Item({ productCart }) {
-  // const handleQuantityChange = (id, newQuantity) => {
-  //   setCartItems(
-  //     productCart.map((item) =>
-  //       item.id === id ? { ...item, quantity: newQuantity } : item
-  //     )
-  //   );
-  // };
+  const [cartItems, setCartItems] = useState(productCart);
+  const handleQuantityChange = (id, newQuantity) => {
+    setCartItems(
+      productCart.map((item) =>
+        item.id === id ? { ...item, quantity: newQuantity } : item
+      )
+    );
+  };
 
   const {
     listProductCart,
@@ -75,7 +76,7 @@ function Item({ productCart }) {
           </tr>
         </thead>
         <tbody>
-          {productCart.map((item) => (
+          {cartItems.map((item) => (
             <tr key={item.id}>
               <td className={styles.flexItem}>
                 <img
@@ -103,11 +104,11 @@ function Item({ productCart }) {
               <td>
                 <select
                   value={item.quantity}
-                  onChange={(e) =>
-                    handleQuantityChange(item.id, parseInt(e.target.value))
-                  }
+                  onChange={(e) => {
+                    handleQuantityChange(item.id, parseInt(e.target.value));
+                  }}
                 >
-                  {[1, 2, 3, 4, 5].map((num) => (
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                     <option key={num} value={num}>
                       {num}
                     </option>
