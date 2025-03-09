@@ -10,7 +10,7 @@ function Banner() {
   return (
     <div className={container}>
       <div className={content}>
-        <h1 className={title}>Sato Store</h1>
+        <h1 className={title}>Sato Store Demo</h1>
         <div className={slogan}>
           Your wardrobe should be as unique as you are—discover trendy, elegant,
           and timeless pieces made just for you.
