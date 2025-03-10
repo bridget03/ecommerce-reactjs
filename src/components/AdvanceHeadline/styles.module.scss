@@ -1,0 +1,46 @@
+@use '../../assets/styles/mixin.module' as mixins;
+@use '../../assets/styles/variable.module' as vars;
+.container {
+  @include mixins.flex_box_custom(center, center, 0px);
+  margin: 65px 0px 15px;
+}
+
+.headline {
+  width: 100%;
+  height: 2px;
+  border-top: 1px solid #e1e1e1;
+  border-bottom: 1px solid #e1e1e1;
+  @media (max-width: 712px) {
+    display: none;
+  }
+}
+
+.containerMiddleBox {
+  padding: 0px 60px;
+  width: 100%;
+  @include mixins.flex_box_custom(center, center, 0px);
+  flex-direction: column;
+  margin-bottom: 45px;
+}
+
+.des {
+  font-size: 18px;
+  color: vars.$third-color;
+  @media (max-width: 830px) {
+    font-size: 20px;
+  }
+  @media (max-width: 425px) {
+    text-align: center;
+  }
+}
+
+.title {
+  font-size: 26px;
+  color: vars.$primary-color;
+  margin: 0px;
+  text-align: center;
+
+  @media (max-width: 830px) {
+    font-size: 20px;
+  }
+}

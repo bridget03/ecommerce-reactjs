@@ -1,0 +1,49 @@
+@use '@styles/mixin.module.scss' as mixins;
+.container {
+  position: relative;
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #0000004d;
+    z-index: 1000;
+    transition: all 0.3s;
+  }
+  .sideBar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 350px;
+    background-color: #fff;
+    height: 100vh;
+    z-index: 1001;
+
+    transform: translateX(350px);
+    transition: all 0.3s;
+  }
+
+  .slideSideBar {
+    transform: translateX(0);
+    transition: transform 0.3s;
+  }
+
+  .boxIcon {
+    @include mixins.flex_box_custom(center, center, 0px);
+    position: absolute;
+    top: 25px;
+    left: -50px;
+    border-radius: 5rem;
+    background-color: #fff;
+    width: 2rem;
+    height: 2rem;
+    outline: none;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f1f1f1;
+    }
+  }
+}

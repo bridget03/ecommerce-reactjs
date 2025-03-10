@@ -1,0 +1,48 @@
+@use '@styles/mixin.module.scss' as mixins;
+@use '@styles/variable.module.scss' as vars;
+
+.stepContainer {
+  background-color: #fafafa;
+  @include mixins.flex_box_custom(center, center, 0px);
+  flex-direction: column;
+  p {
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    color: vars.$four-color;
+  }
+}
+.stepGroup {
+  height: 2rem;
+  padding: 2rem 8rem;
+  @include mixins.flex_box_custom(center, center, 24px);
+  .line {
+    width: 150px;
+    height: 1px;
+    background-color: vars.$bg-color;
+  }
+
+  .step {
+    @include mixins.flex_box_custom(space-around, center, 10px);
+    .number {
+      width: 20px;
+      height: 20px;
+      padding: 0.5rem;
+      border-radius: 100%;
+      background-color: vars.$primary-color;
+      text-align: center;
+      color: vars.$white-color;
+    }
+    .isDisableNumber {
+      color: vars.$secondary-color !important;
+      border: 1px solid #e1e1e1;
+      background-color: unset;
+    }
+    .text {
+      text-transform: uppercase;
+      font-size: 1.25rem;
+    }
+    .isDisableText {
+      color: vars.$secondary-color;
+    }
+  }
+}

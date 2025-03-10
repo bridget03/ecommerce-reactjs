@@ -1,0 +1,118 @@
+@use '@styles/mixin.module.scss' as mixins;
+@use '@styles/variable.module.scss' as vars;
+
+.container {
+  margin-top: 1rem;
+  background-image: url('https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Background.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  // padding: 20px;
+  height: 280px;
+  // width: 100%;
+  .insideBanner {
+    height: 100%;
+    @include mixins.flex_box_custom(center, center, 2rem);
+    flex-direction: column;
+    .countDown {
+      text-align: center;
+    }
+    .title {
+      font-size: 28px;
+      color: vars.$primary-color;
+    }
+  }
+}
+.productContainerList {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.optionContainer {
+  margin: 1.5rem;
+  @include mixins.flex_box_custom(space-between, center, 0px);
+  .leftOption {
+    @include mixins.flex_box_custom(center, center, 1.5rem);
+    .showType {
+      @include mixins.flex_box_custom(center, center, 1rem);
+    }
+  }
+  .selectBox {
+    padding: 10px;
+    border-radius: 5px;
+    color: vars.$secondary-color;
+    border: 1px solid vars.$secondary-color;
+    @include mixins.flex_box_custom(center, center, 1rem);
+    cursor: pointer;
+  }
+  .sortType {
+    width: 275px;
+  }
+  .noShow {
+    width: 83px;
+  }
+  .rightOption {
+    @include mixins.flex_box_custom(center, center, 1rem);
+  }
+  @media (max-width: 425px) {
+    @include mixins.flex_box_custom(center, center, 1rem);
+
+    .showType {
+      display: none !important;
+    }
+    .showText {
+      display: none;
+    }
+  }
+}
+
+.icon {
+  font-size: 20px;
+  color: vars.$third-color;
+  cursor: pointer;
+}
+
+.productContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 2rem;
+  row-gap: 6rem;
+  justify-content: center;
+
+  @media (max-width: 1024px) {
+    .container {
+      // width: 200px;
+    }
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 10px;
+  }
+}
+
+.loadMoreIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

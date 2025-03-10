@@ -1,0 +1,32 @@
+.wrapLayout {
+  display: flex;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.container {
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .wrapLayout {
+    max-width: 95%;
+  }
+}
+
+// /* Mobile View */
+// @media (max-width: 768px) {
+//   .container {
+//     max-width: 95%; // Further reduce width for smaller devices
+//     padding: 10px; // Less padding to save space
+//   }
+// }
+
+// /* Small Mobile Screens */
+// @media (max-width: 480px) {
+//   .container {
+//     max-width: 100%; // Full width for very small screens
+//     padding: 5px; // Minimal padding
+//   }
+// }

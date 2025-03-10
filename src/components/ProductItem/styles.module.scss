@@ -1,0 +1,115 @@
+@use '../../assets/styles/mixin.module' as mixins;
+@use '../../assets/styles/variable.module' as vars;
+.container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .buttonGroup {
+    width: 100%;
+    text-align: left;
+  }
+}
+.boxImg {
+  height: 80%;
+  position: relative;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:hover .showImgWhenHover {
+    opacity: 1;
+    transition: opacity 500ms;
+  }
+  .showImgWhenHover {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .showFunctionWhenHover {
+    position: absolute;
+    opacity: 0;
+    bottom: 20px;
+    right: 0px;
+    background-color: #fff;
+  }
+  &:hover .showFunctionWhenHover {
+    opacity: 1;
+    right: 20px;
+    transition: opacity 500ms, right 300ms;
+  }
+}
+
+.boxIcon {
+  width: 40px;
+  height: 40px;
+  @include mixins.flex_box_custom(center, center, 0px);
+  img {
+    width: 17px;
+    height: 17px;
+  }
+  &:hover {
+    background-color: #f0f0f0;
+  }
+}
+.sizeGroup {
+  @include mixins.flex_box_custom(center, center, 10px);
+  margin: 20px 0;
+  .size {
+    margin-right: 10px;
+    font-size: 14px;
+    border: 1px solid #e1e1e1;
+    padding: 5px 8px;
+    color: vars.$primary-color;
+    cursor: pointer;
+    &:hover {
+      border-color: vars.$primary-color;
+    }
+  }
+}
+.size.active {
+  border-color: vars.$primary-color;
+}
+.btnClear {
+  font-size: 0.85rem;
+  color: vars.$primary-color;
+  cursor: pointer;
+  text-align: center;
+}
+
+.title {
+  font-size: 16px;
+  color: vars.$four-color;
+  margin: 10px 0;
+  font-weight: 400;
+}
+.textCenter {
+  text-align: center;
+  font-size: 18px;
+}
+.priceItem {
+  font-size: 14px;
+  color: vars.$secondary-color;
+  font-weight: 300;
+  margin-bottom: 12px;
+}
+.buttonGroup {
+  width: 100%;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .boxImg {
+    height: 60%;
+    width: 90%;
+  }
+}

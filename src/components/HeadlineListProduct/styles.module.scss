@@ -1,0 +1,49 @@
+@use '../../assets/styles/mixin.module' as mixins;
+
+.container {
+  @include mixins.flex_box_custom(space-between, center, 20px);
+  max-width: 1300px;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+}
+
+.containerItem1 {
+  @media (max-width: 1024px) {
+    width: 50%;
+  }
+}
+
+.containerItem2 {
+  @include mixins.flex_box_custom(space-between, center, 20px);
+  @media (max-width: 1024px) {
+    width: 50%;
+  }
+}
+
+.productContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  justify-content: center;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 10px;
+  }
+}
+
+.productItem {
+  border-radius: 8px;
+  padding: 10px;
+  transition: transform 0.3s ease;
+}

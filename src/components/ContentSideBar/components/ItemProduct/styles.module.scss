@@ -1,0 +1,68 @@
+@use '@styles/mixin.module' as mixins;
+@use '@styles/variable.module.scss' as vars;
+
+.container {
+  @include mixins.flex_box_custom(left, flex-start, 20px);
+  .boxContainer {
+    position: relative;
+    width: 90%;
+    @include mixins.flex_box_custom(center, flex-start, 20px);
+    padding: 20px 12px;
+    &:hover {
+      background-color: #f5f5f5;
+      .closeIcon {
+        right: 0;
+        transition: right 0.3s ease;
+      }
+    }
+    transition: all 0.5s ease;
+
+    .boxContent {
+      @include mixins.flex_box_custom(flex-start, flex-start, 10px);
+      flex-direction: column;
+    }
+    img {
+      width: 6.5rem;
+      aspect-ratio: 1/1;
+    }
+    .name {
+      margin-bottom: 0.5rem;
+      font-size: 14px;
+      color: vars.$primary-color;
+    }
+    .size {
+      font-size: 14px;
+      color: vars.$third-color;
+      margin-bottom: 5px;
+    }
+    .price {
+      font-size: 14px;
+      color: vars.$third-color;
+      margin-bottom: 5px;
+    }
+    .code {
+      font-size: 14px;
+      color: vars.$third-color;
+      margin-bottom: 5px;
+      text-decoration: underline;
+    }
+    .closeIcon {
+      position: absolute;
+      top: 10px;
+      right: -100px;
+      padding-right: 20px;
+      cursor: pointer;
+    }
+    .overlayLoading {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(225, 225, 225, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

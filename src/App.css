@@ -1,0 +1,5 @@
+@import url('https://fonts.cdnfonts.com/css/helvetica-neue-55');
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&display=swap');
+* {
+  font-family: "Atkinson Hyperlegible Mono", serif;
+}

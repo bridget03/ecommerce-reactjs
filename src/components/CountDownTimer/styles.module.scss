@@ -1,0 +1,13 @@
+@use '../../assets/styles/variable.module' as vars;
+
+.timeBox {
+  background-color: #fff;
+  margin-right: 1rem;
+  padding: 0.5rem;
+  color: vars.$third-color;
+  border-radius: 3px;
+  @media (max-width: 1024px) {
+    margin-right: 3px;
+    padding: 0.3rem;
+  }
+}

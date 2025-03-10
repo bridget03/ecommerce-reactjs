@@ -1,0 +1,16 @@
+@use '@styles/mixin.module.scss' as mixins;
+@use '@styles/variable.module.scss' as vars;
+
+.container {
+  @include mixins.flex_box_custom(center, center, 0px);
+  flex-direction: column;
+
+  .icon {
+    font-size: 24px;
+    color: vars.$third-color;
+  }
+  .title {
+    font-size: 18px;
+    color: vars.$third-color;
+  }
+}

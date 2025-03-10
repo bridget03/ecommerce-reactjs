@@ -1,0 +1,70 @@
+@use '@styles/mixin.module' as mixins;
+@use '@styles/variable.module.scss' as vars;
+
+.container {
+  @include mixins.flex_box_custom(space-between, space-between, 0px);
+  flex-direction: column;
+  height: 95vh;
+  padding: 20px 30px;
+  .fixedHeader {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+  }
+
+  .mainCart {
+    height: 100%;
+    .itemCart {
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+
+    @include mixins.flex_box_custom(space-between, space-between, 0px);
+    flex-direction: column;
+  }
+  .buttonContainer {
+    margin-top: 2rem;
+    width: 100%;
+    @include mixins.flex_box_custom(center, center, 10px);
+    flex-direction: column;
+    .subtotal {
+      font-size: 16px;
+      color: vars.$primary-color;
+    }
+
+    button {
+      width: 270px;
+    }
+  }
+  .emptyBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    font-size: 14px;
+    color: vars.$third-color;
+    gap: 1rem;
+  }
+}
+.containerCart {
+  height: 90%;
+  @include mixins.flex_box_custom(space-between, center, 10px);
+  flex-direction: column;
+  position: relative;
+  .overlayLoading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(225, 225, 225, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
