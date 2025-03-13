@@ -10,7 +10,6 @@ import SelectBox from '@pages/OurShop/components/SelectBox';
 import LoadingCart from '@pages/Cart/components/Loading';
 
 function CartTable({ productCart, getData, isLoading }) {
-  console.log(isLoading);
   const [cartItems, setCartItems] = useState(productCart);
 
   const showOptions = [
@@ -44,15 +43,6 @@ function CartTable({ productCart, getData, isLoading }) {
     setListProductCart,
   } = useContext(SideBarContext);
 
-  const handleClearAll = () => {
-    deleteAll({ userId })
-      .then((res) => {
-        handleGetListProductCart(userId, 'cart');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   const handleRemove = (productId, userId) => {
     deleteItem({ productId, userId })
       .then((res) => {

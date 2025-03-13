@@ -6,7 +6,11 @@ import paypal from '@icons/paymentMethods/paypal.jpeg';
 import amex from '@icons/paymentMethods/american-express.jpeg';
 import maestro from '@icons/paymentMethods/maestro.jpeg';
 import bitcoin from '@icons/paymentMethods/bitcoin.jpeg';
-function CartTotal({ productCart }) {
+import LoadingCart from '@pages/Cart/components/Loading';
+
+import { SideBarContext } from '@/contexts/SideBarProvider';
+import { useContext } from 'react';
+function CartTotal({ productCart, isLoading }) {
   const paymentMethods = [
     { src: visa, alt: 'Visa' },
     { src: mastercard, alt: 'Mastercard' },
@@ -15,6 +19,10 @@ function CartTotal({ productCart }) {
     { src: maestro, alt: 'Maestro' },
     { src: bitcoin, alt: 'Bitcoin' },
   ];
+  const { listProductCart } = useContext(SideBarContext);
+  const total = listProductCart.reduce((acc, item) => {
+    return acc + item.total;
+  }, 0);
   return (
     <div className={styles.container}>
       <div className={styles.paymentContainer}>
@@ -23,17 +31,18 @@ function CartTotal({ productCart }) {
           <div className={styles.line} />
           <div className={styles.subtotal}>
             <div className={styles.subtotalText}>Subtotal</div>
-            <div className={styles.subtotalValue}>$100 </div>
+            <div className={styles.subtotalValue}>${total.toFixed(2)}</div>
           </div>
           <div className={styles.total}>
             <div className={styles.totalText}>Total</div>
-            <div className={styles.totalValue}>$100 </div>
+            <div className={styles.totalValue}>${total.toFixed(2)} </div>
           </div>
           <div className={styles.btnGroup}>
             <Button content={'PROCEED TO CHECKOUT'} isPrimary={true} />
             <Button content={'CONTINUE SHOPPING'} isPrimary={false} />
           </div>
         </div>
+        {isLoading && <LoadingCart />}
       </div>
       <div className={styles.safeCheckoutContainer}>
         <h4>

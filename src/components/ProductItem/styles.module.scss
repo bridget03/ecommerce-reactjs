@@ -18,8 +18,8 @@
   height: 80%;
   position: relative;
   img {
-    width: 100%;
-    height: 100%;
+    width: 300px;
+    height: 350px;
     object-fit: cover;
   }
 
@@ -87,9 +87,9 @@
 }
 
 .title {
-  font-size: 16px;
+  font-size: 18px;
   color: vars.$four-color;
-  margin: 10px 0;
+  margin: 15px 0;
   font-weight: 400;
 }
 .textCenter {
@@ -97,7 +97,7 @@
   font-size: 18px;
 }
 .priceItem {
-  font-size: 14px;
+  font-size: 16px;
   color: vars.$secondary-color;
   font-weight: 300;
   margin-bottom: 12px;

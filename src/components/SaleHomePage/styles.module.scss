@@ -5,7 +5,7 @@
   max-width: 1370px;
   margin: 0 auto;
   margin-top: 100px;
-  @include mixins.flex_box_custom(space-around, center, 20px);
+  @include mixins.flex_box_custom(center, center, 20px);
 }
 
 .title {
@@ -25,7 +25,7 @@
   text-align: center;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
   .container {
     flex-direction: column;
     margin-top: 50px;

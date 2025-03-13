@@ -12,6 +12,7 @@
 }
 
 .fixedHeader {
+  width: 100%;
   background-color: rgba(255, 255, 255, 0.95);
   position: fixed;
   z-index: 999;
@@ -34,8 +35,7 @@
   width: 100%;
   margin: 0 2rem;
 
-  max-width: 1200px;
-  // margin: 1rem 2rem;
+  max-width: 1400px;
 }
 
 .containerBoxIcon {
