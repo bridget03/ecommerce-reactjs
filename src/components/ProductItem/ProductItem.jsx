@@ -29,7 +29,7 @@ function ProductItem({
   const ourShopStore = useContext(OurShopContext);
   const [isShowGrid, setIsShowGrid] = useState(ourShopStore?.isShowGrid);
 
-  const { setIsOpen, setType, handleGetListProductCart } =
+  const { setIsOpen, setType, handleGetListProductCart, setDetailsProduct } =
     useContext(SideBarContext);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useContext(ToastContext);
@@ -71,6 +71,7 @@ function ProductItem({
   };
 
   const handleShowDetailsProductSideBar = () => {
+    setDetailsProduct(details);
     setIsOpen(true);
     setType('details');
   };

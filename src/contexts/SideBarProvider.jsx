@@ -9,6 +9,8 @@ export const SideBarProvider = ({ children }) => {
   const [type, setType] = useState('');
   const [listProductCart, setListProductCart] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [detailsProduct, setDetailsProduct] = useState(null);
   const userId = Cookies.get('userId');
 
   const handleGetListProductCart = (userId, type) => {
@@ -42,6 +44,8 @@ export const SideBarProvider = ({ children }) => {
         isLoading,
         setIsLoading,
         userId,
+        detailsProduct,
+        setDetailsProduct,
       }}
     >
       {children}

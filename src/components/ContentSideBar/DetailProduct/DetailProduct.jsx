@@ -1,10 +1,11 @@
 import styles from './styles.module.scss';
 import SelectBox from '@pages/OurShop/components/SelectBox';
+import { SideBarContext } from '@contexts/SideBarProvider';
+
 import Button from '@components/Button/Button.jsx';
 
 import { IoIosGitCompare } from 'react-icons/io';
 import { IoIosHeartEmpty } from 'react-icons/io';
-
 import {
   FaXTwitter,
   FaFacebookF,
@@ -13,9 +14,12 @@ import {
   FaWhatsapp,
   FaSkype,
 } from 'react-icons/fa6';
+import { useContext } from 'react';
+
 import { CiMail } from 'react-icons/ci';
 
 function DetailProduct() {
+  const { detailsProduct } = useContext(SideBarContext);
   const showOptions = [
     { label: '1', value: '1' },
     { label: '2', value: '2' },
@@ -31,20 +35,21 @@ function DetailProduct() {
   return (
     <div className={styles.container}>
       <div className={styles.image}>
-        <img src='/SCR-20250309-bqaz.png' />
+        <img src={detailsProduct.images[0]} />
       </div>
-      <div className={styles.name}>10K Yellow Gold</div>
-      <div className={styles.price}>$99.99</div>
-      <div className={styles.description}>
-        Amet, elit tellus, nisi odio velit ut. Euismod sit arcu, quisque arcu
-        purus orci leo
-      </div>
+      <div className={styles.name}>{detailsProduct.name}</div>
+      <div className={styles.price}>${detailsProduct.price}</div>
+      <div className={styles.description}>{detailsProduct.description}</div>
       <div className={styles.sizeGroup}>
         <p>Size</p>
         <div className={styles.size}>
-          <div className={styles.sizeItem}>S</div>
-          <div className={styles.sizeItem}>M</div>
-          <div className={styles.sizeItem}>L</div>
+          {detailsProduct.size.map((item) => {
+            return (
+              <div key={item.name} className={styles.sizeItem}>
+                {item.name}
+              </div>
+            );
+          })}
         </div>
       </div>
       <div className={styles.quantityAndAddToCart}>
