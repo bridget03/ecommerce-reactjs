@@ -13,44 +13,42 @@ function ListProduct() {
     useContext(OurShopContext);
   return (
     <>
-      <MainLayout>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          <>
-            {' '}
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          {' '}
+          <div
+            className={cls(styles.productContainerList, {
+              [styles.productContainer]: isShowGrid,
+            })}
+          >
+            {products.map((product) => (
+              <ProductItem
+                key={product.id}
+                src={product.images[0]}
+                prevSrc={product.images[1]}
+                name={product.name}
+                price={product.price}
+                details={product}
+                isHomepage={false}
+              />
+            ))}
+          </div>
+          {products.length < total && (
             <div
-              className={cls(styles.productContainerList, {
-                [styles.productContainer]: isShowGrid,
-              })}
+              onClick={() => {
+                handleLoadMore();
+              }}
+              style={{ width: '180px', margin: '150px auto' }}
             >
-              {products.map((product) => (
-                <ProductItem
-                  key={product.id}
-                  src={product.images[0]}
-                  prevSrc={product.images[1]}
-                  name={product.name}
-                  price={product.price}
-                  details={product}
-                  isHomepage={false}
-                />
-              ))}
+              <Button
+                content={isLoadMore ? <LoadingCommon /> : 'LOAD MORE PRODUCT'}
+              />
             </div>
-            {products.length < total && (
-              <div
-                onClick={() => {
-                  handleLoadMore();
-                }}
-                style={{ width: '180px', margin: '150px auto' }}
-              >
-                <Button
-                  content={isLoadMore ? <LoadingCommon /> : 'LOAD MORE PRODUCT'}
-                />
-              </div>
-            )}
-          </>
-        )}
-      </MainLayout>
+          )}
+        </>
+      )}
     </>
   );
 }

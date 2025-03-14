@@ -10,6 +10,7 @@ import LoadingCart from '@pages/Cart/components/Loading';
 
 import { SideBarContext } from '@/contexts/SideBarProvider';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 function CartTotal({ productCart, isLoading }) {
   const paymentMethods = [
     { src: visa, alt: 'Visa' },
@@ -23,6 +24,10 @@ function CartTotal({ productCart, isLoading }) {
   const total = listProductCart.reduce((acc, item) => {
     return acc + item.total;
   }, 0);
+  const navigate = useNavigate();
+  const handleBackToShop = () => {
+    navigate('/shop');
+  };
   return (
     <div className={styles.container}>
       <div className={styles.paymentContainer}>
@@ -38,8 +43,12 @@ function CartTotal({ productCart, isLoading }) {
             <div className={styles.totalValue}>${total.toFixed(2)} </div>
           </div>
           <div className={styles.btnGroup}>
-            <Button content={'PROCEED TO CHECKOUT'} isPrimary={true} />
-            <Button content={'CONTINUE SHOPPING'} isPrimary={false} />
+            <div>
+              <Button content={'PROCEED TO CHECKOUT'} isPrimary={true} />
+            </div>
+            <div onClick={handleBackToShop}>
+              <Button content={'CONTINUE SHOPPING'} isPrimary={false} />
+            </div>
           </div>
         </div>
         {isLoading && <LoadingCart />}

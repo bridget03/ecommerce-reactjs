@@ -7,9 +7,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  // padding: 20px;
   height: 280px;
-  // width: 100%;
   .insideBanner {
     height: 100%;
     @include mixins.flex_box_custom(center, center, 2rem);
@@ -27,7 +25,10 @@
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 2rem;
+  width: 95%;
+  margin: 0 auto;
 }
 
 .optionContainer {
@@ -77,8 +78,9 @@
 .productContainer {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+
   column-gap: 2rem;
-  row-gap: 6rem;
+  row-gap: 2.5rem;
   justify-content: center;
 
   @media (max-width: 1024px) {

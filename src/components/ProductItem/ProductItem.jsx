@@ -1,6 +1,7 @@
-import reloadIcon from '@icons/svg/reloadIcon.svg';
-import heartIcon from '@icons/svg/heartIcon.svg';
-import cartIcon from '@icons/svg/cartIcon.svg';
+import { IoIosGitCompare } from 'react-icons/io';
+import { IoIosHeartEmpty } from 'react-icons/io';
+import { IoEyeOutline } from 'react-icons/io5';
+import { LuShoppingCart } from 'react-icons/lu';
 import styles from './styles.module.scss';
 import Button from '@components/Button/Button.jsx';
 import cls from 'classnames';
@@ -69,6 +70,11 @@ function ProductItem({
     }
   };
 
+  const handleShowDetailsProductSideBar = () => {
+    setIsOpen(true);
+    setType('details');
+  };
+
   useEffect(() => {
     if (isHomepage) {
       setIsShowGrid(true);
@@ -83,16 +89,16 @@ function ProductItem({
         <img src={prevSrc} className={showImgWhenHover} />
         <div className={showFunctionWhenHover}>
           <div className={boxIcon}>
-            <img src={cartIcon} alt='cartIcon' />
+            <LuShoppingCart style={{ fontSize: '20px' }} />
           </div>
           <div className={boxIcon}>
-            <img src={heartIcon} alt='heartIcon' />
+            <IoIosHeartEmpty style={{ fontSize: '20px' }} />
           </div>
           <div className={boxIcon}>
-            <img src={reloadIcon} alt='reloadIcon' />
+            <IoIosGitCompare style={{ fontSize: '20px' }} />
           </div>
-          <div className={boxIcon}>
-            <img src={cartIcon} alt='cartIcon' />
+          <div className={boxIcon} onClick={handleShowDetailsProductSideBar}>
+            <IoEyeOutline style={{ fontSize: '20px' }} />
           </div>
         </div>
       </div>

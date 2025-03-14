@@ -15,7 +15,7 @@ import useScrollHandling from '@hooks/useScrollHandling';
 import classNames from 'classnames';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Header() {
   const {
@@ -44,6 +44,11 @@ function Header() {
   const handleOpenSideBar = (type) => {
     setIsOpen(true);
     setType(type);
+  };
+  const navigate = useNavigate();
+
+  const handleBackHomePage = () => {
+    navigate('/');
   };
 
   useEffect(() => {
@@ -81,6 +86,7 @@ function Header() {
             src={Logo}
             alt='Logo'
             style={{ width: '200px', height: '80px' }}
+            onClick={handleBackHomePage}
           />
         </div>
         <div className={containerBox}>

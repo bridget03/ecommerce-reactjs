@@ -2,6 +2,8 @@
   display: flex;
   justify-content: center;
   max-width: 1400px;
+  // width: 100%;
+
   margin: 0 auto;
 }
 
@@ -11,7 +13,8 @@
 
 @media (max-width: 1024px) {
   .wrapLayout {
-    max-width: 95%;
+    // max-width: 95%;
+    // width: 100%;
   }
 }
 

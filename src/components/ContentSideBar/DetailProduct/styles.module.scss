@@ -1,0 +1,119 @@
+@use '@styles/mixin.module' as mixins;
+@use '@styles/variable.module.scss' as vars;
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+.container {
+  @include mixins.flex_box_custom(left, flex-start, 15px);
+  flex-direction: column;
+  margin: 1rem 1.25rem;
+  height: 97vh;
+  overflow: auto;
+  scrollbar-width: none;
+  .name {
+    font-size: 24px;
+    font-weight: 400;
+    color: vars.$four-color;
+  }
+  .price {
+    font-size: 20px;
+    color: vars.$secondary-color;
+    font-weight: 300;
+    margin: 0;
+  }
+  .description {
+    font-size: 16px;
+    color: vars.$third-color;
+    font-weight: 300;
+    margin: 0;
+  }
+  .sizeGroup {
+    p {
+      font-size: 16px;
+      margin: 0.5rem 0;
+    }
+    .size {
+      @include mixins.flex_box_custom(left, flex-start, 20px);
+      .sizeItem {
+        border: 1px solid #e1e1e1;
+        padding: 0.5rem 0.75rem;
+      }
+    }
+  }
+
+  .quantityAndAddToCart {
+    @include mixins.flex_box_custom(space-between, center, 20px);
+    .quantity {
+      select {
+        border-color: #e1e1e1;
+        padding: 0.35rem 0.4rem;
+      }
+    }
+  }
+
+  .or {
+    @include mixins.flex_box_custom(center, center, 5px);
+    width: 100%;
+    span {
+      @include mixins.flex_box_custom(center, center, 20px);
+      position: relative;
+      padding: 0 10px;
+      color: vars.$primary-color;
+      font-size: 13px;
+    }
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      opacity: 0.2;
+      height: 1px;
+      background-color: vars.$primary-color;
+    }
+  }
+
+  .buyNow {
+    width: 100%;
+    button {
+      width: 100%;
+    }
+  }
+  .iconGroup {
+    @include mixins.flex_box_custom(center, flex-start, 15px);
+    flex-direction: column;
+    .icon {
+      cursor: pointer;
+      @include mixins.flex_box_custom(center, center, 10px);
+      span {
+        color: vars.$four-color;
+      }
+    }
+  }
+  .productInfo {
+    @include mixins.flex_box_custom(center, flex-start, 12px);
+    margin: 0.75rem 0;
+    flex-direction: column;
+    p {
+      margin: 0;
+      span {
+        color: vars.$secondary-color;
+      }
+    }
+    .socialMedia {
+      @include mixins.flex_box_custom(center, flex-start, 10px);
+      span {
+        @include mixins.flex_box_custom(center, flex-start, 10px);
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.image {
+  width: 100%;
+  img {
+    width: 100%;
+    height: 412px;
+    object-fit: cover;
+  }
+}

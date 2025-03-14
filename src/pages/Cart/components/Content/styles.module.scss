@@ -181,6 +181,9 @@
         margin-top: 4rem;
         @include mixins.flex_box_custom(space-between, center, 10px);
         flex-direction: column;
+        div {
+          width: 100%;
+        }
         button {
           width: 100%;
         }

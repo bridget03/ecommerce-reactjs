@@ -13,7 +13,6 @@ function OurShop() {
   const navigate = useNavigate();
   const { container, functionBox } = styles;
   const handleBackPreviousPage = () => {
-    // window.history.back();
     navigate(-1);
   };
   return (
