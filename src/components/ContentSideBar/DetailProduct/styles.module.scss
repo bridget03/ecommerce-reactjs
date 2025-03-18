@@ -38,7 +38,19 @@
       .sizeItem {
         border: 1px solid #e1e1e1;
         padding: 0.5rem 0.75rem;
+        &:hover {
+          border-color: vars.$primary-color;
+          color: vars.$primary-color;
+          cursor: pointer;
+        }
       }
+    }
+  }
+  .clear {
+    cursor: pointer;
+    margin-top: 0.75rem;
+    &:hover {
+      color: vars.$primary-color;
     }
   }
 
@@ -48,6 +60,7 @@
       select {
         border-color: #e1e1e1;
         padding: 0.35rem 0.4rem;
+        cursor: pointer;
       }
     }
   }
@@ -77,6 +90,9 @@
     button {
       width: 100%;
     }
+  }
+  .btnContent {
+    @include mixins.flex_box_custom(center, center, 10px);
   }
   .iconGroup {
     @include mixins.flex_box_custom(center, flex-start, 15px);

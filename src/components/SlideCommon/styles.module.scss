@@ -1,0 +1,33 @@
+.sliderContainer {
+  position: relative;
+  width: 100%;
+  max-width: 600px; // Adjust based on your layout
+  margin: auto;
+
+  &:hover .customArrow {
+    opacity: 1; // Show arrows on hover
+  }
+}
+
+.customArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+  z-index: 10;
+}
+
+.leftArrow {
+  left: 10px;
+}
+
+.rightArrow {
+  right: 10px;
+}

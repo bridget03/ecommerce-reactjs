@@ -6,6 +6,7 @@ import Button from '@components/Button/Button.jsx';
 
 import { IoIosGitCompare } from 'react-icons/io';
 import { IoIosHeartEmpty } from 'react-icons/io';
+import { PiShoppingCartLight } from 'react-icons/pi';
 import {
   FaXTwitter,
   FaFacebookF,
@@ -14,12 +15,55 @@ import {
   FaWhatsapp,
   FaSkype,
 } from 'react-icons/fa6';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 import { CiMail } from 'react-icons/ci';
+import SlideCommon from '@components/SlideCommon/SlideCommon';
+import Cookies from 'js-cookie';
+import { addProductToCart } from '@apis/cartService';
 
 function DetailProduct() {
-  const { detailsProduct } = useContext(SideBarContext);
+  const {
+    detailsProduct,
+    userId,
+    setType,
+    handleGetListProductCart,
+    setIsLoading,
+    setIsOpen,
+  } = useContext(SideBarContext);
+  const [sizeSelected, setSizeSelected] = useState('');
+  const [quantitySelected, setQuantitySelected] = useState('1');
+
+  const handleSelectSize = (size) => {
+    setSizeSelected(size);
+  };
+  const handleClearSize = () => {
+    setSizeSelected('');
+  };
+  const handleGetQuantityValue = (e) => setQuantitySelected(e);
+
+  const handleAddToCart = () => {
+    const data = {
+      userId,
+      productId: detailsProduct._id,
+      quantity: quantitySelected,
+      size: sizeSelected,
+      isMultiple: true,
+    };
+    setIsLoading(true);
+    setIsOpen(false);
+    addProductToCart(data)
+      .then((res) => {
+        setIsOpen(true);
+        setType('cart');
+        handleGetListProductCart(data.userId, 'cart');
+      })
+      .catch((err) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
+
   const showOptions = [
     { label: '1', value: '1' },
     { label: '2', value: '2' },
@@ -32,39 +76,87 @@ function DetailProduct() {
     { label: '9', value: '9' },
     { label: '10', value: '10' },
   ];
+
   return (
     <div className={styles.container}>
       <div className={styles.image}>
-        <img src={detailsProduct.images[0]} />
+        <SlideCommon />
       </div>
       <div className={styles.name}>{detailsProduct.name}</div>
       <div className={styles.price}>${detailsProduct.price}</div>
       <div className={styles.description}>{detailsProduct.description}</div>
       <div className={styles.sizeGroup}>
-        <p>Size</p>
+        <p>Size {sizeSelected}</p>
         <div className={styles.size}>
           {detailsProduct.size.map((item) => {
             return (
-              <div key={item.name} className={styles.sizeItem}>
+              <div
+                key={item.name}
+                className={styles.sizeItem}
+                onClick={() => handleSelectSize(item.name)}
+              >
                 {item.name}
               </div>
             );
           })}
         </div>
+        {sizeSelected && (
+          <div className={styles.clear} onClick={handleClearSize}>
+            clear
+          </div>
+        )}
       </div>
       <div className={styles.quantityAndAddToCart}>
         <div className={styles.quantity}>
-          <SelectBox options={showOptions} type='show' />
+          <SelectBox
+            options={showOptions}
+            type='show'
+            value={quantitySelected}
+            getValue={handleGetQuantityValue}
+          />
         </div>
-        <div>
-          <Button content={'Add to Cart'} />
-        </div>
+        {sizeSelected ? (
+          <Button
+            content={
+              <div className={styles.btnContent} onClick={handleAddToCart}>
+                <PiShoppingCartLight /> ADD TO CART
+              </div>
+            }
+          />
+        ) : (
+          <Button
+            content={
+              <div className={styles.btnContent}>
+                <PiShoppingCartLight />
+                <span>SELECT OPTIONS</span>
+              </div>
+            }
+          />
+        )}
       </div>
       <div className={styles.or}>
         <span>OR</span>
       </div>
       <div className={styles.buyNow}>
-        <Button content={'BUY NOW'} />
+        {sizeSelected ? (
+          <Button
+            content={
+              <div className={styles.btnContent}>
+                <PiShoppingCartLight />
+                <span>BUY NOW</span>
+              </div>
+            }
+          />
+        ) : (
+          <Button
+            content={
+              <div className={styles.btnContent}>
+                <PiShoppingCartLight />
+                <span>SELECT OPTIONS</span>
+              </div>
+            }
+          />
+        )}
       </div>
       <div className={styles.iconGroup}>
         <div className={styles.icon}>

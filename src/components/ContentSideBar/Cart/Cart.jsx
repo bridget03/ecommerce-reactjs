@@ -21,6 +21,7 @@ function Cart() {
     setIsOpen(false);
   };
   const handleNavigateToCart = () => {
+    setIsOpen(false);
     navigate('/cart');
   };
   return (
