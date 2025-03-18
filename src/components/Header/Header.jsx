@@ -147,7 +147,7 @@ function Header() {
             <Link to='/about-us'>
               <div>Contact Us</div>
             </Link>
-            <Link to='/about-us'>
+            <Link to='/my-account'>
               <div>Account</div>
             </Link>
           </div>

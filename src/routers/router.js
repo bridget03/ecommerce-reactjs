@@ -20,6 +20,10 @@ const routers = [
     path: '/about-us',
     component: lazy(() => import('@pages/AboutUs/AboutUs.jsx')),
   },
+  {
+    path: '/my-account',
+    component: lazy(() => import('@pages/MyAccount/MyAccount.jsx')),
+  },
 ];
 
 export default routers;
