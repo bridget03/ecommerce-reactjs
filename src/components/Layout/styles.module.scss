@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   max-width: 1400px;
-  // width: 100%;
+  width: 100%;
 
   margin: 0 auto;
 }
@@ -27,9 +27,12 @@
 // }
 
 // /* Small Mobile Screens */
-// @media (max-width: 480px) {
-//   .container {
-//     max-width: 100%; // Full width for very small screens
-//     padding: 5px; // Minimal padding
-//   }
-// }
+@media (max-width: 425px) {
+  .wrapLayout {
+    width: 100%;
+  }
+  .container {
+    max-width: 100%; // Full width for very small screens
+    padding: 5px; // Minimal padding
+  }
+}

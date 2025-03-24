@@ -14,6 +14,8 @@ import { ToastContext } from '@/contexts/ToastProvider';
 
 import { addProductToCart } from '@apis/cartService';
 import LoadingCommon from '@components/LoadingCommon/LoadingCommon';
+import MainLayout from '@components/Layout/Layout.jsx';
+import { useNavigate } from 'react-router-dom';
 
 function ProductItem({
   src,
@@ -33,6 +35,7 @@ function ProductItem({
     useContext(SideBarContext);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useContext(ToastContext);
+  const navigate = useNavigate();
 
   const userId = Cookies.get('userId');
   const handleClearSize = () => {
@@ -76,6 +79,12 @@ function ProductItem({
     setType('details');
   };
 
+  const handleShowDetailsPage = () => {
+    const path = `/product/${details._id}`;
+
+    navigate(path);
+  };
+
   useEffect(() => {
     if (isHomepage) {
       setIsShowGrid(true);
@@ -84,8 +93,12 @@ function ProductItem({
     }
   }, [isShowGrid, ourShopStore?.isShowGrid]);
   return (
-    <div className={cls({ [styles.container]: !isShowGrid })}>
-      <div className={boxImg}>
+    <div
+      className={cls(styles.itemContainer, {
+        [styles.container]: !isShowGrid,
+      })}
+    >
+      <div className={boxImg} onClick={handleShowDetailsPage}>
         <img src={src} />
         <img src={prevSrc} className={showImgWhenHover} />
         <div className={showFunctionWhenHover}>

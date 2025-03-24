@@ -16,7 +16,7 @@ function ListProduct() {
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <>
+        <MainLayout>
           {' '}
           <div
             className={cls(styles.productContainerList, {
@@ -47,7 +47,7 @@ function ListProduct() {
               />
             </div>
           )}
-        </>
+        </MainLayout>
       )}
     </>
   );

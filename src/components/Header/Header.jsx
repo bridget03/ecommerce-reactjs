@@ -81,13 +81,8 @@ function Header() {
             })}
           </div>
         </div>
-        <div>
-          <img
-            src={Logo}
-            alt='Logo'
-            style={{ width: '200px', height: '80px' }}
-            onClick={handleBackHomePage}
-          />
+        <div className={styles.logo}>
+          <img src={Logo} alt='Logo' onClick={handleBackHomePage} />
         </div>
         <div className={containerBox}>
           <div className={containerMenu}>

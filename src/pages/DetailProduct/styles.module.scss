@@ -1,0 +1,219 @@
+@use '@styles/mixin.module.scss' as mixins;
+@use '@styles/variable.module.scss' as vars;
+.container {
+  margin-top: 123px;
+}
+.navigation {
+  @include mixins.flex_box_custom(space-between, center, 0px);
+  color: vars.$secondary-color;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+.contentSection {
+  @include mixins.flex_box_custom(space-between, flex-start, 30px);
+  .imageGroup {
+    width: 50%;
+    @include mixins.flex_box_custom(space-between, center, 20px);
+    flex-wrap: wrap;
+    .Image {
+      width: calc(100% / 2 - 10px);
+      img {
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+  .infoGroup {
+    width: 49%;
+    .name {
+      font-size: 24px;
+      color: vars.$four-color;
+      margin-bottom: 30px;
+    }
+    .price {
+      font-size: 20px;
+      color: vars.$secondary-color;
+      margin-bottom: 30px;
+    }
+    .description {
+      font-size: 16px;
+      color: vars.$third-color;
+      margin-bottom: 30px;
+    }
+    .sizeGroup {
+      margin-bottom: 2.25rem;
+      p {
+        color: vars.$third-color;
+        .size {
+          color: vars.$four-color;
+        }
+        margin-bottom: 10px;
+      }
+      .sizeSelection {
+        @include mixins.flex_box_custom(left, center, 10px);
+        button {
+          margin-bottom: 1rem;
+          padding: 10px 15px;
+          border: #e1e1e1 1px solid;
+          background-color: #fff;
+          &:hover {
+            border-color: vars.$secondary-color;
+          }
+        }
+      }
+      .clear {
+        color: vars.$secondary-color;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+    .buttonGroup {
+      @include mixins.flex_box_custom(center, center, 10px);
+      flex-direction: column;
+      .quantityAndAddToCart {
+        @include mixins.flex_box_custom(center, center, 10px);
+        width: 100%;
+        select {
+          padding: 10px 15px;
+          border: #e1e1e1 1px solid;
+          background-color: #fff;
+          margin-right: 10px;
+        }
+        button {
+          width: 100%;
+        }
+      }
+      .or {
+        @include mixins.flex_box_custom(center, center, 10px);
+        position: relative;
+        width: 100%;
+        margin: 10px 0;
+        color: vars.$secondary-color;
+
+        &::before,
+        &::after {
+          content: '';
+          flex: 1;
+          height: 1px;
+          background-color: #000;
+          opacity: 0.1;
+        }
+
+        &::before {
+          margin-right: 10px;
+        }
+        &::after {
+          margin-left: 10px;
+        }
+      }
+      .buyNow {
+        width: 100%;
+        button {
+          width: 100%;
+        }
+      }
+      .actionBtn {
+        width: 100%;
+        @include mixins.flex_box_custom(left, center, 10px);
+        margin-top: 1rem;
+
+        .icon {
+          @include mixins.flex_box_custom(center, center, 0px);
+
+          width: 45px;
+          height: 45px;
+          cursor: pointer;
+
+          font-size: 24px;
+          border: 1px solid #e1e1e1;
+          border-radius: 50%;
+          background-color: white;
+        }
+      }
+    }
+    .productInfo {
+      margin-top: 2rem;
+      width: 100%;
+      @include mixins.flex_box_custom(center, flex-start, 10px);
+      flex-direction: column;
+      .textInfo {
+        font-size: 18px;
+        color: vars.$primary-color;
+        margin-bottom: 15px;
+        .blurTextInfo {
+          color: vars.$secondary-color;
+        }
+      }
+    }
+    .safeCheckoutContainer {
+      text-align: center;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #fff;
+      margin-top: 20px;
+
+      h4 {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 15px;
+
+        .safeText {
+          color: green;
+        }
+      }
+
+      .paymentIcons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 15px;
+
+        .paymentIcon {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          .tooltip {
+            position: absolute;
+            bottom: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+          }
+
+          &:hover .tooltip {
+            opacity: 1;
+            transform: translateY(0);
+          }
+
+          img {
+            width: 50px;
+            height: auto;
+            transition: transform 0.3s ease;
+            border: 1px solid #e1e1e1;
+          }
+        }
+      }
+
+      p {
+        font-size: 14px;
+        color: #555;
+
+        strong {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

@@ -2,17 +2,16 @@
 @use '../../assets/styles/variable.module.scss' as vars;
 .container {
   @include mixins.flex_box_custom(center, center, 0px);
-  left: 0;
-  right: 0;
+  width: 100%;
 }
 
 .topContainer {
+  left: 0;
   position: absolute;
   top: 0;
 }
 
 .fixedHeader {
-  width: 100%;
   background-color: rgba(255, 255, 255, 0.95);
   position: fixed;
   z-index: 999;
@@ -72,6 +71,10 @@
   height: 26px;
 }
 
+.logo img {
+  width: 280px;
+  height: 100px;
+}
 .menu {
   cursor: pointer;
   padding-top: 10px;
@@ -113,10 +116,12 @@
 @media (max-width: 1024px) {
   .containerHeader {
     margin: 0 2rem;
-    // max-width: 95%;
   }
   .containerMenu {
     display: none;
+  }
+  .fixedHeader {
+    padding-bottom: 5px;
   }
 
   .mobileMenuIcon {
@@ -172,5 +177,75 @@
     font-size: 12px;
 
     @include mixins.flex_box_custom(center, center, 0px);
+  }
+}
+
+@media (max-width: 768px) {
+  .logo img {
+    width: 180px;
+    height: 70px;
+  }
+  .containerHeader {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .mobileMenuIcon {
+    display: block;
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  .mobileMenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 75%;
+    height: 100vh;
+    background: white;
+    box-shadow: 2px 0px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    padding: 20px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .mobileMenu.open {
+    transform: translateX(0);
+  }
+
+  .mobileMenuItem {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .mobileMenuItem a {
+    text-decoration: none;
+    color: vars.$primary-color;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .cartIcon {
+    position: relative;
+    .cartCount {
+      top: -5px;
+      right: -5px;
+      width: 18px;
+      height: 18px;
+      font-size: 12px;
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .fixedHeader {
+    width: 100%;
+  }
+  .logo img {
+    width: 120px;
+    height: 50px;
   }
 }

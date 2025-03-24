@@ -1,6 +1,7 @@
 import styles from './styles.module.scss';
 import SelectBox from '@pages/OurShop/components/SelectBox';
 import { SideBarContext } from '@contexts/SideBarProvider';
+import { ToastContext } from '@/contexts/ToastProvider';
 
 import Button from '@components/Button/Button.jsx';
 
@@ -21,8 +22,11 @@ import { CiMail } from 'react-icons/ci';
 import SlideCommon from '@components/SlideCommon/SlideCommon';
 import Cookies from 'js-cookie';
 import { addProductToCart } from '@apis/cartService';
+import cls from 'classnames';
 
 function DetailProduct() {
+  const { toast } = useContext(ToastContext);
+
   const {
     detailsProduct,
     userId,
@@ -43,6 +47,12 @@ function DetailProduct() {
   const handleGetQuantityValue = (e) => setQuantitySelected(e);
 
   const handleAddToCart = () => {
+    if (!userId) {
+      toast.warning('Please login to add product to cart');
+      setIsOpen(true);
+      setType('login');
+      return;
+    }
     const data = {
       userId,
       productId: detailsProduct._id,
@@ -57,6 +67,7 @@ function DetailProduct() {
         setIsOpen(true);
         setType('cart');
         handleGetListProductCart(data.userId, 'cart');
+        toast.success('Product added to cart successfully');
       })
       .catch((err) => {
         console.log(error);
@@ -92,7 +103,9 @@ function DetailProduct() {
             return (
               <div
                 key={item.name}
-                className={styles.sizeItem}
+                className={cls(styles.sizeItem, {
+                  [styles.active]: sizeSelected === item.name,
+                })}
                 onClick={() => handleSelectSize(item.name)}
               >
                 {item.name}

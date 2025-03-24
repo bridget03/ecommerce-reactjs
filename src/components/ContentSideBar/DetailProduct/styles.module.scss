@@ -44,6 +44,10 @@
           cursor: pointer;
         }
       }
+      .active {
+        border-color: vars.$primary-color;
+        color: vars.$primary-color;
+      }
     }
   }
   .clear {

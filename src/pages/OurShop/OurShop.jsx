@@ -17,8 +17,8 @@ function OurShop() {
   };
   return (
     <OurShopProvider>
-      <Header />
       <MainLayout>
+        <Header />
         <div className={container}>
           <div className={functionBox}>
             <div>
