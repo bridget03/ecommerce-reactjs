@@ -80,9 +80,6 @@
           background-color: #fff;
           margin-right: 10px;
         }
-        button {
-          width: 100%;
-        }
       }
       .or {
         @include mixins.flex_box_custom(center, center, 10px);
@@ -107,12 +104,7 @@
           margin-left: 10px;
         }
       }
-      .buyNow {
-        width: 100%;
-        button {
-          width: 100%;
-        }
-      }
+
       .actionBtn {
         width: 100%;
         @include mixins.flex_box_custom(left, center, 10px);
@@ -131,6 +123,35 @@
           background-color: white;
         }
       }
+      .btn {
+        width: 100%;
+        button {
+          width: 100%;
+        }
+      }
+      .btnActive button {
+        background-color: rgb(163, 163, 163);
+        cursor: no-drop;
+        color: vars.$white-color;
+        border: none;
+      }
+    }
+    .deliveryInfo {
+      margin-top: 2rem;
+      @include mixins.flex_box_custom(left, center, 80px);
+
+      .deliveryItem {
+        @include mixins.flex_box_custom(left, center, 0px);
+        align-items: center;
+        .icon {
+          font-size: 30px;
+        }
+        .text {
+          margin-left: 10px;
+          font-size: 18px;
+          color: vars.$four-color;
+        }
+      }
     }
     .productInfo {
       margin-top: 2rem;
@@ -144,6 +165,33 @@
         .blurTextInfo {
           color: vars.$secondary-color;
         }
+      }
+    }
+    .accordionContainer {
+      margin: 1rem auto;
+      .additionalInfo {
+        @include mixins.flex_box_custom(left, center, 0px);
+        font-size: 1rem;
+        border-bottom: 1px solid #e1e1e1;
+        .title {
+          color: vars.$secondary-color;
+          width: 50%;
+        }
+        .info {
+          color: vars.$third-color;
+          width: 50%;
+        }
+      }
+      .accordionBtn {
+        background-color: #f4f4f4;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        text-align: left;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
       }
     }
     .safeCheckoutContainer {
@@ -214,6 +262,24 @@
           font-weight: bold;
         }
       }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .navigation,
+  .contentSection {
+    margin: 0 1rem;
+  }
+  .contentSection {
+    flex-direction: column;
+    margin-top: 1rem;
+    .imageGroup {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+    .infoGroup {
+      width: 100%;
     }
   }
 }

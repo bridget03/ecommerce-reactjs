@@ -23,7 +23,7 @@ export const StoreProvider = ({ children }) => {
           setUserInfo(res.data.data);
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     }
   }, [userId]);

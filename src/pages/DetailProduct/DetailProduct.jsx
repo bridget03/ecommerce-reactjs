@@ -4,10 +4,16 @@ import Header from '@components/Header/Header.jsx';
 import Footer from '@components/Footer/Footer.jsx';
 import SelectBox from '@pages/OurShop/components/SelectBox';
 import Button from '@components/Button/Button.jsx';
+import cls from 'classnames';
 
 import { PiShoppingCartLight } from 'react-icons/pi';
-import { IoIosGitCompare } from 'react-icons/io';
-import { IoIosHeartEmpty } from 'react-icons/io';
+import {
+  IoIosGitCompare,
+  IoIosHeartEmpty,
+  IoIosReturnLeft,
+} from 'react-icons/io';
+import { CiDeliveryTruck } from 'react-icons/ci';
+import { IoIosArrowDown } from 'react-icons/io';
 
 import visa from '@icons/paymentMethods/visa.jpeg';
 import mastercard from '@icons/paymentMethods/master-card.jpeg';
@@ -19,7 +25,23 @@ import bitcoin from '@icons/paymentMethods/bitcoin.jpeg';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from 'react-accessible-accordion';
+import 'react-accessible-accordion/dist/fancy-example.css';
+
+import { getDetailProduct } from '@apis/productService';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+
 function DetailProduct() {
+  const param = useParams();
+  console.log(param);
+  const [data, setData] = useState();
   const showOptions = [
     { label: '1', value: '1' },
     { label: '2', value: '2' },
@@ -41,6 +63,29 @@ function DetailProduct() {
     { src: maestro, alt: 'Maestro' },
     { src: bitcoin, alt: 'Bitcoin' },
   ];
+
+  const [sizeActive, setSizeActive] = useState();
+  const handleSelectSize = (size) => {
+    setSizeActive(size);
+  };
+  const handleClearSizeActive = () => {
+    setSizeActive();
+  };
+
+  const fetchDataDetail = async (id) => {
+    try {
+      const data = await getDetailProduct(id);
+      setData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (param.id) {
+      fetchDataDetail(param.id);
+    }
+  }, [param]);
+  console.log(data);
   return (
     <div className={styles.container}>
       <Header />
@@ -51,69 +96,49 @@ function DetailProduct() {
         </div>
         <div className={styles.contentSection}>
           <div className={styles.imageGroup}>
-            <div className={styles.Image}>
-              <Zoom>
-                <img
-                  alt='That Wanaka Tree, New Zealand by Laura Smetsers'
-                  src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg'
-                  width='400' // Giảm kích thước ban đầu để thấy rõ hiệu ứng zoom
-                  height='auto'
-                  style={{
-                    display: 'block',
-                    margin: '0 auto',
-                    cursor: 'zoom-in',
-                  }} // Đảm bảo hiển thị tốt
-                />
-              </Zoom>
-            </div>
-            <div className={styles.Image}>
-              <Zoom>
-                <img
-                  alt='That Wanaka Tree, New Zealand by Laura Smetsers'
-                  src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg'
-                  width='500'
-                />
-              </Zoom>
-            </div>
-            <div className={styles.Image}>
-              <Zoom>
-                <img
-                  alt='That Wanaka Tree, New Zealand by Laura Smetsers'
-                  src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg'
-                  width='500'
-                />
-              </Zoom>
-            </div>
-            <div className={styles.Image}>
-              <Zoom>
-                <img
-                  alt='That Wanaka Tree, New Zealand by Laura Smetsers'
-                  src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg'
-                  width='500'
-                />
-              </Zoom>
-            </div>
+            {data?.images.map((src) => {
+              return (
+                <div className={styles.Image}>
+                  <Zoom>
+                    <img
+                      alt={data?.name}
+                      src={src}
+                      width='500'
+                      style={{
+                        display: 'block',
+                        margin: '0 auto',
+                        cursor: 'zoom-in',
+                      }}
+                    />
+                  </Zoom>
+                </div>
+              );
+            })}
           </div>
           <div className={styles.infoGroup}>
-            <div className={styles.name}>10k Yellow Gold</div>
-            <div className={styles.price}>$1,000.00</div>
+            <div className={styles.name}>{data?.name}</div>
+            <div className={styles.price}>{data?.price}</div>
             <div className={styles.description}>
-              <p>
-                This is a simple product. It is a product that is not
-                configurable. This means that there is no need to select options
-                for this product. It is a single product with a single price.
-              </p>
+              <p>{data?.description}</p>
             </div>
             <div className={styles.sizeGroup}>
               <p>
-                Size <span className={styles.size}>M</span>
+                Size <span className={styles.size}>{sizeActive}</span>
               </p>
               <div className={styles.sizeSelection}>
-                <button>M</button>
-                <button>L</button>
-                <button>XL</button>
+                {data?.size.map((item) => (
+                  <button
+                    key={item}
+                    onClick={() => handleSelectSize(item.name)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {item.name}
+                  </button>
+                ))}
               </div>
-              <p className={styles.clear}>Clear</p>
+              <p className={styles.clear} onClick={handleClearSizeActive}>
+                Clear
+              </p>
             </div>
             <div className={styles.buttonGroup}>
               <div className={styles.quantityAndAddToCart}>
@@ -123,16 +148,26 @@ function DetailProduct() {
                   // value={quantitySelected}
                   // getValue={handleGetQuantityValue}
                 />
-                <Button
-                  content={
-                    <div className={styles.btnContent}>
-                      <PiShoppingCartLight /> ADD TO CART
-                    </div>
-                  }
-                />
+                <div
+                  className={cls(styles.btn, {
+                    [styles.btnActive]: !sizeActive,
+                  })}
+                >
+                  <Button
+                    content={
+                      <div className={styles.btnContent}>
+                        <PiShoppingCartLight /> ADD TO CART
+                      </div>
+                    }
+                  />
+                </div>
               </div>
               <div className={styles.or}>OR</div>
-              <div className={styles.buyNow}>
+              <div
+                className={cls(styles.btn, {
+                  [styles.btnActive]: !sizeActive,
+                })}
+              >
                 <Button
                   content={
                     <div className={styles.btnContent}>
@@ -150,6 +185,20 @@ function DetailProduct() {
                 </div>
               </div>
             </div>
+            <div className={styles.deliveryInfo}>
+              <div className={styles.deliveryItem}>
+                <div className={styles.icon}>
+                  <CiDeliveryTruck />
+                </div>
+                <div className={styles.text}>Orders over $50 ship free</div>
+              </div>
+              <div className={styles.deliveryItem}>
+                <div className={styles.icon}>
+                  <IoIosReturnLeft />
+                </div>
+                <div className={styles.text}>30 days returns</div>
+              </div>
+            </div>
 
             <div className={styles.productInfo}>
               <div className={styles.textInfo}>
@@ -161,6 +210,48 @@ function DetailProduct() {
               <div className={styles.textInfo}>
                 Category: <span className={styles.blurTextInfo}>Men</span>
               </div>
+            </div>
+            <div className={styles.accordionContainer}>
+              <Accordion allowZeroExpanded>
+                <AccordionItem>
+                  <AccordionItemHeading>
+                    <AccordionItemButton className={styles.accordionBtn}>
+                      <span>
+                        <IoIosArrowDown />
+                      </span>
+                      ADDITIONAL INFORMATION
+                    </AccordionItemButton>
+                  </AccordionItemHeading>
+                  <AccordionItemPanel>
+                    <div className={styles.additionalInfo}>
+                      <p className={styles.title}>Size</p>
+                      <p className={styles.info}>M, L, XL</p>
+                    </div>
+                    <div className={styles.additionalInfo}>
+                      <p className={styles.title}>Material</p>
+                      <p className={styles.info}>Fleece</p>
+                    </div>
+                    <div className={styles.additionalInfo}>
+                      <p className={styles.title}>Color</p>
+                      <p className={styles.info}>Black, Blue</p>
+                    </div>
+                  </AccordionItemPanel>
+                </AccordionItem>
+
+                <AccordionItem>
+                  <AccordionItemHeading>
+                    <AccordionItemButton className={styles.accordionBtn}>
+                      <span>
+                        <IoIosArrowDown />
+                      </span>
+                      Hướng dẫn sử dụng
+                    </AccordionItemButton>
+                  </AccordionItemHeading>
+                  <AccordionItemPanel>
+                    <p>Vui lòng đọc kỹ hướng dẫn trước khi dùng.</p>
+                  </AccordionItemPanel>
+                </AccordionItem>
+              </Accordion>
             </div>
 
             <div className={styles.safeCheckoutContainer}>

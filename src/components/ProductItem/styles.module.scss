@@ -29,6 +29,11 @@
 .boxImg {
   position: relative;
   cursor: pointer;
+  img {
+    max-width: 100%;
+    // width: 325px;
+    height: auto;
+  }
 
   &:hover .showImgWhenHover {
     opacity: 1;

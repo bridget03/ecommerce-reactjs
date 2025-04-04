@@ -83,12 +83,12 @@
   grid-template-columns: repeat(4, 1fr);
 
   column-gap: 0rem;
-  row-gap: 2.5rem;
+  // row-gap: 2.5rem;
+  gap: 2rem;
   justify-content: center;
 
   @media (max-width: 1024px) {
     .container {
-      // width: 200px;
     }
     grid-template-columns: repeat(3, 1fr);
   }
