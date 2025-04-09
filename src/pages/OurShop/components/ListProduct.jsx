@@ -40,7 +40,7 @@ function ListProduct() {
               onClick={() => {
                 handleLoadMore();
               }}
-              style={{ width: '180px', margin: '150px auto' }}
+              className={styles.loadMore}
             >
               <Button
                 content={isLoadMore ? <LoadingCommon /> : 'LOAD MORE PRODUCT'}

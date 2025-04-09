@@ -23,6 +23,18 @@
     background-position: center;
     opacity: 0.2;
   }
+  @media (max-width: 768px) {
+    min-width: 100%;
+    padding: 20px 0;
+    .logo img {
+      width: 100%;
+      height: auto;
+      filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg);
+    }
+    .bgOverlay {
+      background-size: cover;
+    }
+  }
 }
 
 .funcBtn {

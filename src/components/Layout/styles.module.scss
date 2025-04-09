@@ -17,22 +17,20 @@
     // width: 100%;
   }
 }
+@media (max-width: 768px) {
+  .wrapLayout {
+    .container {
+      margin: auto 1rem;
+    }
+  }
+}
 
-// /* Mobile View */
-// @media (max-width: 768px) {
-//   .container {
-//     max-width: 95%; // Further reduce width for smaller devices
-//     padding: 10px; // Less padding to save space
-//   }
-// }
-
-// /* Small Mobile Screens */
 @media (max-width: 425px) {
   .wrapLayout {
     width: 100%;
   }
   .container {
-    max-width: 100%; // Full width for very small screens
-    padding: 5px; // Minimal padding
+    max-width: 100%;
+    padding: 5px;
   }
 }

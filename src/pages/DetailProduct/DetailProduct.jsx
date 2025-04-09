@@ -34,14 +34,32 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
-import { getDetailProduct } from '@apis/productService';
-import { useState, useEffect } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+
+import { getDetailProduct, getRelatedProduct } from '@apis/productService';
+import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import ProductItem from '@components/ProductItem/ProductItem';
+import { SideBarContext } from '@contexts/SideBarProvider';
+import Cookies from 'js-cookie';
+import { ToastContext } from '@/contexts/ToastProvider';
+import { addProductToCart } from '@apis/cartService';
 
 function DetailProduct() {
   const param = useParams();
   console.log(param);
   const [data, setData] = useState();
+  const [relatedData, setRelatedData] = useState();
+  const { setIsOpen, setType, handleGetListProductCart, setDetailsProduct } =
+    useContext(SideBarContext);
+
   const showOptions = [
     { label: '1', value: '1' },
     { label: '2', value: '2' },
@@ -64,12 +82,50 @@ function DetailProduct() {
     { src: bitcoin, alt: 'Bitcoin' },
   ];
 
+  const userId = Cookies.get('userId');
+  const { toast } = useContext(ToastContext);
+  const [isLoading, setIsLoading] = useState(false);
+
   const [sizeActive, setSizeActive] = useState();
+  const [quantitySelected, setQuantitySelected] = useState('1');
+
   const handleSelectSize = (size) => {
     setSizeActive(size);
   };
   const handleClearSizeActive = () => {
     setSizeActive();
+  };
+  const handleGetQuantityValue = (e) => setQuantitySelected(e);
+  const handleAddToCart = () => {
+    if (!userId) {
+      setIsOpen(true);
+      setType('login');
+      toast.warning('Please login before adding to cart');
+      return;
+    }
+
+    setIsLoading(true);
+    if (!sizeActive) {
+      toast.warning('Please choose size before adding to cart');
+    } else {
+      addProductToCart({
+        userId,
+        productId: data._id,
+        quantity: quantitySelected,
+        size: sizeActive,
+      })
+        .then((res) => {
+          setIsOpen(true);
+          setIsLoading(false);
+          setType('cart');
+          handleGetListProductCart(userId, 'cart');
+          toast.success('Product added to cart successfully');
+        })
+        .catch((error) => {
+          toast.error('Failed to add product to cart');
+          setIsLoading(true);
+        });
+    }
   };
 
   const fetchDataDetail = async (id) => {
@@ -80,12 +136,22 @@ function DetailProduct() {
       console.log(error);
     }
   };
+  const fetchRelatedProduct = async (id) => {
+    try {
+      const relatedData = await getRelatedProduct(id);
+      setRelatedData(relatedData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     if (param.id) {
       fetchDataDetail(param.id);
+      fetchRelatedProduct(param.id);
     }
   }, [param]);
-  console.log(data);
+  console.log('Related: ' + relatedData);
+  console.log('Detail data:' + data);
   return (
     <div className={styles.container}>
       <Header />
@@ -117,7 +183,7 @@ function DetailProduct() {
           </div>
           <div className={styles.infoGroup}>
             <div className={styles.name}>{data?.name}</div>
-            <div className={styles.price}>{data?.price}</div>
+            <div className={styles.price}>${data?.price}</div>
             <div className={styles.description}>
               <p>{data?.description}</p>
             </div>
@@ -126,9 +192,9 @@ function DetailProduct() {
                 Size <span className={styles.size}>{sizeActive}</span>
               </p>
               <div className={styles.sizeSelection}>
-                {data?.size.map((item) => (
+                {data?.size.map((item, index) => (
                   <button
-                    key={item}
+                    key={index}
                     onClick={() => handleSelectSize(item.name)}
                     style={{ cursor: 'pointer' }}
                   >
@@ -145,13 +211,14 @@ function DetailProduct() {
                 <SelectBox
                   options={showOptions}
                   type='show'
-                  // value={quantitySelected}
-                  // getValue={handleGetQuantityValue}
+                  value={quantitySelected}
+                  getValue={handleGetQuantityValue}
                 />
                 <div
                   className={cls(styles.btn, {
                     [styles.btnActive]: !sizeActive,
                   })}
+                  onClick={handleAddToCart}
                 >
                   <Button
                     content={
@@ -167,6 +234,7 @@ function DetailProduct() {
                 className={cls(styles.btn, {
                   [styles.btnActive]: !sizeActive,
                 })}
+                // onClick={handleBuyNow}
               >
                 <Button
                   content={
@@ -225,11 +293,15 @@ function DetailProduct() {
                   <AccordionItemPanel>
                     <div className={styles.additionalInfo}>
                       <p className={styles.title}>Size</p>
-                      <p className={styles.info}>M, L, XL</p>
+                      <p className={styles.info}>
+                        {data?.size.map((item) => {
+                          return item.name + ' ';
+                        })}
+                      </p>
                     </div>
                     <div className={styles.additionalInfo}>
                       <p className={styles.title}>Material</p>
-                      <p className={styles.info}>Fleece</p>
+                      <p className={styles.info}>{data?.material}</p>
                     </div>
                     <div className={styles.additionalInfo}>
                       <p className={styles.title}>Color</p>
@@ -274,6 +346,60 @@ function DetailProduct() {
               </p>
             </div>
           </div>
+        </div>
+
+        <div className={styles.relatedProductsContainer}>
+          <p className={styles.relatedProductsTitle}>Related Products</p>
+
+          <div className={styles.swiperNavigation}>
+            <div className={`${styles.swiperNavPrev} swiper-button-prev`}>
+              <IoIosArrowBack />
+            </div>
+            <div className={`${styles.swiperNavNext} swiper-button-next`}>
+              <IoIosArrowForward />
+            </div>
+          </div>
+
+          <Swiper
+            loop={true}
+            modules={[Navigation]}
+            navigation={{
+              prevEl: '.swiper-button-prev',
+              nextEl: '.swiper-button-next',
+            }}
+            breakpoints={{
+              320: {
+                slidesPerView: 1,
+                spaceBetween: 10,
+              },
+              480: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+              },
+              768: {
+                slidesPerView: 2,
+                spaceBetween: 30,
+              },
+              1024: {
+                slidesPerView: 4,
+                spaceBetween: 40,
+              },
+            }}
+            className={styles.relatedProductsSwiper}
+          >
+            {relatedData?.map((item) => (
+              <SwiperSlide key={item._id} className={styles.relatedProductItem}>
+                <ProductItem
+                  src={item.images[1]}
+                  prevSrc={item.images[0]}
+                  name={item.name}
+                  price={item.price}
+                  details={item}
+                  isHomepage={false}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </MainLayout>
       <Footer />

@@ -66,6 +66,7 @@
         color: vars.$secondary-color;
         cursor: pointer;
         text-decoration: underline;
+        width: fit-content;
       }
     }
     .buttonGroup {
@@ -263,6 +264,47 @@
         }
       }
     }
+  }
+}
+
+.relatedProductsContainer {
+  position: relative;
+  margin: 5rem 0 2rem 0;
+
+  .relatedProductsTitle {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 200;
+    text-align: center;
+  }
+
+  .swiperNavigation {
+    .swiperNavPrev,
+    .swiperNavNext {
+      position: absolute;
+      top: 40%;
+      width: 10px;
+      height: 10px;
+      color: #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: background-color 0.3s;
+    }
+
+    .swiperNavPrev {
+      left: 10px;
+    }
+
+    .swiperNavNext {
+      right: 10px;
+    }
+  }
+
+  .relatedProductsSwiper {
+    padding: 0 40px;
   }
 }
 

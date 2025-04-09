@@ -73,7 +73,8 @@ function ProductItem({
     }
   };
 
-  const handleShowDetailsProductSideBar = () => {
+  const handleShowDetailsProductSideBar = (e) => {
+    e.stopPropagation();
     setDetailsProduct(details);
     setIsOpen(true);
     setType('details');

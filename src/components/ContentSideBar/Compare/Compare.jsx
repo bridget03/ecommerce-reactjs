@@ -5,7 +5,11 @@ import ItemProduct from '@components/ContentSideBar/components/ItemProduct/ItemP
 import { IoIosGitCompare } from 'react-icons/io';
 import Button from '@components/Button/Button';
 
+import { useContext } from 'react';
+import { SideBarContext } from '@/contexts/SideBarProvider';
+
 function Compare() {
+  const { listProductCart, isLoading, setIsOpen } = useContext(SideBarContext);
   return (
     <div className={styles.container}>
       <div>

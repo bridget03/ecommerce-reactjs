@@ -83,7 +83,6 @@
   grid-template-columns: repeat(4, 1fr);
 
   column-gap: 0rem;
-  // row-gap: 2.5rem;
   gap: 2rem;
   justify-content: center;
 
@@ -95,7 +94,7 @@
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
+    gap: 1.5rem;
   }
 
   @media (max-width: 480px) {
@@ -119,5 +118,13 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+.loadMore {
+  width: 180px;
+  margin: 150px auto;
+  @media (max-width: 768px) {
+    margin: 50px auto;
   }
 }
