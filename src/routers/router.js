@@ -28,6 +28,10 @@ const routers = [
     path: '/my-account',
     component: lazy(() => import('@pages/MyAccount/MyAccount.jsx')),
   },
+  {
+    path: '/checkout',
+    component: lazy(() => import('@pages/CheckOut/CheckOutPage.jsx')),
+  },
 ];
 
 export default routers;

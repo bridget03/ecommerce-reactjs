@@ -25,6 +25,10 @@
     width: 100%;
     text-align: center;
   }
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 1rem;

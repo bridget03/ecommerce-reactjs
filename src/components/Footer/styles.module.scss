@@ -39,6 +39,9 @@
 
 .funcBtn {
   @include mixins.flex_box_custom(space-around, center, 50px);
+  .funcBtnItem {
+    cursor: pointer;
+  }
   a {
     text-decoration: none;
     color: vars.$white-color;

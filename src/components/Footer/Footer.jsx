@@ -21,7 +21,7 @@ function Footer() {
         />
       </div>
       <div className={styles.funcBtn}>
-        <div>
+        <div className={styles.funcBtnItem}>
           <a href='#'>Home</a>
         </div>
         <div>
@@ -34,7 +34,7 @@ function Footer() {
           <a href='#'>Blog</a>
         </div>
         <div>
-          <a href='#'>About Us</a>
+          <a href='about-us'>About Us</a>
         </div>
         <div>
           <a href='#'>Contact Us</a>

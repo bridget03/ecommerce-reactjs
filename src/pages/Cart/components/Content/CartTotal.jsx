@@ -43,7 +43,7 @@ function CartTotal({ productCart, isLoading }) {
             <div className={styles.totalValue}>${total.toFixed(2)} </div>
           </div>
           <div className={styles.btnGroup}>
-            <div>
+            <div onClick={() => navigate('/checkout')}>
               <Button content={'PROCEED TO CHECKOUT'} isPrimary={true} />
             </div>
             <div onClick={handleBackToShop}>

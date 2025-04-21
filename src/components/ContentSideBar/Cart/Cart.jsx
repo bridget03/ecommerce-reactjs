@@ -24,6 +24,10 @@ function Cart() {
     setIsOpen(false);
     navigate('/cart');
   };
+  const handleNavigateCheckout = () => {
+    setIsOpen(false);
+    navigate('/checkout');
+  };
   return (
     <div className={styles.container}>
       <div className={styles.mainCart}>
@@ -61,7 +65,9 @@ function Cart() {
               <div onClick={handleNavigateToCart}>
                 <Button content={'VIEW CART'} />
               </div>
-              <Button content={'CHECK OUT'} isPrimary={false} />
+              <div onClick={handleNavigateCheckout}>
+                <Button content={'CHECK OUT'} isPrimary={false} />
+              </div>
             </div>
           </div>
         ) : (

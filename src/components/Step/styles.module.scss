@@ -5,16 +5,19 @@
   background-color: #fafafa;
   @include mixins.flex_box_custom(center, center, 0px);
   flex-direction: column;
+
   p {
     margin-bottom: 2rem;
     font-size: 1rem;
     color: vars.$four-color;
   }
 }
+
 .stepGroup {
   height: 2rem;
   padding: 2rem 8rem;
   @include mixins.flex_box_custom(center, center, 24px);
+
   .line {
     width: 150px;
     height: 1px;
@@ -23,6 +26,7 @@
 
   .step {
     @include mixins.flex_box_custom(space-around, center, 10px);
+
     .number {
       width: 20px;
       height: 20px;
@@ -31,18 +35,33 @@
       background-color: vars.$primary-color;
       text-align: center;
       color: vars.$white-color;
+      font-weight: bold;
     }
-    .isDisableNumber {
-      color: vars.$secondary-color !important;
-      border: 1px solid #e1e1e1;
-      background-color: unset;
-    }
+
     .text {
       text-transform: uppercase;
       font-size: 1.25rem;
     }
-    .isDisableText {
-      color: vars.$secondary-color;
+
+    &.active {
+      .number {
+        color: vars.$white-color;
+      }
+
+      .text {
+      }
+    }
+
+    &.disabled {
+      .number {
+        background-color: transparent;
+        border: 1px solid #e1e1e1;
+        color: vars.$secondary-color;
+      }
+
+      .text {
+        color: vars.$secondary-color;
+      }
     }
   }
 }
