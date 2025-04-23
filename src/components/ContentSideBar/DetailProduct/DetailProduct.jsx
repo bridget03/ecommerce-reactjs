@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import SelectBox from '@pages/OurShop/components/SelectBox';
+import SelectBox from '@pages/User/OurShop/components/SelectBox';
 import { SideBarContext } from '@contexts/SideBarProvider';
 import { ToastContext } from '@/contexts/ToastProvider';
 

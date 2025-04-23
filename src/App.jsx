@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import routers from '@/routers/router';
+import AppRoutes from '@/routers/router';
 import SideBar from '@components/SideBar/SideBar';
 import { Suspense } from 'react';
 import { SideBarProvider } from '@/contexts/SideBarProvider';
@@ -16,15 +16,9 @@ function App() {
             <SideBar />
             <Suspense fallback={<div>Loading...</div>}>
               <Routes>
-                {routers.map((item, index) => {
-                  return (
-                    <Route
-                      key={index}
-                      path={item.path}
-                      element={<item.component />}
-                    />
-                  );
-                })}
+                {AppRoutes.map(({ path, component: Component }) => (
+                  <Route key={path} path={path} element={<Component />} />
+                ))}
               </Routes>
             </Suspense>
           </BrowserRouter>
