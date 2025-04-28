@@ -2,42 +2,13 @@ import styles from './styles.module.scss';
 import Button from '@components/Button/Button.jsx';
 import { useNavigate } from 'react-router-dom';
 
-import i18n from 'i18next';
-import { useTranslation, initReactI18next } from 'react-i18next';
-
-const languages = {
-  en: { nativeName: 'English' },
-  vi: { nativeName: 'Tiếng Việt' },
-};
-
-i18n.use(initReactI18next).init({
-  resources: {
-    en: {
-      translation: {
-        slogan:
-          'Your wardrobe should be as unique as you are—discover trendy, elegant, and timeless pieces made just for you.',
-      },
-    },
-    vi: {
-      translation: {
-        slogan:
-          'Tủ đồ của bạn nên độc đáo như chính con người bạn — khám phá những thiết kế thời thượng, thanh lịch và vượt thời gian, dành riêng cho bạn.',
-      },
-    },
-  },
-  lng: 'en',
-  fallbackLng: 'en',
-
-  interpolation: {
-    escapeValue: false,
-  },
-});
+import { useTranslation } from 'react-i18next';
 
 function Banner() {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   const { container, content, title, slogan } = styles;
-  const { t } = useTranslation();
 
   const handleDirect = () => {};
   return (
@@ -46,7 +17,7 @@ function Banner() {
         <h1 className={title}>Sato Store Demo</h1>
         <div className={slogan}>{t('slogan')}</div>
         <div>
-          {Object.keys(languages).map((lng) => (
+          {/* {Object.keys(languages).map((lng) => (
             <button
               key={lng}
               type='submit'
@@ -56,7 +27,9 @@ function Banner() {
             >
               {languages[lng].nativeName}
             </button>
-          ))}
+          ))} */}
+          <button onClick={() => i18n.changeLanguage('vi')}>VI</button>
+          <button onClick={() => i18n.changeLanguage('en')}>EN</button>
         </div>
         <div onClick={() => navigate('/shop')}>
           <Button content={'Go to shop'} />

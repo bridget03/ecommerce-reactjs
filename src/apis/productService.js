@@ -6,6 +6,7 @@ const getProduct = async (query) => {
   const res = await axiosClient.get(
     `/product?sortType=${sortType}&page=${page}&${queryLimit}`
   );
+  // const res = await axiosClient.get(`/product`);
   return res.data;
 };
 

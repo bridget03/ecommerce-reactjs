@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './styles.module.scss';
+import { useState, useContext, useEffect } from 'react';
 
 import visa from '@icons/paymentMethods/visa.jpeg';
 import mastercard from '@icons/paymentMethods/master-card.jpeg';
@@ -9,19 +10,24 @@ import maestro from '@icons/paymentMethods/maestro.jpeg';
 import bitcoin from '@icons/paymentMethods/bitcoin.jpeg';
 import Button from '@components/Button/Button';
 import SelectBox from '@pages/User/OurShop/components/SelectBox';
+import Modal from '@components/Modal/Modal.jsx';
 
-import { useState, useContext, useEffect } from 'react';
 import { SideBarContext } from '@contexts/SideBarProvider';
 
 import { deleteItem } from '@/apis/cartService';
+import { useNavigate } from 'react-router-dom';
 
 const OrderSummary = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pendingItem, setPendingItem] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState('cash');
+  const navigate = useNavigate();
+
   const { listProductCart, handleGetListProductCart } =
     useContext(SideBarContext);
   const total = listProductCart.reduce((acc, item) => {
     return acc + item.total;
   }, 0);
-  const [paymentMethod, setPaymentMethod] = useState('cash');
 
   const paymentMethods = [
     { src: visa, alt: 'Visa' },
@@ -53,15 +59,34 @@ const OrderSummary = () => {
     };
     getData(data);
   };
-  const handleRemove = (productId, userId) => {
-    deleteItem({ productId, userId })
-      .then((res) => {
-        handleGetListProductCart(userId, 'cart');
+
+  const handleClickRemove = (productId, userId) => {
+    setPendingItem({ productId, userId });
+    setIsModalOpen(true); // mở modal xác nhận
+  };
+  const handleConfirmRemove = (productId, userId) => {
+    if (!pendingItem) return;
+
+    deleteItem(pendingItem)
+      .then(() => {
+        handleGetListProductCart(pendingItem.userId, 'cart');
+        setIsModalOpen(false);
+        setPendingItem(null);
+        navigate('/shop'); // nếu muốn chuyển hướng sau khi xóa
       })
       .catch((err) => {
         console.log(err);
       });
   };
+  const handleBackToShop = () => {
+    navigate('/cart');
+  };
+  const handlePlaceOrder = () => {
+    // Xử lý logic đặt hàng ở đây
+    console.log('Đặt hàng thành công!');
+    navigate('/shop');
+  };
+
   return (
     <div className={styles.summary}>
       <h3 className={styles.title}>Your Order</h3>
@@ -93,10 +118,27 @@ const OrderSummary = () => {
               </p>
               <button
                 className={styles.remove}
-                onClick={() => handleRemove(item.productId, item.userId)}
+                onClick={() => handleClickRemove(item.productId, item.userId)}
               >
                 remove
               </button>
+              <Modal
+                isOpen={isModalOpen}
+                onClose={() => {
+                  setIsModalOpen(false);
+                  setPendingItem(null);
+                }}
+                onConfirm={() => {
+                  handleConfirmRemove(
+                    pendingItem.productId,
+                    pendingItem.userId
+                  );
+                  setPendingItem(null);
+                }}
+                title='Remove Item'
+              >
+                <p>Are you sure you want to remove?</p>
+              </Modal>
             </div>
           </div>
 
@@ -147,10 +189,15 @@ const OrderSummary = () => {
           </div>
 
           <div className={styles.buttonContainer}>
-            <Button
-              className={styles.orderButton}
-              content={'PLACE ORDER'}
-            ></Button>
+            <div onClick={handlePlaceOrder}>
+              <Button
+                className={styles.orderButton}
+                content={'PLACE ORDER'}
+              ></Button>
+            </div>
+            <div onClick={handleBackToShop}>
+              <Button content={'Back To Cart'} isPrimary={false} />
+            </div>
           </div>
 
           <div className={styles.safeCheckoutContainer}>

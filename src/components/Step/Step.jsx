@@ -46,7 +46,9 @@ function Step({ activeStep, setActiveStep }) {
           <FaFire />
         </span>
         Hurry up, these products are limited, checkout within{' '}
-        <span style={{ fontWeight: '500' }}>{formattedTime}</span>
+        <span style={{ fontWeight: '500', marginLeft: '10px' }}>
+          {formattedTime}
+        </span>
       </p>
     </div>
   );

@@ -61,7 +61,7 @@ function Menu({ content }) {
     >
       {handleRenderText()}
       {isShowDropdown && (
-        <div className={dropdownMenu} onClick={() => handleLogOut()}>
+        <div className={styles.dropdownMenu} onClick={() => handleLogOut()}>
           <p>Log Out</p>
         </div>
       )}

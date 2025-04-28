@@ -10,6 +10,7 @@
     margin-bottom: 2rem;
     font-size: 1rem;
     color: vars.$four-color;
+    display: flex;
   }
 }
 
@@ -30,12 +31,13 @@
     .number {
       width: 20px;
       height: 20px;
-      padding: 0.5rem;
+      padding: 1.2rem;
       border-radius: 100%;
       background-color: vars.$primary-color;
-      text-align: center;
       color: vars.$white-color;
       font-weight: bold;
+      text-align: center;
+      @include mixins.flex_box_custom(center, center, 0px);
     }
 
     .text {
@@ -46,9 +48,6 @@
     &.active {
       .number {
         color: vars.$white-color;
-      }
-
-      .text {
       }
     }
 

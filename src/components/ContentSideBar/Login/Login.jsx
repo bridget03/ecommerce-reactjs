@@ -25,15 +25,17 @@ function Login() {
 
   const formik = useFormik({
     initialValues: {
+      username: '',
       email: '',
       password: '',
     },
     validationSchema: Yup.object({
+      username: Yup.string(),
       email: Yup.string()
         .email('Invalid email address')
         .required('Email is required'),
       password: Yup.string()
-        .min(8, 'Password must be at least 8 characters')
+        .min(6, 'Password must be at least 6 characters')
         .required('Password is required'),
       cfPassword: Yup.string().oneOf(
         [Yup.ref('password'), null],
@@ -43,7 +45,7 @@ function Login() {
     onSubmit: async (values) => {
       if (isLoading) return;
 
-      const { email: username, password } = values;
+      const { username, email, password } = values;
       setIsLoading(true);
 
       if (!isRegistered) {
@@ -91,6 +93,23 @@ function Login() {
     <div>
       <h2 className={styles.title}>{isRegistered ? 'Sign In' : 'Sign Up'}</h2>
       <form className={styles.form} onSubmit={formik.handleSubmit}>
+        {/* <div className={styles.boxInput}>
+          <label>
+            User name <span>*</span>
+          </label>
+          <input
+            id='username'
+            type='text'
+            placeholder='Username'
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.username}
+          />
+          {formik.errors.username && formik.touched.username && (
+            <p className={styles.error}>{formik.errors.username}</p>
+          )}
+        </div> */}
+
         <div className={styles.boxInput}>
           <label>
             Email <span>*</span>

@@ -77,7 +77,12 @@
   display: flex;
   margin-top: 2rem;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
+  gap: 10px;
+  div {
+    width: 100%;
+  }
   button {
     padding: 1rem 5rem;
     border-radius: 4px;
