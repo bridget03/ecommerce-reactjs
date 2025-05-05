@@ -69,9 +69,8 @@ const CheckOutPage = lazy(() =>
 
 // ADMIN ROUTES
 const AdminLogin = lazy(() => import('@pages/Admin/login/Login.jsx'));
-const AdminDashboard = lazy(() =>
-  import('@pages/Admin/Dashboard/Dashboard.jsx')
-);
+
+const AdminPage = lazy(() => import('@pages/Admin/AdminPage/AdminPage.jsx'));
 // const AdminUsers = lazy(() => import('@pages/Admin/Users/Users.jsx'));
 
 const AppRoutes = [
@@ -87,7 +86,7 @@ const AppRoutes = [
 
   // ADMIN ROUTES (with "/admin" prefix)
   { path: '/admin/login', component: AdminLogin },
-  { path: '/admin/dashboard', component: AdminDashboard },
+  { path: '/admin/admin-page', component: AdminPage },
   // { path: '/admin/users', component: AdminUsers },
 ];
 

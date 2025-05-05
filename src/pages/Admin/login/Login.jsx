@@ -8,12 +8,40 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
-  const handleLogin = () => {
-    navigate('/admin/dashboard');
-  };
+
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError('');
+    try {
+      const response = await fetch('http://localhost:4545/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      console.log('API response:', data);
+      if (data.success && data.user && data.user.role === 'admin') {
+        localStorage.setItem('adminToken', data.token); // Lưu token mới vào localStorage
+        window.location.href = '/admin/admin-page'; // Dùng window.location.href để reload trang, đảm bảo lấy token mới nhất
+      } else if (data.success === false) {
+        setError(data.message || 'Đăng nhập thất bại!');
+        console.log('Lỗi đăng nhập:', data.message);
+      } else {
+        setError('Bạn không có quyền truy cập trang này!');
+        console.log('Không phải admin hoặc thiếu trường user:', data);
+      }
+    } catch (err) {
+      console.log('Fetch error:', err);
+      setError('Đăng nhập thất bại!');
+    }
   };
 
   return (
@@ -29,17 +57,19 @@ const Login = () => {
           <p className='mb-6 text-[#2D405A] md:text-[16px] text-[13px] text-center'>
             Welcome back! Please enter your details
           </p>
-          <form className='space-y-4'>
+          <form className='space-y-4' onSubmit={handleLogin}>
             <div>
               <label
-                htmlFor='username'
+                htmlFor='email'
                 className='block text-sm font-medium text-[#2D405A]'
               >
-                Username
+                Email
               </label>
               <input
-                type='text'
-                id='username'
+                type='email'
+                id='email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2'
                 required
               />
@@ -55,6 +85,8 @@ const Login = () => {
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id='password'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 pr-10'
                   required
                 />
@@ -70,16 +102,13 @@ const Login = () => {
                 </div>
               </div>
             </div>
-            <div
-              className='w-full item-center flex justify-center mt-4'
-              onClick={handleLogin}
-            >
-              <Button content={'Login'} />
+            {error && <div className='text-red-500 text-center'>{error}</div>}
+            <div className='w-full item-center flex justify-center mt-4'>
+              <Button content={'Login'} type='submit' />
             </div>
           </form>
         </div>
       </div>
-
       <div className='hidden md:block w-full md:w-1/2 h-screen'>
         <img src={bgImg} alt='Doctor' className='w-full h-full object-cover ' />
       </div>

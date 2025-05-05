@@ -55,7 +55,6 @@ import { addProductToCart } from '@apis/cartService';
 function DetailProduct() {
   const navigate = useNavigate();
   const param = useParams();
-  console.log(param);
   const [data, setData] = useState();
   const [relatedData, setRelatedData] = useState();
   const { setIsOpen, setType, handleGetListProductCart, setDetailsProduct } =
@@ -186,8 +185,7 @@ function DetailProduct() {
       fetchRelatedProduct(param.id);
     }
   }, [param]);
-  console.log('Related: ' + relatedData);
-  console.log('Detail data:' + data);
+  console.log('Detaillll:', data);
   return (
     <div className={styles.container}>
       <Header />
@@ -328,11 +326,10 @@ function DetailProduct() {
                 <div className={styles.textInfo}>
                   Brand: <span className={styles.blurTextInfo}>Brand 01</span>
                 </div>
+
                 <div className={styles.textInfo}>
-                  SKU: <span className={styles.blurTextInfo}>123456</span>
-                </div>
-                <div className={styles.textInfo}>
-                  Category: <span className={styles.blurTextInfo}>Men</span>
+                  Category:{' '}
+                  <span className={styles.blurTextInfo}>{data?.type}</span>
                 </div>
               </div>
               <div className={styles.accordionContainer}>

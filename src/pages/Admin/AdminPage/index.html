@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="logo">
+          <h2>Admin Panel</h2>
+        </div>
+        <nav>
+          <ul>
+            <li class="active" data-page="dashboard">
+              <i class="fas fa-home"></i>
+              <span>Dashboard</span>
+            </li>
+            <li data-page="products">
+              <i class="fas fa-box"></i>
+              <span>Products</span>
+            </li>
+            <li data-page="add-product">
+              <i class="fas fa-plus"></i>
+              <span>Add Product</span>
+            </li>
+            <li id="logout">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Logout</span>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Header -->
+        <header>
+          <div class="header-title">
+            <h1>Dashboard</h1>
+          </div>
+          <div class="user-info">
+            <span id="username">Admin</span>
+          </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="content">
+          <!-- Dashboard Page -->
+          <div id="dashboard-page" class="page active">
+            <div class="stats">
+              <div class="stat-card">
+                <h3>Total Products</h3>
+                <p id="total-products">0</p>
+              </div>
+              <div class="stat-card">
+                <h3>Active Products</h3>
+                <p id="active-products">0</p>
+              </div>
+              <div class="stat-card">
+                <h3>Deleted Products</h3>
+                <p id="deleted-products">0</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Products Page -->
+          <div id="products-page" class="page">
+            <div class="products-header">
+              <h2>Products List</h2>
+              <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="active">Active</button>
+                <button class="filter-btn" data-filter="deleted">
+                  Deleted
+                </button>
+              </div>
+            </div>
+            <div class="products-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="products-list">
+                  <!-- Products will be loaded here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Add Product Page -->
+          <div id="add-product-page" class="page">
+            <h2>Add New Product</h2>
+            <form id="add-product-form">
+              <div class="form-group">
+                <label for="name">Product Name</label>
+                <input type="text" id="name" name="name" required />
+              </div>
+              <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" id="price" name="price" required />
+              </div>
+              <div class="form-group">
+                <label for="description">Description</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  required
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="type">Type</label>
+                <input type="text" id="type" name="type" required />
+              </div>
+              <div class="form-group">
+                <label for="material">Material</label>
+                <input type="text" id="material" name="material" required />
+              </div>
+              <div class="form-group">
+                <label>Sizes</label>
+                <div class="sizes-container">
+                  <div class="size-input">
+                    <input
+                      type="text"
+                      name="size-name"
+                      placeholder="Size (e.g. S)"
+                      required
+                    />
+                    <input
+                      type="number"
+                      name="size-amount"
+                      placeholder="Amount"
+                      required
+                    />
+                  </div>
+                  <button type="button" id="add-size">Add Size</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="images">Images (URLs)</label>
+                <div class="images-container">
+                  <input
+                    type="url"
+                    name="image"
+                    placeholder="Image URL"
+                    required
+                  />
+                  <button type="button" id="add-image">Add Image</button>
+                </div>
+              </div>
+              <button type="submit" class="submit-btn">Add Product</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+      <div class="modal-content">
+        <h2>Admin Login</h2>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required />
+          </div>
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+    <!-- Edit Product Modal -->
+    <div id="edit-modal" class="modal">
+      <div class="modal-content">
+        <h2>Edit Product</h2>
+        <form id="edit-product-form">
+          <input type="hidden" id="edit-product-id" />
+          <div class="form-group">
+            <label for="edit-name">Product Name</label>
+            <input type="text" id="edit-name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="edit-price">Price</label>
+            <input type="number" id="edit-price" name="price" required />
+          </div>
+          <div class="form-group">
+            <label for="edit-description">Description</label>
+            <textarea
+              id="edit-description"
+              name="description"
+              required
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="edit-type">Type</label>
+            <input type="text" id="edit-type" name="type" required />
+          </div>
+          <div class="form-group">
+            <label for="edit-material">Material</label>
+            <input type="text" id="edit-material" name="material" required />
+          </div>
+          <div class="form-group">
+            <label>Sizes</label>
+            <div class="sizes-container" id="edit-sizes-container">
+              <!-- Sizes will be loaded here -->
+            </div>
+            <button type="button" id="edit-add-size">Add Size</button>
+          </div>
+          <div class="form-group">
+            <label>Images</label>
+            <div class="images-container" id="edit-images-container">
+              <!-- Images will be loaded here -->
+            </div>
+            <button type="button" id="edit-add-image">Add Image</button>
+          </div>
+          <div class="modal-buttons">
+            <button type="submit" class="submit-btn">Save Changes</button>
+            <button type="button" class="cancel-btn" onclick="closeEditModal()">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

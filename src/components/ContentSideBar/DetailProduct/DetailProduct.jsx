@@ -35,6 +35,8 @@ function DetailProduct() {
     setIsLoading,
     setIsOpen,
   } = useContext(SideBarContext);
+  console.log('???', detailsProduct);
+
   const [sizeSelected, setSizeSelected] = useState('');
   const [quantitySelected, setQuantitySelected] = useState('1');
 
@@ -186,9 +188,7 @@ function DetailProduct() {
         <p>
           SKU: <span>12345</span>
         </p>
-        <p>
-          Category: <span>Men</span>
-        </p>
+        <p>{/* Category: <span>{detailProduct.}</span> */}</p>
         <p>
           Estimated delivery: <span>5 - 7 days</span>
         </p>

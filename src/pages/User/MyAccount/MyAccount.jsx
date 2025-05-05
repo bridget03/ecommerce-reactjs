@@ -20,12 +20,13 @@ import { useNavigate } from 'react-router-dom';
 
 function MyAccount() {
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowCfPassword, setIsShowCfPassword] = useState(false);
   const [isRegistered, setIsRegistered] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useContext(ToastContext);
   const { setIsOpen, handleGetListProductCart } = useContext(SideBarContext);
-  const { setUserId } = useContext(StoreContext);
+  const { setId } = useContext(StoreContext);
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -38,41 +39,42 @@ function MyAccount() {
         .email('Invalid email address')
         .required('Email is required'),
       password: Yup.string()
-        .min(8, 'Password must be at least 8 characters')
+        .min(6, 'Password must be at least 6 characters')
         .required('Password is required'),
       cfPassword: Yup.string().oneOf(
         [Yup.ref('password'), null],
-        'Passwords must match'
+        'Password must match'
       ),
     }),
     onSubmit: async (values) => {
       if (isLoading) return;
 
-      const { email: username, password } = values;
+      const { email, password } = values;
       setIsLoading(true);
 
       if (!isRegistered) {
-        await register({ username, password })
+        await register({ email, password, cfPassword })
           .then((res) => {
-            toast.success(res.data.message);
+            toast.success('Register successful');
             window.location.href('/');
             setIsLoading(false);
+            window.reload();
           })
           .catch((err) => {
-            toast.error(err.response.data.message);
+            toast.error('Register Failed');
             setIsLoading(false);
           });
       }
 
       if (isRegistered) {
-        await signIn({ username, password })
+        await signIn({ email, password })
           .then((res) => {
             setIsLoading(false);
             const { id, token, refreshToken } = res.data;
-            setUserId(id);
+            setId(id);
             Cookies.set('token', token);
             Cookies.set('refreshToken', refreshToken);
-            Cookies.set('userId', id);
+            Cookies.set('id', id);
             alert('Login successful');
             navigate('/');
             toast.success('Login successful');
@@ -81,7 +83,7 @@ function MyAccount() {
           })
           .catch((err) => {
             setIsLoading(false);
-            toast.error('Login false');
+            toast.error('Login fail');
           });
       }
     },
@@ -89,6 +91,9 @@ function MyAccount() {
 
   const handleShowPassword = () => {
     setIsShowPassword(!isShowPassword);
+  };
+  const handleShowCfPassword = () => {
+    setIsShowCfPassword(!isShowCfPassword);
   };
   const handleToggle = () => {
     setIsRegistered(!isRegistered);
@@ -146,7 +151,7 @@ function MyAccount() {
             <input
               id='cfPassword'
               name='cfPassword'
-              type={isShowPassword ? 'text' : 'password'}
+              type={isShowCfPassword ? 'text' : 'password'}
               placeholder='Confirm Password'
               className={styles.password}
               onBlur={formik.handleBlur}
@@ -154,8 +159,8 @@ function MyAccount() {
               value={formik.values.cfPassword}
               isRequired
             />
-            <div className={styles.btnIcon} onClick={handleShowPassword}>
-              {isShowPassword ? <FiEyeOff /> : <FiEye />}
+            <div className={styles.btnIcon} onClick={handleShowCfPassword}>
+              {isShowCfPassword ? <FiEyeOff /> : <FiEye />}
             </div>
             {formik.errors.cfPassword && formik.touched.cfPassword && (
               <p className={styles.error}>{formik.errors.cfPassword}</p>

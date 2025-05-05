@@ -6,8 +6,6 @@ export const OurShopContext = createContext();
 export const OurShopProvider = ({ children }) => {
   const sortOptions = [
     { label: 'Default sorting', value: '0' },
-    { label: 'Sort by popularity', value: '1' },
-    { label: 'Sort by average rating', value: '2' },
     { label: 'Sort by latest', value: '3' },
     { label: 'Sort by price: low to high', value: '4' },
     { label: 'Sort by price: high to low', value: '5' },
@@ -34,7 +32,7 @@ export const OurShopProvider = ({ children }) => {
     setIsLoadMore(true);
     getProduct(query)
       .then((res) => {
-        setProduct((prevProducts) => [...prevProducts, ...res.contents]);
+        setProduct((prevProducts) => [...prevProducts, ...res.data]);
         setPage(+res.page);
         setTotal(res.total);
         setIsLoadMore(false);
@@ -66,8 +64,9 @@ export const OurShopProvider = ({ children }) => {
     setIsLoading(true);
     getProduct(query)
       .then((res) => {
-        setProduct(res.contents);
-        setTotal(res.total);
+        console.log('??', res);
+        setProduct(res.data);
+        setTotal(res.pagination.totalItems);
         setIsLoading(false);
       })
       .catch((err) => {

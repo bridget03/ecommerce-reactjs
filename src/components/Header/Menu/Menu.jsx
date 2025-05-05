@@ -13,8 +13,8 @@ function Menu({ content }) {
   const navigate = useNavigate();
 
   const handleRenderText = () => {
-    if (content === 'Sign in' && userInfo) {
-      return `Hi ${userInfo.username.split('@')[0]}`;
+    if (content === 'Sign in' && userInfo?.data.user.email) {
+      return `Hi ${userInfo.data.user.email.split('@')[0]}`;
     }
     return content;
   };

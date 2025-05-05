@@ -16,21 +16,20 @@ import Cookies from 'js-cookie';
 
 function Login() {
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowCfPassword, setIsShowCfPassword] = useState(false);
   const [isRegistered, setIsRegistered] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useContext(ToastContext);
   const { setIsOpen, handleGetListProductCart } = useContext(SideBarContext);
-  const { setUserId } = useContext(StoreContext);
+  const { setUserId, setUserInfo } = useContext(StoreContext);
 
   const formik = useFormik({
     initialValues: {
-      username: '',
       email: '',
       password: '',
     },
     validationSchema: Yup.object({
-      username: Yup.string(),
       email: Yup.string()
         .email('Invalid email address')
         .required('Email is required'),
@@ -45,37 +44,42 @@ function Login() {
     onSubmit: async (values) => {
       if (isLoading) return;
 
-      const { username, email, password } = values;
+      const { email, password } = values;
       setIsLoading(true);
 
       if (!isRegistered) {
-        await register({ username, password })
+        await register({ email, password })
           .then((res) => {
-            toast.success(res.data.message);
+            toast.success('Register successful');
+            window.reload();
+            setIsRegistered(true);
+            setIsOpen(false);
             setIsLoading(false);
+            setIsOpen(true);
           })
           .catch((err) => {
-            toast.error(err.response.data.message);
+            toast.error('Register fail');
             setIsLoading(false);
           });
       }
 
       if (isRegistered) {
-        await signIn({ username, password })
+        await signIn({ email, password })
           .then((res) => {
             setIsLoading(false);
-            const { id, token, refreshToken } = res.data;
-            setUserId(id);
+            const { token, refreshToken, user } = res.data;
+            setUserId(user.id); // Sửa setId thành setUserId
+            setUserInfo(user);
             Cookies.set('token', token);
             Cookies.set('refreshToken', refreshToken);
-            Cookies.set('userId', id);
+            Cookies.set('userId', user.id); // Sửa id thành userId
             toast.success('Login successful');
             setIsOpen(false);
-            handleGetListProductCart(id, 'cart');
+            handleGetListProductCart(user.id, 'cart');
           })
           .catch((err) => {
             setIsLoading(false);
-            toast.error('Login false');
+            toast.error(err.response?.data?.message || 'Login failed');
           });
       }
     },
@@ -83,6 +87,9 @@ function Login() {
 
   const handleShowPassword = () => {
     setIsShowPassword(!isShowPassword);
+  };
+  const handleShowCfPassword = () => {
+    setIsShowCfPassword(!isShowCfPassword);
   };
   const handleToggle = () => {
     setIsRegistered(!isRegistered);
@@ -93,23 +100,6 @@ function Login() {
     <div>
       <h2 className={styles.title}>{isRegistered ? 'Sign In' : 'Sign Up'}</h2>
       <form className={styles.form} onSubmit={formik.handleSubmit}>
-        {/* <div className={styles.boxInput}>
-          <label>
-            User name <span>*</span>
-          </label>
-          <input
-            id='username'
-            type='text'
-            placeholder='Username'
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.username}
-          />
-          {formik.errors.username && formik.touched.username && (
-            <p className={styles.error}>{formik.errors.username}</p>
-          )}
-        </div> */}
-
         <div className={styles.boxInput}>
           <label>
             Email <span>*</span>
@@ -155,7 +145,7 @@ function Login() {
             <input
               id='cfPassword'
               name='cfPassword'
-              type={isShowPassword ? 'text' : 'password'}
+              type={isShowCfPassword ? 'text' : 'password'}
               placeholder='Confirm Password'
               className={styles.password}
               onBlur={formik.handleBlur}
@@ -163,8 +153,8 @@ function Login() {
               value={formik.values.cfPassword}
               isRequired
             />
-            <div className={styles.btnIcon} onClick={handleShowPassword}>
-              {isShowPassword ? <FiEyeOff /> : <FiEye />}
+            <div className={styles.btnIcon} onClick={handleShowCfPassword}>
+              {isShowCfPassword ? <FiEyeOff /> : <FiEye />}
             </div>
             {formik.errors.cfPassword && formik.touched.cfPassword && (
               <p className={styles.error}>{formik.errors.cfPassword}</p>

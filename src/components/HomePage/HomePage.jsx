@@ -18,7 +18,7 @@ function HomePage() {
     };
 
     getProduct(query).then((res) => {
-      setListProducts(res.contents);
+      setListProducts(res.data);
     });
   }, []);
 
