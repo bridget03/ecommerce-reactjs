@@ -17,7 +17,7 @@ import { SideBarContext } from '@contexts/SideBarProvider';
 import { deleteItem } from '@/apis/cartService';
 import { useNavigate } from 'react-router-dom';
 
-const OrderSummary = () => {
+const OrderSummary = ({ billingDetails, setIsFilled }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pendingItem, setPendingItem] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState('cash');
@@ -26,7 +26,7 @@ const OrderSummary = () => {
   const { listProductCart, handleGetListProductCart } =
     useContext(SideBarContext);
   const total = listProductCart.reduce((acc, item) => {
-    return acc + item.total;
+    return acc + item.price * item.quantity;
   }, 0);
 
   const paymentMethods = [
@@ -81,24 +81,44 @@ const OrderSummary = () => {
   const handleBackToShop = () => {
     navigate('/cart');
   };
-  const handlePlaceOrder = () => {
-    // Xử lý logic đặt hàng ở đây
-    console.log('Đặt hàng thành công!');
-    navigate('/shop');
+  const handleContinue = () => {
+    const requiredFields = [
+      'firstName',
+      'lastName',
+      'country',
+      'street',
+      'city',
+      'phone',
+    ];
+
+    const emptyFields = requiredFields.filter(
+      (field) => !billingDetails[field]?.trim()
+    );
+
+    // if (emptyFields.length > 0) {
+    //   alert('Please fill in all required fields before proceeding to payment.');
+    //   return;
+    // }
+
+    setIsFilled(true);
+
+    // if (paymentMethod === 'cash') {
+    //   navigate('/billing'); // Điều hướng đến trang billing nếu chọn cash
+    // } else if (paymentMethod === 'check') {
+    //   navigate('/payment'); // Điều hướng đến trang thanh toán online nếu chọn check
+    // } else {
+    //   alert('Please select a payment method.');
+    // }
   };
 
   return (
-    <div className={styles.summary}>
-      <h3 className={styles.title}>Your Order</h3>
+    <div className='bg-white shadow-xl rounded-xl p-8'>
+      <h3 className='text-2xl font-semibold mb-6 text-gray-800'>Your Order</h3>
 
       {listProductCart.map((item) => (
         <div key={item.userId}>
           <div className={styles.product}>
-            <img
-              src={item.images[0]}
-              alt={item.name}
-              className={styles.image}
-            />
+            <img src={item.image} alt={item.name} className={styles.image} />
             <div className={styles.details}>
               <p className={styles.name}>{item.name}</p>
 
@@ -141,85 +161,84 @@ const OrderSummary = () => {
               </Modal>
             </div>
           </div>
-
-          <div className={styles.priceGroup}>
-            <div className={styles.line}>
-              <span>Subtotal</span>
-              <span>${total}</span>
-            </div>
-            <div className={`${styles.line} ${styles.total}`}>
-              <span>Total</span>
-              <span>${total}</span>
-            </div>
-          </div>
-
-          <div className={styles.payments}>
-            <label>
-              <input
-                type='radio'
-                name='payment'
-                value='check'
-                checked={paymentMethod === 'check'}
-                onChange={() => setPaymentMethod('check')}
-                style={{ marginRight: '10px' }}
-              />
-              Check payments
-            </label>
-            {paymentMethod === 'check' && (
-              <p className={styles.note}>
-                Please send a check to Store Name, Store Street, Store Town,
-                Store State / County, Store Postcode.
-              </p>
-            )}
-
-            <label>
-              <input
-                type='radio'
-                name='payment'
-                value='cash'
-                checked={paymentMethod === 'cash'}
-                onChange={() => setPaymentMethod('cash')}
-                style={{ marginRight: '10px' }}
-              />
-              Cash on delivery
-            </label>
-            {paymentMethod === 'cash' && (
-              <p className={styles.note}>Pay with cash upon delivery.</p>
-            )}
-          </div>
-
-          <div className={styles.buttonContainer}>
-            <div onClick={handlePlaceOrder}>
-              <Button
-                className={styles.orderButton}
-                content={'PLACE ORDER'}
-              ></Button>
-            </div>
-            <div onClick={handleBackToShop}>
-              <Button content={'Back To Cart'} isPrimary={false} />
-            </div>
-          </div>
-
-          <div className={styles.safeCheckoutContainer}>
-            <h4>
-              GUARANTEED <span className={styles.safeText}>SAFE</span> CHECKOUT
-            </h4>
-            <div className={styles.paymentIcons}>
-              {paymentMethods.map((method, index) => (
-                <div key={index} className={styles.paymentIcon}>
-                  <span className={styles.tooltip}>
-                    Pay safely with {method.alt}
-                  </span>
-                  <img src={method.src} alt={method.alt} />
-                </div>
-              ))}
-            </div>
-            <p>
-              Your Payment is <strong>100% Secure</strong>
-            </p>
-          </div>
         </div>
       ))}
+      <div className={styles.priceGroup}>
+        <div className={styles.line}>
+          <span>Subtotal</span>
+          <span>${total}</span>
+        </div>
+        <div className={`${styles.line} ${styles.total}`}>
+          <span>Total</span>
+          <span>${total}</span>
+        </div>
+      </div>
+
+      <div className='mt-4 flex flex-col'>
+        <h4 className='font-semibold mb-2'>Select Payment Method</h4>
+        <div className=' items-center gap-4'>
+          <label className='flex items-center gap-3'>
+            <input
+              type='radio'
+              name='payment'
+              value='check'
+              checked={paymentMethod === 'check'}
+              onChange={() => setPaymentMethod('check')}
+              className='mr-2'
+            />
+            Online payment
+          </label>
+          {paymentMethod === 'check' && (
+            <p className='my-2 ml-6 text-md text-gray-500'>
+              We offer direct payment through VNPay.
+            </p>
+          )}
+          <label className='flex items-center gap-3 mt-4'>
+            <input
+              type='radio'
+              name='payment'
+              value='cash'
+              checked={paymentMethod === 'cash'}
+              onChange={() => setPaymentMethod('cash')}
+              className='mr-2'
+            />
+            Cash on delivery
+          </label>
+          {paymentMethod === 'cash' && (
+            <p className='my-2 ml-6 text-md text-gray-500'>
+              Pay with cash upon delivery.
+            </p>
+          )}
+        </div>
+      </div>
+
+      <div className={styles.buttonContainer}>
+        <div onClick={handleContinue}>
+          <Button className={styles.orderButton} content={'Continue'}></Button>
+        </div>
+        <div onClick={handleBackToShop}>
+          <Button content={'Back to Cart'} isPrimary={false} />
+        </div>
+      </div>
+
+      <div className={styles.safeCheckoutContainer}>
+        <h4>
+          GUARANTEED <span className={styles.safeText}>SAFE</span> CHECKOUT
+        </h4>
+        <div className={styles.paymentIcons}>
+          {paymentMethods.map((method, index) => (
+            <div key={index} className={styles.paymentIcon}>
+              <span className={styles.tooltip}>
+                Pay safely with {method.alt}
+              </span>
+              <img src={method.src} alt={method.alt} />
+            </div>
+          ))}
+        </div>
+        <p>
+          Your Payment is <strong>100% Secure</strong>
+        </p>
+      </div>
     </div>
   );
 };

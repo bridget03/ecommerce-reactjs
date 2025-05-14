@@ -57,8 +57,13 @@ function DetailProduct() {
   const param = useParams();
   const [data, setData] = useState();
   const [relatedData, setRelatedData] = useState();
-  const { setIsOpen, setType, handleGetListProductCart, setDetailsProduct } =
-    useContext(SideBarContext);
+  const {
+    setIsOpen,
+    setType,
+    handleGetListProductCart,
+    detailsProduct,
+    setDetailsProduct,
+  } = useContext(SideBarContext);
 
   const showOptions = [
     { label: '1', value: '1' },
@@ -88,6 +93,23 @@ function DetailProduct() {
 
   const [sizeActive, setSizeActive] = useState();
   const [quantitySelected, setQuantitySelected] = useState('1');
+  const fetchDataDetail = async (id) => {
+    try {
+      const data = await getDetailProduct(id);
+      setData(data);
+    } catch (error) {
+      setData();
+      console.log(error);
+    }
+  };
+  const fetchRelatedProduct = async (id) => {
+    try {
+      const relatedData = await getRelatedProduct(id);
+      setRelatedData(relatedData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSelectSize = (size) => {
     setSizeActive(size);
@@ -108,12 +130,13 @@ function DetailProduct() {
       toast.warning('Please choose size before adding to cart');
     } else {
       addProductToCart({
-        userId,
-        productId: data._id,
+        _id: data._id,
         quantity: quantitySelected,
         size: sizeActive,
       })
         .then((res) => {
+          console.log('add to cart', res);
+
           setIsOpen(true);
           setType('cart');
           setIsLoading(true);
@@ -138,12 +161,13 @@ function DetailProduct() {
       toast.warning('Please choose size before adding to cart');
     } else {
       addProductToCart({
-        userId,
-        productId: data._id,
+        _id: data._id,
         quantity: quantitySelected,
         size: sizeActive,
       })
         .then((res) => {
+          console.log('add to cart', res);
+
           setIsLoading(true);
           navigate('/cart');
           handleGetListProductCart(userId, 'cart');
@@ -156,23 +180,6 @@ function DetailProduct() {
     }
   };
 
-  const fetchDataDetail = async (id) => {
-    try {
-      const data = await getDetailProduct(id);
-      setData(data);
-    } catch (error) {
-      setData();
-      console.log(error);
-    }
-  };
-  const fetchRelatedProduct = async (id) => {
-    try {
-      const relatedData = await getRelatedProduct(id);
-      setRelatedData(relatedData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const handleBackToShop = () => {
     navigate('/shop');
   };
@@ -185,7 +192,6 @@ function DetailProduct() {
       fetchRelatedProduct(param.id);
     }
   }, [param]);
-  console.log('Detaillll:', data);
   return (
     <div className={styles.container}>
       <Header />

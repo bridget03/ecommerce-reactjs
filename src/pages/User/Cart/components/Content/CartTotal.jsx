@@ -21,15 +21,16 @@ function CartTotal({ productCart, isLoading }) {
     { src: bitcoin, alt: 'Bitcoin' },
   ];
   const { listProductCart } = useContext(SideBarContext);
+  console.log('Total: ', listProductCart);
   const total = listProductCart.reduce((acc, item) => {
-    return acc + item.total;
+    return acc + item.price * item.quantity;
   }, 0);
   const navigate = useNavigate();
   const handleBackToShop = () => {
     navigate('/shop');
   };
   return (
-    <div className={styles.container}>
+    <div className=''>
       <div className={styles.paymentContainer}>
         <div className={styles.totalContainer}>
           <div className={styles.title}>Cart totals</div>

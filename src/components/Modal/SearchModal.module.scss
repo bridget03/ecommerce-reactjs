@@ -1,0 +1,101 @@
+.modalOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  // bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 1000;
+  height: 100vh;
+}
+
+.modalContent {
+  background: #fff;
+  padding: 50px 200px;
+  border-radius: 8px;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-height: 80%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 28px;
+  color: #333;
+}
+
+.closeIcon {
+  font-size: 34px;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 30px;
+}
+
+.searchContainer {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.categorySelect {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  width: 300px;
+}
+
+.searchButton {
+  padding: 8px 16px;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #333;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s;
+  &:hover {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #333;
+  }
+}
+
+.popularSearches {
+  margin-top: 16px;
+  text-align: center;
+  display: flex;
+  gap: 1rem;
+}
+
+.trendingTags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.trendingTags span {
+  background: #f3f3f3;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}

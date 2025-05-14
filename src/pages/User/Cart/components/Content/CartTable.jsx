@@ -8,8 +8,10 @@ import { useContext, useEffect } from 'react';
 import { SideBarContext } from '@contexts/SideBarProvider';
 import SelectBox from '@pages/User/OurShop/components/SelectBox';
 import LoadingCart from '@pages/User/Cart/components/Loading';
+import Cookies from 'js-cookie';
 
 function CartTable({ productCart, getData, isLoading }) {
+  const userId = Cookies.get('userId');
   const [cartItems, setCartItems] = useState(productCart);
 
   const showOptions = [
@@ -39,9 +41,11 @@ function CartTable({ productCart, getData, isLoading }) {
   const {
     listProductCart,
     handleGetListProductCart,
-    userId,
+
     setListProductCart,
   } = useContext(SideBarContext);
+
+  console.log('List product cart:', listProductCart);
 
   const handleRemove = (productId, userId) => {
     deleteItem({ productId, userId })
@@ -61,7 +65,6 @@ function CartTable({ productCart, getData, isLoading }) {
             <th>Product</th>
             <th></th>
             <th>Price</th>
-            <th>SKU</th>
             <th>Quantity</th>
             <th>Subtotal</th>
           </tr>
@@ -71,7 +74,7 @@ function CartTable({ productCart, getData, isLoading }) {
             <tr key={item.id}>
               <td className={styles.flexItem}>
                 <img
-                  src={item.images[0]}
+                  src={item.image}
                   alt={item.name}
                   className={styles.productImage}
                 />
@@ -85,18 +88,17 @@ function CartTable({ productCart, getData, isLoading }) {
               <td>
                 <button
                   className={styles.removeBtn}
-                  onClick={() => handleRemove(item.productId, item.userId)}
+                  onClick={() => handleRemove(item._id, userId)}
                 >
                   🗑️
                 </button>
               </td>
               <td className={styles.blurText}>${item.price.toFixed(2)}</td>
-              <td>{item.sku}</td>
               <td>
                 <SelectBox
                   options={showOptions}
                   getValue={(e) =>
-                    getValueSelect(item.userId, item.productId, e, item.size)
+                    getValueSelect(userId, item.id, e, item.size)
                   }
                   type='show'
                   value={item.quantity}

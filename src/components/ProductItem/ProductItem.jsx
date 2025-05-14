@@ -41,7 +41,10 @@ function ProductItem({
   const handleClearSize = () => {
     setActiveSize('');
   };
-  const handleAddToCart = () => {
+
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+
     if (!userId) {
       setIsOpen(true);
       setType('login');
@@ -49,28 +52,23 @@ function ProductItem({
       return;
     }
 
-    setIsLoading(true);
     if (!activeSize) {
+      setIsLoading(true);
       toast.warning('Please choose size before adding to cart');
-    } else {
-      addProductToCart({
-        userId,
-        productId: details._id,
-        quantity: 1,
-        size: activeSize,
-      })
-        .then((res) => {
-          setIsOpen(true);
-          setIsLoading(false);
-          setType('cart');
-          handleGetListProductCart(userId, 'cart');
-          toast.success('Product added to cart successfully');
-        })
-        .catch((error) => {
-          toast.error('Failed to add product to cart');
-          setIsLoading(true);
-        });
+      setTimeout(() => setIsLoading(false), 3000);
+      return;
     }
+
+    setIsLoading(true);
+    addProductToCart({ _id: details._id, quantity: 1, size: activeSize })
+      .then(() => {
+        setIsOpen(true);
+        setType('cart');
+        handleGetListProductCart(userId, 'cart');
+        toast.success('Product added to cart successfully');
+      })
+      .catch(() => toast.error('Failed to add product to cart'));
+    setIsLoading(false);
   };
 
   const handleShowDetailsProductSideBar = (e) => {
@@ -103,7 +101,7 @@ function ProductItem({
         <img src={src} />
         <img src={prevSrc} className={showImgWhenHover} />
         <div className={showFunctionWhenHover}>
-          <div className={boxIcon}>
+          <div className={boxIcon} onClick={handleAddToCart}>
             <LuShoppingCart style={{ fontSize: '20px' }} />
           </div>
           <div className={boxIcon}>

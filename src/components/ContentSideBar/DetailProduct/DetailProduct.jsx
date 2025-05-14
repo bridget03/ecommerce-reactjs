@@ -35,7 +35,6 @@ function DetailProduct() {
     setIsLoading,
     setIsOpen,
   } = useContext(SideBarContext);
-  console.log('???', detailsProduct);
 
   const [sizeSelected, setSizeSelected] = useState('');
   const [quantitySelected, setQuantitySelected] = useState('1');
@@ -55,26 +54,30 @@ function DetailProduct() {
       setType('login');
       return;
     }
-    const data = {
-      userId,
-      productId: detailsProduct._id,
-      quantity: quantitySelected,
-      size: sizeSelected,
-      isMultiple: true,
-    };
     setIsLoading(true);
     setIsOpen(false);
-    addProductToCart(data)
-      .then((res) => {
-        setIsOpen(true);
-        setType('cart');
-        handleGetListProductCart(data.userId, 'cart');
-        toast.success('Product added to cart successfully');
+    if (!sizeSelected) {
+      toast.warning('Please choose size before adding to cart');
+    } else {
+      addProductToCart({
+        _id: detailsProduct._id,
+        quantity: quantitySelected,
+        size: sizeSelected,
       })
-      .catch((err) => {
-        console.log(error);
-        setIsLoading(false);
-      });
+        .then((res) => {
+          console.log('add to cart', res);
+
+          setIsOpen(true);
+          setIsLoading(false);
+          setType('cart');
+          handleGetListProductCart(userId, 'cart');
+          toast.success('Product added to cart successfully');
+        })
+        .catch((error) => {
+          toast.error('Failed to add product to cart');
+          setIsLoading(true);
+        });
+    }
   };
 
   const showOptions = [
@@ -185,10 +188,6 @@ function DetailProduct() {
       </div>
 
       <div className={styles.productInfo}>
-        <p>
-          SKU: <span>12345</span>
-        </p>
-        <p>{/* Category: <span>{detailProduct.}</span> */}</p>
         <p>
           Estimated delivery: <span>5 - 7 days</span>
         </p>

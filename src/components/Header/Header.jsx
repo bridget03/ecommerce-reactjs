@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import BoxIcon from './BoxIcon/BoxIcon';
+import SearchModal from '@components/Modal/SearchModal';
 
 import Menu from './Menu/Menu';
 import { dataBoxIcon, dataMenu } from './constants';
@@ -30,8 +31,13 @@ function Header() {
     mobileMenu,
   } = styles;
 
+  const navigate = useNavigate();
   const { scrollPosition } = useScrollHandling();
   const [fixedPosition, setFixedPosition] = useState(false);
+  const handleSearchClick = () => {
+    setShowSearchModal(true);
+  };
+
   const {
     isOpen,
     setIsOpen,
@@ -40,15 +46,19 @@ function Header() {
     handleGetListProductCart,
   } = useContext(SideBarContext);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showSearchModal, setShowSearchModal] = useState(false);
 
   const handleOpenSideBar = (type) => {
     setIsOpen(true);
     setType(type);
   };
-  const navigate = useNavigate();
 
   const handleBackHomePage = () => {
     navigate('/');
+  };
+
+  const handleCloseModal = () => {
+    setShowSearchModal(false);
   };
 
   useEffect(() => {
@@ -85,6 +95,14 @@ function Header() {
           <img src={Logo} alt='Logo' onClick={handleBackHomePage} />
         </div>
         <div className={containerBox}>
+          <div>
+            <p
+              className='cursor-pointer mr-4 text-[#333333]'
+              onClick={handleSearchClick}
+            >
+              Search
+            </p>
+          </div>
           <div className={containerMenu}>
             {dataMenu.slice(3, dataMenu.length).map((item) => {
               return (
@@ -96,6 +114,7 @@ function Header() {
               );
             })}
           </div>
+
           <div className={containerBoxIcon}>
             <IoIosGitCompare
               className={styles.icon}
@@ -120,6 +139,8 @@ function Header() {
           </div>
         </div>
       </div>
+      <SearchModal isOpen={showSearchModal} onClose={handleCloseModal} />
+
       {showMobileMenu && (
         <div className={mobileMenu}>
           <img

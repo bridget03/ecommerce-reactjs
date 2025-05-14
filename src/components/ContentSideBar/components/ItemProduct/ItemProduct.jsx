@@ -11,17 +11,17 @@ function ItemProduct({
   quantity,
   priceProduct,
   sizeProduct,
-  codeProduct,
   productId,
   userId,
 }) {
   const [isDelete, setIsDelete] = useState(false);
   const { handleGetListProductCart } = useContext(SideBarContext);
+  console.log('????????????', productId);
 
   const handleDeleteItem = () => {
     setIsDelete(true);
 
-    deleteItem({ productId, userId })
+    deleteItem({ productId, sizeProduct })
       .then((res) => {
         setIsDelete(false);
         handleGetListProductCart(userId, 'cart');
@@ -45,7 +45,6 @@ function ItemProduct({
             <div className={styles.price}>
               {quantity} * {priceProduct}
             </div>
-            <div className={styles.code}>SKU: {codeProduct}</div>
           </div>
         </div>
         {isDelete && (

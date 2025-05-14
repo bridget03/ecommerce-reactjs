@@ -8,8 +8,10 @@ import Button from '@components/Button/Button';
 import { SideBarContext } from '@contexts/SideBarProvider';
 import LoadingCommon from '@components/LoadingCommon/LoadingCommon';
 import { useNavigate } from 'react-router';
+import Cookies from 'js-cookie';
 
 function Cart() {
+  const userId = Cookies.get('userId');
   const navigate = useNavigate();
   const { listProductCart, isLoading, setIsOpen } = useContext(SideBarContext);
   const total = listProductCart.reduce((sum, product) => {
@@ -41,14 +43,13 @@ function Cart() {
               {listProductCart.map((product, index) => {
                 return (
                   <ItemProduct
-                    srcProduct={product.images[0]}
+                    srcProduct={product.image}
                     nameProduct={product.name}
                     quantity={product.quantity}
                     priceProduct={product.price}
                     sizeProduct={product.size}
-                    codeProduct={product.sku}
-                    productId={product.productId}
-                    userId={product.userId}
+                    productId={product._id}
+                    userId={userId}
                   />
                 );
               })}

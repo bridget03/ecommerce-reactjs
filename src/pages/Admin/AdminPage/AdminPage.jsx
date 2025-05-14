@@ -52,7 +52,7 @@ const AdminPage = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
-      console.log('API response:', data); // Thêm dòng này để debug
+      console.log('API response:', data);
       if (data.success) {
         let filtered = data.products;
         if (filter === 'active')
@@ -322,7 +322,7 @@ const AdminPage = () => {
       {/* Sidebar */}
       <div className='sidebar'>
         <div className='logo'>
-          <h2>Admin Panel</h2>
+          <h2>SATO STORE ADMIN</h2>
         </div>
         <nav>
           <ul>
@@ -359,7 +359,7 @@ const AdminPage = () => {
         {/* Header */}
         <header>
           <div className='header-title'>
-            <h1>Dashboard</h1>
+            <h1>SATO STORE</h1>
           </div>
           <div className='user-info'>
             <span id='username'>Admin</span>
@@ -497,10 +497,12 @@ const AdminPage = () => {
           {activeTab === 'add-product' && (
             <div
               id='add-product-page'
-              className='page'
+              className='page '
               style={{ display: 'block' }}
             >
-              <h2>Add New Product</h2>
+              <h2 className='text-xl mb-4' style={{ marginBottom: '35px' }}>
+                Add New Product
+              </h2>
               <form id='add-product-form' onSubmit={handleAddProduct}>
                 <div className='form-group'>
                   <label htmlFor='name'>Product Name *</label>

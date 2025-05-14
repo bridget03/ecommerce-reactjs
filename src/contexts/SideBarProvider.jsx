@@ -18,7 +18,7 @@ export const SideBarProvider = ({ children }) => {
     if (userId && type === 'cart') {
       getCart(userId)
         .then((res) => {
-          setListProductCart(res.data.data);
+          setListProductCart(res.items);
           setIsLoading(false);
         })
         .catch((error) => {

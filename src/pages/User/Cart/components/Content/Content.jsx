@@ -28,6 +28,8 @@ function Content() {
     setIsLoading(true);
     addProductToCart(data)
       .then((res) => {
+        console.log('add to cart', res);
+
         handleGetListProductCart(data.userId, 'cart');
       })
       .catch((err) => {

@@ -17,11 +17,19 @@
       bottom: 0;
       background-color: rgba(255, 255, 255, 0.5);
     }
+    @media (max-width: 768px) {
+      max-width: 100%;
+      width: 100%;
+    }
   }
   .itemContainer {
     max-width: 800px;
     margin: 2rem auto;
     font-family: Arial, sans-serif;
+    @media (max-width: 768px) {
+      max-width: 100%;
+      width: 100%;
+    }
   }
 
   .cartTable {
@@ -124,6 +132,9 @@
       right: 0;
       bottom: 0;
       background-color: rgba(255, 255, 255, 0.5);
+    }
+    @media (max-width: 768px) {
+      width: 100%;
     }
   }
 
@@ -280,5 +291,11 @@
       padding: 0 20px;
       font-size: 12px;
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .cartContainer {
+    flex-direction: column;
   }
 }
