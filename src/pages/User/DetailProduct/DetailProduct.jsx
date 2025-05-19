@@ -34,12 +34,12 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
-
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper';
 
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
@@ -208,7 +208,7 @@ function DetailProduct() {
             &gt; Men
           </div>
           <div className={styles.navigate} onClick={handleBackToPrevious}>
-            &lt; Return to previous page
+            &lt; Trở về trang trước
           </div>
         </div>
 
@@ -263,7 +263,7 @@ function DetailProduct() {
                   ))}
                 </div>
                 <p className={styles.clear} onClick={handleClearSizeActive}>
-                  Clear
+                  Xoá kích thước đã chọn
                 </p>
               </div>
               <div className={styles.buttonGroup}>
@@ -282,8 +282,11 @@ function DetailProduct() {
                   >
                     <Button
                       content={
-                        <div className={styles.btnContent}>
-                          <PiShoppingCartLight /> ADD TO CART
+                        <div className='flex items-center justify-center gap-5 text-[16px]'>
+                          <div>
+                            <PiShoppingCartLight className='text-[20px]' />
+                          </div>
+                          <p>Thêm vào giỏ hàng</p>
                         </div>
                       }
                     />
@@ -298,8 +301,8 @@ function DetailProduct() {
                 >
                   <Button
                     content={
-                      <div className={styles.btnContent}>
-                        <PiShoppingCartLight /> BUY NOW
+                      <div className='flex items-center justify-center gap-5 text-[16px]'>
+                        <PiShoppingCartLight className='text-[20px]' /> Mua ngay
                       </div>
                     }
                   />
@@ -318,23 +321,26 @@ function DetailProduct() {
                   <div className={styles.icon}>
                     <CiDeliveryTruck />
                   </div>
-                  <div className={styles.text}>Orders over $50 ship free</div>
+                  <div className={styles.text}>
+                    Miễn phí vận chuyển cho đơn hàng từ 500.000 VNĐ
+                  </div>
                 </div>
                 <div className={styles.deliveryItem}>
                   <div className={styles.icon}>
                     <IoIosReturnLeft />
                   </div>
-                  <div className={styles.text}>30 days returns</div>
+                  <div className={styles.text}>30 ngày hoàn trả</div>
                 </div>
               </div>
 
               <div className={styles.productInfo}>
                 <div className={styles.textInfo}>
-                  Brand: <span className={styles.blurTextInfo}>Brand 01</span>
+                  Nhãn hiệu:{' '}
+                  <span className={styles.blurTextInfo}>Brand 01</span>
                 </div>
 
                 <div className={styles.textInfo}>
-                  Category:{' '}
+                  Loại:{' '}
                   <span className={styles.blurTextInfo}>{data?.type}</span>
                 </div>
               </div>
@@ -346,12 +352,12 @@ function DetailProduct() {
                         <span>
                           <IoIosArrowDown />
                         </span>
-                        ADDITIONAL INFORMATION
+                        THÔNG TIN THÊM
                       </AccordionItemButton>
                     </AccordionItemHeading>
                     <AccordionItemPanel>
                       <div className={styles.additionalInfo}>
-                        <p className={styles.title}>Size</p>
+                        <p className={styles.title}>KÍCH THƯỚC</p>
                         <p className={styles.info}>
                           {data?.size.map((item) => {
                             return item.name + ' ';
@@ -359,11 +365,11 @@ function DetailProduct() {
                         </p>
                       </div>
                       <div className={styles.additionalInfo}>
-                        <p className={styles.title}>Material</p>
+                        <p className={styles.title}>CHẤT LIỆU</p>
                         <p className={styles.info}>{data?.material}</p>
                       </div>
                       <div className={styles.additionalInfo}>
-                        <p className={styles.title}>Color</p>
+                        <p className={styles.title}>MÀU SẮC</p>
                         <p className={styles.info}>Black, Blue</p>
                       </div>
                     </AccordionItemPanel>
@@ -375,7 +381,7 @@ function DetailProduct() {
                         <span>
                           <IoIosArrowDown />
                         </span>
-                        Hướng dẫn sử dụng
+                        HƯỚNG DẪN SỬ DỤNG
                       </AccordionItemButton>
                     </AccordionItemHeading>
                     <AccordionItemPanel>
@@ -409,7 +415,7 @@ function DetailProduct() {
         )}
 
         <div className={styles.relatedProductsContainer}>
-          <p className={styles.relatedProductsTitle}>YOU MIGHT ALSO LIKE</p>
+          <p className={styles.relatedProductsTitle}>SẢN PHẨM LIÊN QUAN</p>
 
           <div className={styles.swiperNavigation}>
             <div className={`${styles.swiperNavPrev} swiper-button-prev`}>

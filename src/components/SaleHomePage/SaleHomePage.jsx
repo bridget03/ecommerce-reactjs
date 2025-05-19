@@ -10,7 +10,7 @@ function SaleHomePage() {
         />
       </div>
       <div>
-        <h2 className={styles.title}>Sale Of The Year</h2>
+        <h2 className={styles.title}>Ưu đãi hàng tháng</h2>
         <p className={styles.des}>
           Libero sed faucibus facilisis fermentum. Est nibh sed massa sodales.
         </p>

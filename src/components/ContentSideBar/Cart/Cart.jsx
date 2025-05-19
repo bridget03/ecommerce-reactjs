@@ -60,22 +60,20 @@ function Cart() {
               )}
             </div>
             <div className={styles.buttonContainer}>
-              <div className={styles.subtotal}>
-                Subtotal: ${total.toFixed(2)}
-              </div>
+              <div className={styles.subtotal}>Tổng: {total.toFixed(2)}</div>
               <div onClick={handleNavigateToCart}>
-                <Button content={'VIEW CART'} />
+                <Button content={'Xem giỏ hàng'} />
               </div>
               <div onClick={handleNavigateCheckout}>
-                <Button content={'CHECK OUT'} isPrimary={false} />
+                <Button content={'Đặt hàng'} isPrimary={false} />
               </div>
             </div>
           </div>
         ) : (
           <div className={styles.emptyBox}>
-            <p>No product in your cart.</p>
+            <p>Không có sản phẩm nào trong giỏ hàng của bạn.</p>
             <div onClick={handleNavigateToShop}>
-              <Button content={'Return to shop'} isPrimary={false} />
+              <Button content={'Trở về cửa hàng'} isPrimary={false} />
             </div>
           </div>
         )}

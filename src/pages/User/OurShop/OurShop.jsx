@@ -34,7 +34,7 @@ function OurShop() {
               className={styles.backNavigate}
               onClick={handleBackPreviousPage}
             >
-              &lt; Return to previous page
+              &lt; Trở về trang trước
             </div>
           </div>
         </div>

@@ -15,10 +15,14 @@ function Banner() {
     <div className={container}>
       <div className={content}>
         <h1 className={title}>Sato Store</h1>
-        <div className={slogan}>{t('slogan')}</div>
+        <div className={slogan}>
+          Tủ đồ của bạn nên độc đáo như chính con người bạn — khám phá những
+          thiết kế thời thượng, thanh lịch và vượt thời gian, dành riêng cho
+          bạn.
+        </div>
 
         <div onClick={() => navigate('/shop')}>
-          <Button content={'Go to shop'} />
+          <Button content={'Đi tới cửa hàng'} />
         </div>
       </div>
     </div>

@@ -97,8 +97,8 @@ function Login() {
   };
 
   return (
-    <div>
-      <h2 className={styles.title}>{isRegistered ? 'Sign In' : 'Sign Up'}</h2>
+    <div className='py-6'>
+      <h2 className={styles.title}>{isRegistered ? 'ĐĂNG NHẬP' : 'ĐĂNG KÝ'}</h2>
       <form className={styles.form} onSubmit={formik.handleSubmit}>
         <div className={styles.boxInput}>
           <label>
@@ -118,7 +118,7 @@ function Login() {
         </div>
         <div className={styles.boxInput}>
           <label>
-            Password <span>*</span>
+            Mật khẩu <span>*</span>
           </label>
           <input
             id='password'
@@ -140,7 +140,7 @@ function Login() {
         {!isRegistered ? (
           <div className={styles.boxInput}>
             <label>
-              Confirm Password <span>*</span>
+              Xác nhận mật khẩu <span>*</span>
             </label>
             <input
               id='cfPassword'
@@ -184,7 +184,11 @@ function Login() {
             <Button
               type='submit'
               content={
-                isLoading ? 'Loading...' : isRegistered ? 'Login' : 'Register'
+                isLoading
+                  ? 'Loading...'
+                  : isRegistered
+                  ? 'Đăng nhập'
+                  : 'Đăng ký'
               }
             />
           </div>
@@ -193,16 +197,14 @@ function Login() {
               type='button'
               isPrimary={false}
               content={
-                isRegistered
-                  ? "Don't have an account?"
-                  : 'Already have an account?'
+                isRegistered ? 'Bạn chưa có tài khoản?' : 'Bạn đã có tài khoản?'
               }
             />
           </div>
         </div>
       </form>
 
-      <div className={styles.forgotPassword}>Lost your password?</div>
+      <div className={styles.forgotPassword}>Quên mật khẩu?</div>
     </div>
   );
 }

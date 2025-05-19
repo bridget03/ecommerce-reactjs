@@ -100,7 +100,7 @@ function Header() {
               className='cursor-pointer mr-4 text-[#333333]'
               onClick={handleSearchClick}
             >
-              Search
+              Tìm kiếm
             </p>
           </div>
           <div className={containerMenu}>

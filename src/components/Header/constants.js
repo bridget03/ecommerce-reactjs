@@ -6,10 +6,10 @@ const dataBoxIcon = [
 
 const dataMenu = [
   { content: 'Elements', href: '#' },
-  { content: 'Our Shop', href: '/shop' },
-  { content: 'About us', href: '/shop' },
-  { content: 'Contacts', href: '#' },
-  { content: 'Sign in', href: '#' },
+  { content: 'Cửa hàng', href: '/shop' },
+  { content: 'Về chúng tôi', href: '/shop' },
+  { content: 'Liên hệ', href: '#' },
+  { content: 'Đăng nhập', href: '#' },
 ];
 
 export { dataBoxIcon, dataMenu };

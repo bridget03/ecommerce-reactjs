@@ -36,22 +36,10 @@ function AdvanceHeadline() {
     <MainLayout>
       <div className={container}>
         <div className={headline}></div>
-        <div>
-          {Object.keys(languages).map((lng) => (
-            <button
-              key={lng}
-              type='submit'
-              onClick={() => {
-                i18n.changeLanguage(lng);
-              }}
-            >
-              {languages[lng].nativeName}
-            </button>
-          ))}
-        </div>
+
         <div className={containerMiddleBox}>
-          <p className={des}>Don't miss super offers</p>
-          <p className={title}>{t('featureProduct')}</p>
+          <p className={des}>Đừng bỏ lỡ những ưu đãi của chúng tôi</p>
+          <p className={title}>Sản phẩm nổi bật</p>
         </div>
         <div className={headline}></div>
       </div>

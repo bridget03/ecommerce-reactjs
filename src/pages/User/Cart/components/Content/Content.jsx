@@ -100,7 +100,9 @@ function Content() {
               fontSize: '50px',
             }}
           />
-          <div className={styles.titleEmpty}>YOUR SHOPPING CART IS EMPTY</div>
+          <div className={styles.titleEmpty}>
+            GIỎ HÀNG CỦA BẠN KHÔNG CÓ SẢN PHẨM NÀO
+          </div>
           <div>
             We invite you to get acquainted with an assortment of our shop.
             Surely you can find something for yourself!

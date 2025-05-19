@@ -13,21 +13,21 @@ function Menu({ content }) {
   const navigate = useNavigate();
 
   const handleRenderText = () => {
-    if (content === 'Sign in' && userInfo?.data.user.email) {
+    if (content === 'Đăng nhập' && userInfo?.data.user.email) {
       return `Hi ${userInfo.data.user.email.split('@')[0]}`;
     }
     return content;
   };
 
   const handleShowLogin = () => {
-    if (content === 'Sign in' && !userInfo) {
+    if (content === 'Đăng nhập' && !userInfo) {
       setIsOpen(true);
       setType('login');
     }
-    if (content === 'Our Shop') {
+    if (content === 'Cửa hàng') {
       navigate('/shop');
     }
-    if (content === 'About us') {
+    if (content === 'Về chúng tôi') {
       navigate('/about-us');
     }
     if (content === 'Contacts ') {
@@ -36,7 +36,7 @@ function Menu({ content }) {
   };
 
   const handleMouseEnter = () => {
-    if (content === 'Sign in' && userInfo) {
+    if (content === 'Đăng nhập' && userInfo) {
       setIsShowDropdown(true);
     }
   };
