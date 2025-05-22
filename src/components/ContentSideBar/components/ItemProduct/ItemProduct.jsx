@@ -21,7 +21,7 @@ function ItemProduct({
   const handleDeleteItem = () => {
     setIsDelete(true);
 
-    deleteItem({ productId, sizeProduct })
+    deleteItem({ itemId: productId, sizeProduct })
       .then((res) => {
         setIsDelete(false);
         handleGetListProductCart(userId, 'cart');

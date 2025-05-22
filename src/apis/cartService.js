@@ -31,6 +31,7 @@ const getCart = async (userId) => {
  * Xóa một sản phẩm ra khỏi giỏ hàng
  * @param {Object} data - { _id, size }
  */
+
 const deleteItem = async (data) => {
   try {
     const res = await axiosClient.delete('/cart/deleteItem', { data });
