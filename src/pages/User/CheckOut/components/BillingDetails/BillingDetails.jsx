@@ -21,7 +21,12 @@ import { useState } from 'react';
 import { useContext } from 'react';
 import { SideBarContext } from '@contexts/SideBarProvider';
 
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+
 const BillingDetails = ({ billingDetails }) => {
+  const navigate = useNavigate();
   const { listProductCart, handleGetListProductCart } =
     useContext(SideBarContext);
   const total = listProductCart.reduce((acc, item) => {
@@ -37,8 +42,44 @@ const BillingDetails = ({ billingDetails }) => {
     { src: bitcoin, alt: 'Bitcoin' },
   ];
 
-  const handleProceedPayment = () => {
-    console.log('payment');
+  const userId = Cookies.get('userId');
+
+  const handleProceedPayment = async () => {
+    try {
+      const orderPayload = {
+        userId: userId,
+        items: listProductCart.map((item) => ({
+          _id: item._id,
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+          image: item.image,
+        })),
+        totalAmount: total,
+        shippingAddress: {
+          fullName: `${billingDetails.firstName} ${billingDetails.lastName}`,
+          address: billingDetails.street,
+          city: billingDetails.city,
+          phone: billingDetails.phone,
+        },
+        paymentStatus: 'completed',
+        paymentMethod: 'cod',
+      };
+
+      const response = await axios.post(
+        'http://localhost:4545/api/orders',
+        orderPayload
+      );
+      const { order } = response.data;
+
+      if (response.status === 201) {
+        console.log('Order created:', response.data.order);
+        navigate('/order-success', { state: { order } });
+      }
+    } catch (error) {
+      console.error('Failed to create order:', error);
+      alert('Something went wrong while creating your order.');
+    }
   };
   const handleBackToCart = () => {
     console.log('payment');

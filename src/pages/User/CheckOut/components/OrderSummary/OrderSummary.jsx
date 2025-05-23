@@ -81,7 +81,7 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
   const handleBackToShop = () => {
     navigate('/cart');
   };
-  const handleContinue = () => {
+  const handleContinue = async () => {
     const requiredFields = [
       'firstName',
       'lastName',
@@ -95,20 +95,58 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
       (field) => !billingDetails[field]?.trim()
     );
 
-    // if (emptyFields.length > 0) {
-    //   alert('Please fill in all required fields before proceeding to payment.');
-    //   return;
-    // }
+    if (emptyFields.length > 0) {
+      alert('Please fill in all required fields before proceeding.');
+      return;
+    }
+
+    if (paymentMethod === 'cash') {
+      try {
+        // Build order payload
+        const userId = localStorage.getItem('userId'); // hoặc từ context
+        const orderPayload = {
+          userId,
+          items: listProductCart.map((item) => ({
+            _id: item.productId,
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+            image: item.image,
+          })),
+          totalAmount: listProductCart.reduce(
+            (acc, item) => acc + item.price * item.quantity,
+            0
+          ),
+          shippingAddress: {
+            fullName: `${billingDetails.firstName} ${billingDetails.lastName}`,
+            address:
+              billingDetails.street +
+              (billingDetails.apartment ? `, ${billingDetails.apartment}` : ''),
+            city: billingDetails.city,
+            phone: billingDetails.phone,
+          },
+          paymentMethod: 'cod',
+        };
+
+        const res = await axios.post(
+          'http://localhost:8888/api/orders',
+          orderPayload
+        );
+
+        alert('Order placed successfully!');
+        navigate('/billing'); // Hoặc trang xác nhận đơn hàng
+      } catch (error) {
+        console.error('Failed to create order:', error);
+        alert('Failed to create order');
+      }
+    } else if (paymentMethod === 'check') {
+      // Đặt flow VNPay ở đây sau
+      navigate('/payment');
+    } else {
+      alert('Please select a payment method.');
+    }
 
     setIsFilled(true);
-
-    // if (paymentMethod === 'cash') {
-    //   navigate('/billing'); // Điều hướng đến trang billing nếu chọn cash
-    // } else if (paymentMethod === 'check') {
-    //   navigate('/payment'); // Điều hướng đến trang thanh toán online nếu chọn check
-    // } else {
-    //   alert('Please select a payment method.');
-    // }
   };
 
   return (

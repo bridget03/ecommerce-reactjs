@@ -66,6 +66,9 @@ const MyAccount = lazy(() => import('@pages/User/MyAccount/MyAccount.jsx'));
 const CheckOutPage = lazy(() =>
   import('@pages/User/CheckOut/CheckOutPage.jsx')
 );
+const OrderSuccess = lazy(() =>
+  import('@pages/User/CheckOut/components/OrderSuccess/OrderSuccess.jsx')
+);
 
 // ADMIN ROUTES
 const AdminLogin = lazy(() => import('@pages/Admin/login/Login.jsx'));
@@ -83,6 +86,7 @@ const AppRoutes = [
   { path: '/about-us', component: AboutUs },
   { path: '/my-account', component: MyAccount },
   { path: '/checkout', component: CheckOutPage },
+  { path: '/order-success', component: OrderSuccess },
 
   // ADMIN ROUTES (with "/admin" prefix)
   { path: '/admin/login', component: AdminLogin },

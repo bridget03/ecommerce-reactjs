@@ -11,7 +11,7 @@
   }
 }
 .container {
-  // display: flex;
+  display: flex;
   justify-content: left;
   flex-direction: row;
   width: 100%;
@@ -19,11 +19,12 @@
   .content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: center;
   }
   .buttonGroup {
     width: 100%;
-    text-align: center;
+    text-align: left;
   }
   @media (max-width: 1024px) {
     flex-direction: column;
