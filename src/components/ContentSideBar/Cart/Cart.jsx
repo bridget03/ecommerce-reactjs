@@ -27,6 +27,7 @@ function Cart() {
     navigate('/cart');
   };
   const handleNavigateCheckout = () => {
+    console.log('Thanh toán');
     setIsOpen(false);
     navigate('/checkout');
   };

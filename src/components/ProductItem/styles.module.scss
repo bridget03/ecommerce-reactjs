@@ -1,8 +1,6 @@
 @use '../../assets/styles/mixin.module' as mixins;
 @use '../../assets/styles/variable.module' as vars;
 .itemContainer {
-  // @include mixins.flex_box_custom(space-between, center, 0px);
-  // flex-direction: column;
   width: 100%;
   height: 100%;
   .content {
@@ -11,7 +9,7 @@
   }
 }
 .container {
-  display: flex;
+  // display: flex;
   justify-content: left;
   flex-direction: row;
   width: 100%;

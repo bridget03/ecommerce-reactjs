@@ -8,13 +8,8 @@ import paypal from '@icons/paymentMethods/paypal.jpeg';
 import amex from '@icons/paymentMethods/american-express.jpeg';
 import maestro from '@icons/paymentMethods/maestro.jpeg';
 import bitcoin from '@icons/paymentMethods/bitcoin.jpeg';
-import OrderSummary from '../OrderSummary/OrderSummary';
 
-import Header from '@components/Header/Header.jsx';
-import Footer from '@components/Footer/Footer.jsx';
 import MainLayout from '@components/Layout/Layout';
-import Step from '@components/Step/Step';
-import SelectBox from '@pages/User/OurShop/components/SelectBox';
 import Button from '@components/Button/Button';
 
 import { useState } from 'react';
@@ -24,11 +19,15 @@ import { SideBarContext } from '@contexts/SideBarProvider';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { deleteAll } from '@apis/cartService';
 
 const BillingDetails = ({ billingDetails }) => {
   const navigate = useNavigate();
-  const { listProductCart, handleGetListProductCart } =
+  const [isLoading, setIsLoading] = useState(false);
+  const { listProductCart, setListProductCart, handleGetListProductCart } =
     useContext(SideBarContext);
+  const paymentMethod = localStorage.getItem('paymentMethod');
+
   const total = listProductCart.reduce((acc, item) => {
     return acc + item.price * item.quantity;
   }, 0);
@@ -44,12 +43,20 @@ const BillingDetails = ({ billingDetails }) => {
 
   const userId = Cookies.get('userId');
 
-  const handleProceedPayment = async () => {
+  const handlePayment = async () => {
+    setIsLoading(true);
     try {
+      const token = Cookies.get('token');
+      if (!token) {
+        alert('Bạn chưa đăng nhập. Vui lòng đăng nhập lại.');
+        setIsLoading(false);
+        return;
+      }
+
       const orderPayload = {
-        userId: userId,
+        userId,
         items: listProductCart.map((item) => ({
-          _id: item._id,
+          _id: item._id || item.productId,
           name: item.name,
           quantity: item.quantity,
           price: item.price,
@@ -58,29 +65,81 @@ const BillingDetails = ({ billingDetails }) => {
         totalAmount: total,
         shippingAddress: {
           fullName: `${billingDetails.firstName} ${billingDetails.lastName}`,
-          address: billingDetails.street,
+          address:
+            billingDetails.street +
+            (billingDetails.apartment ? `, ${billingDetails.apartment}` : ''),
           city: billingDetails.city,
           phone: billingDetails.phone,
         },
-        paymentStatus: 'completed',
-        paymentMethod: 'cod',
+        paymentMethod:
+          paymentMethod === 'vnpay' || paymentMethod === 'momo'
+            ? paymentMethod
+            : 'cod',
+        paymentStatus:
+          paymentMethod === 'vnpay' || paymentMethod === 'momo'
+            ? 'pending'
+            : 'completed',
       };
 
-      const response = await axios.post(
+      const orderRes = await axios.post(
         'http://localhost:4545/api/orders',
-        orderPayload
+        orderPayload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      const { order } = response.data;
+      const orderId = orderRes?.data?.order?._id;
 
-      if (response.status === 201) {
-        console.log('Order created:', response.data.order);
-        navigate('/order-success', { state: { order } });
+      if (!orderId) {
+        alert('Không thể tạo đơn hàng. Vui lòng thử lại.');
+        setIsLoading(false);
+        return;
       }
-    } catch (error) {
-      console.error('Failed to create order:', error);
-      alert('Something went wrong while creating your order.');
+
+      if (paymentMethod === 'vnpay') {
+        const res = await axios.post(
+          'http://localhost:4545/api/payment/create_payment_url',
+          { orderId },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const paymentUrl = res?.data?.data?.paymentUrl;
+        if (paymentUrl) {
+          window.location.href = paymentUrl;
+          return;
+        }
+      } else if (paymentMethod === 'momo') {
+        const momoUrl = localStorage.getItem('momoPayUrl');
+        const orderId = localStorage.getItem('orderId');
+        if (momoUrl && orderId) {
+          window.location.href = momoUrl;
+          return;
+        } else {
+          toast.error('Không tìm thấy thông tin thanh toán MoMo');
+          navigate('/cart');
+        }
+      } else {
+        // COD
+        setTimeout(() => {
+          navigate(`/order-success?orderId=${orderId}`);
+          deleteAll({ userId });
+          setListProductCart([]);
+          handleGetListProductCart(userId, 'cart');
+        }, 1000);
+      }
+    } catch (err) {
+      console.error('Lỗi thanh toán:', err);
+      alert('Thanh toán thất bại!');
+    } finally {
+      setIsLoading(false);
     }
   };
+
   const handleBackToCart = () => {
     console.log('payment');
   };
@@ -171,11 +230,12 @@ const BillingDetails = ({ billingDetails }) => {
             </div>
 
             <div className={styles.buttonContainer}>
-              <div onClick={handleProceedPayment}>
+              <div onClick={handlePayment}>
                 <Button
                   className={styles.orderButton}
-                  content={'Proceed to payment'}
-                ></Button>
+                  content={isLoading ? 'Processing...' : 'Proceed to Payment'}
+                  disabled={isLoading}
+                />
               </div>
               <div onClick={handleBackToCart}>
                 <Button content={'Back to Cart'} isPrimary={false} />

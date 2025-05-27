@@ -48,6 +48,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ProductItem from '@components/ProductItem/ProductItem';
 import { SideBarContext } from '@contexts/SideBarProvider';
+
 import Cookies from 'js-cookie';
 import { ToastContext } from '@/contexts/ToastProvider';
 import { addProductToCart } from '@apis/cartService';
@@ -166,8 +167,6 @@ function DetailProduct() {
         size: sizeActive,
       })
         .then((res) => {
-          console.log('add to cart', res);
-
           setIsLoading(true);
           navigate('/cart');
           handleGetListProductCart(userId, 'cart');
@@ -265,6 +264,9 @@ function DetailProduct() {
                 <p className={styles.clear} onClick={handleClearSizeActive}>
                   Xoá kích thước đã chọn
                 </p>
+              </div>
+              <div className='mb-8'>
+                <img src='/Size-Guild.png' alt='#' />
               </div>
               <div className={styles.buttonGroup}>
                 <div className={styles.quantityAndAddToCart}>

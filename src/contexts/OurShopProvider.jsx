@@ -64,7 +64,6 @@ export const OurShopProvider = ({ children }) => {
     setIsLoading(true);
     getProduct(query)
       .then((res) => {
-        console.log('??', res);
         setProduct(res.data);
         setTotal(res.pagination.totalItems);
         setIsLoading(false);

@@ -13,9 +13,12 @@ import SelectBox from '@pages/User/OurShop/components/SelectBox';
 import Modal from '@components/Modal/Modal.jsx';
 
 import { SideBarContext } from '@contexts/SideBarProvider';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 import { deleteItem } from '@/apis/cartService';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const OrderSummary = ({ billingDetails, setIsFilled }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -62,7 +65,7 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
 
   const handleClickRemove = (productId, userId) => {
     setPendingItem({ productId, userId });
-    setIsModalOpen(true); // mở modal xác nhận
+    setIsModalOpen(true);
   };
   const handleConfirmRemove = (productId, userId) => {
     if (!pendingItem) return;
@@ -72,7 +75,7 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
         handleGetListProductCart(pendingItem.userId, 'cart');
         setIsModalOpen(false);
         setPendingItem(null);
-        navigate('/shop'); // nếu muốn chuyển hướng sau khi xóa
+        navigate('/shop');
       })
       .catch((err) => {
         console.log(err);
@@ -103,11 +106,12 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
     if (paymentMethod === 'cash') {
       try {
         // Build order payload
-        const userId = localStorage.getItem('userId'); // hoặc từ context
+        const userId = Cookies.get('userId');
+
         const orderPayload = {
           userId,
           items: listProductCart.map((item) => ({
-            _id: item.productId,
+            _id: item._id,
             name: item.name,
             quantity: item.quantity,
             price: item.price,
@@ -129,23 +133,142 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
         };
 
         const res = await axios.post(
-          'http://localhost:8888/api/orders',
+          'http://localhost:4545/api/orders',
           orderPayload
         );
 
         alert('Order placed successfully!');
-        navigate('/billing'); // Hoặc trang xác nhận đơn hàng
+        navigate('/order-success', {
+          state: { order: res.data.order },
+        });
       } catch (error) {
         console.error('Failed to create order:', error);
-        alert('Failed to create order');
+        // alert('Failed to create order');
       }
-    } else if (paymentMethod === 'check') {
-      // Đặt flow VNPay ở đây sau
-      navigate('/payment');
-    } else {
-      alert('Please select a payment method.');
-    }
+    } else if (paymentMethod === 'vnpay') {
+      try {
+        const shippingAddress = {
+          fullName: `${billingDetails.firstName} ${billingDetails.lastName}`,
+          address:
+            billingDetails.street +
+            (billingDetails.apartment ? `, ${billingDetails.apartment}` : ''),
+          city: billingDetails.city,
+          phone: billingDetails.phone,
+        };
 
+        const token = Cookies.get('token');
+        const vnpayRes = await axios.post(
+          'http://localhost:4545/api/payment/create_payment_url',
+          { shippingAddress },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const paymentUrl = vnpayRes?.data?.data?.paymentUrl;
+
+        if (paymentUrl) {
+          const confirmRedirect = window.confirm(
+            'Đơn hàng đã tạo. Bạn có muốn chuyển đến VNPay để thanh toán?'
+          );
+          if (confirmRedirect) {
+            window.location.href = paymentUrl;
+          }
+        } else {
+          alert('Không thể tạo link thanh toán VNPay.');
+        }
+      } catch (error) {
+        console.error('VNPay payment failed:', error);
+        alert(
+          error?.response?.data?.message || 'Thanh toán bằng VNPay thất bại.'
+        );
+      }
+    } else if (paymentMethod === 'momo') {
+      try {
+        const userId = Cookies.get('userId');
+        const token = Cookies.get('token');
+        if (!token) {
+          toast.error('Vui lòng đăng nhập lại.');
+          navigate('/login');
+          return;
+        }
+
+        const orderPayload = {
+          userId,
+
+          items: listProductCart.map((item) => ({
+            _id: item._id,
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+            image: item.image,
+          })),
+          totalAmount: listProductCart.reduce(
+            (acc, item) => acc + item.price * item.quantity,
+            0
+          ),
+          shippingAddress: {
+            fullName: `${billingDetails.firstName} ${billingDetails.lastName}`,
+            address:
+              billingDetails.street +
+              (billingDetails.apartment ? `, ${billingDetails.apartment}` : ''),
+            city: billingDetails.city,
+            phone: billingDetails.phone,
+          },
+          paymentMethod: 'momo',
+          paymentStatus: 'pending',
+        };
+
+        const orderRes = await axios.post(
+          'http://localhost:4545/api/orders',
+          orderPayload,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const orderId = orderRes?.data?.order._id;
+        if (!orderId) {
+          toast.error('Không thể tạo đơn hàng. Vui lòng thử lại.');
+          return;
+        }
+
+        const momoRes = await axios.post(
+          'http://localhost:4545/api/payment/momo_payment',
+          { orderId },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (momoRes.data.resultCode !== 0) {
+          toast.error(`Lỗi MoMo: ${momoRes.data.message}`);
+          return;
+        }
+
+        if (momoRes?.data?.payUrl) {
+          const confirmRedirect = window.confirm(
+            'Đơn hàng đã tạo. Bạn có muốn chuyển đến MoMo để thanh toán?'
+          );
+          if (confirmRedirect) {
+            localStorage.setItem('orderId', orderId);
+            localStorage.setItem('momoPayUrl', momoRes.data.payUrl);
+            window.location.href = momoRes.data.payUrl;
+          }
+        } else {
+          toast.error('Không thể tạo link thanh toán MoMo');
+        }
+      } catch (error) {
+        toast.error(
+          error?.response?.data?.message || 'Thanh toán bằng MoMo thất bại'
+        );
+      }
+    }
     setIsFilled(true);
   };
 
@@ -218,17 +341,33 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
           <label className='flex items-center gap-3'>
             <input
               type='radio'
-              name='payment'
-              value='check'
-              checked={paymentMethod === 'check'}
-              onChange={() => setPaymentMethod('check')}
+              name='vnpay'
+              value='vnpay'
+              checked={paymentMethod === 'vnpay'}
+              onChange={() => setPaymentMethod('vnpay')}
               className='mr-2'
             />
-            Online payment
+            Ví VNPay
           </label>
-          {paymentMethod === 'check' && (
+          {paymentMethod === 'vnpay' && (
             <p className='my-2 ml-6 text-md text-gray-500'>
               We offer direct payment through VNPay.
+            </p>
+          )}
+          <label className='flex items-center gap-3'>
+            <input
+              type='radio'
+              name='momo'
+              value='momo'
+              checked={paymentMethod === 'momo'}
+              onChange={() => setPaymentMethod('momo')}
+              className='mr-2'
+            />
+            Ví MoMo
+          </label>
+          {paymentMethod === 'momo' && (
+            <p className='my-2 ml-6 text-md text-gray-500'>
+              We offer direct payment through MoMo.
             </p>
           )}
           <label className='flex items-center gap-3 mt-4'>
@@ -240,7 +379,7 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
               onChange={() => setPaymentMethod('cash')}
               className='mr-2'
             />
-            Cash on delivery
+            Thanh toán khi nhận hàng (COD)
           </label>
           {paymentMethod === 'cash' && (
             <p className='my-2 ml-6 text-md text-gray-500'>

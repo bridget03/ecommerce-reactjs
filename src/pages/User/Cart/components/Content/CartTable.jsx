@@ -45,8 +45,6 @@ function CartTable({ productCart, getData, isLoading }) {
     setListProductCart,
   } = useContext(SideBarContext);
 
-  console.log('List product cart:', listProductCart);
-
   const handleRemove = (productId, userId) => {
     deleteItem({ productId, userId })
       .then((res) => {

@@ -21,7 +21,6 @@ function CartTotal({ productCart, isLoading }) {
     { src: bitcoin, alt: 'Bitcoin' },
   ];
   const { listProductCart } = useContext(SideBarContext);
-  console.log('Total: ', listProductCart);
   const total = listProductCart.reduce((acc, item) => {
     return acc + item.price * item.quantity;
   }, 0);

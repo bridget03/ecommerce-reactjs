@@ -46,6 +46,7 @@ export const SideBarProvider = ({ children }) => {
         userId,
         detailsProduct,
         setDetailsProduct,
+        setListProductCart,
       }}
     >
       {children}
