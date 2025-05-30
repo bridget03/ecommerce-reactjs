@@ -60,11 +60,11 @@ function CartTable({ productCart, getData, isLoading }) {
       <table className={styles.cartTable}>
         <thead>
           <tr>
-            <th>Product</th>
+            <th>Sản phẩm</th>
             <th></th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Subtotal</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Tổng</th>
           </tr>
         </thead>
         <tbody>

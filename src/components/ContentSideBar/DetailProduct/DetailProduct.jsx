@@ -23,6 +23,7 @@ import SlideCommon from '@components/SlideCommon/SlideCommon';
 import Cookies from 'js-cookie';
 import { addProductToCart } from '@apis/cartService';
 import cls from 'classnames';
+import { useNavigate } from 'react-router-dom';
 
 function DetailProduct() {
   const { toast } = useContext(ToastContext);
@@ -38,7 +39,7 @@ function DetailProduct() {
 
   const [sizeSelected, setSizeSelected] = useState('');
   const [quantitySelected, setQuantitySelected] = useState('1');
-
+  const navigate = useNavigate();
   const handleSelectSize = (size) => {
     setSizeSelected(size);
   };
@@ -65,13 +66,41 @@ function DetailProduct() {
         size: sizeSelected,
       })
         .then((res) => {
-          console.log('add to cart', res);
-
           setIsOpen(true);
           setIsLoading(false);
           setType('cart');
           handleGetListProductCart(userId, 'cart');
           toast.success('Thêm sản phẩm vào giỏ hàng thành công');
+        })
+        .catch((error) => {
+          toast.error('Có lỗi xảy ra, vui lòng thử lại sau');
+          setIsLoading(true);
+        });
+    }
+  };
+  const handleBuyNow = () => {
+    if (!userId) {
+      setIsOpen(true);
+      setType('login');
+      toast.warning('Vui lòng đăng nhập để mua hàng');
+      return;
+    }
+    setIsLoading(true);
+    if (!sizeSelected) {
+      toast.warning('Vui lòng chọn kích thước sản phẩm');
+    } else {
+      addProductToCart({
+        _id: detailsProduct._id,
+        quantity: quantitySelected,
+        size: sizeSelected,
+      })
+        .then((res) => {
+          setIsLoading(true);
+          navigate('/cart');
+          handleGetListProductCart(userId, 'cart');
+          toast.success('Thêm sản phẩm vào giỏ hàng thành công');
+          setIsOpen(false);
+          setType('cart');
         })
         .catch((error) => {
           toast.error('Có lỗi xảy ra, vui lòng thử lại sau');
@@ -137,16 +166,16 @@ function DetailProduct() {
           <Button
             content={
               <div className={styles.btnContent} onClick={handleAddToCart}>
-                <PiShoppingCartLight /> ADD TO CART
+                <PiShoppingCartLight /> Thêm vào giỏ hàng
               </div>
             }
           />
         ) : (
           <Button
+            className='cursor-not-allowed'
             content={
               <div className={styles.btnContent}>
-                <PiShoppingCartLight />
-                <span>SELECT OPTIONS</span>
+                <PiShoppingCartLight /> Chọn size
               </div>
             }
           />
@@ -157,20 +186,22 @@ function DetailProduct() {
       </div>
       <div className={styles.buyNow}>
         {sizeSelected ? (
-          <Button
-            content={
-              <div className={styles.btnContent}>
-                <PiShoppingCartLight />
-                <span>BUY NOW</span>
-              </div>
-            }
-          />
+          <div onClick={handleBuyNow}>
+            <Button
+              content={
+                <div className={styles.btnContent}>
+                  <PiShoppingCartLight />
+                  <span>Mua ngay</span>
+                </div>
+              }
+            />
+          </div>
         ) : (
           <Button
             content={
               <div className={styles.btnContent}>
                 <PiShoppingCartLight />
-                <span>SELECT OPTIONS</span>
+                <span>Chọn size</span>
               </div>
             }
           />
@@ -179,20 +210,20 @@ function DetailProduct() {
       <div className={styles.iconGroup}>
         <div className={styles.icon}>
           <IoIosGitCompare style={{ fontSize: '20px' }} />
-          <span>Add to compare</span>
+          <span>Thêm vào so sánh</span>
         </div>
         <div className={styles.icon}>
           <IoIosHeartEmpty style={{ fontSize: '20px' }} />
-          <span>Add to wishlist</span>
+          <span>Thêm vào danh sách yêu thích</span>
         </div>
       </div>
 
       <div className={styles.productInfo}>
         <p>
-          Estimated delivery: <span>5 - 7 days</span>
+          Dự kiến giao hàng: <span>5 - 7 ngày</span>
         </p>
         <p className={styles.socialMedia}>
-          Share:{' '}
+          Chia sẻ:{' '}
           <span>
             <FaXTwitter />
             <FaFacebookF />

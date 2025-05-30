@@ -28,8 +28,6 @@ function Content() {
     setIsLoading(true);
     addProductToCart(data)
       .then((res) => {
-        console.log('add to cart', res);
-
         handleGetListProductCart(data.userId, 'cart');
       })
       .catch((err) => {
@@ -41,7 +39,6 @@ function Content() {
     setIsLoading(true);
     deleteAll({ userId })
       .then((res) => {
-        console.log('deleteAll');
         handleGetListProductCart(userId, 'cart');
       })
       .catch((error) => {
@@ -76,16 +73,16 @@ function Content() {
               <div className={styles.couponBox}>
                 <input
                   type='text'
-                  placeholder='Coupon code'
+                  placeholder='Mã giảm giá'
                   className={styles.couponInput}
                 />
                 <div className={styles.okBtn}>
-                  <Button content={'OK'} isPrimary={false} />
+                  <Button content={'Ok'} isPrimary={false} />
                 </div>
               </div>
 
               <div onClick={handleClearAll}>
-                <Button content={'🗑️ Clear Shopping Cart'} isPrimary={false} />
+                <Button content={'Xóa giỏ hàng'} isPrimary={false} />
               </div>
             </div>
           </div>
@@ -104,11 +101,11 @@ function Content() {
             GIỎ HÀNG CỦA BẠN KHÔNG CÓ SẢN PHẨM NÀO
           </div>
           <div>
-            We invite you to get acquainted with an assortment of our shop.
-            Surely you can find something for yourself!
+            Mời bạn đến với một số sản phẩm của cửa hàng. Chắc chắn bạn có thể
+            tìm thấy điều gì đó cho bản thân!
           </div>
           <div className={styles.boxBtnEmpty} onClick={handleNavigateToShop}>
-            <Button content={'RETURN TO SHOP'} />
+            <Button content={'TRỞ VỀ CỬA HÀNG'} />
           </div>
         </div>
       )}

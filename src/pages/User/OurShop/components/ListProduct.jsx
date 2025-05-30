@@ -43,7 +43,7 @@ function ListProduct() {
               className={styles.loadMore}
             >
               <Button
-                content={isLoadMore ? <LoadingCommon /> : 'LOAD MORE PRODUCT'}
+                content={isLoadMore ? <LoadingCommon /> : 'Tải thêm sản phẩm'}
               />
             </div>
           )}

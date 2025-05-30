@@ -60,15 +60,32 @@ function Menu({ content }) {
 
   return (
     <div
-      className={menu}
+      className={styles.menu}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleShowLogin}
     >
       {handleRenderText()}
       {isShowDropdown && (
-        <div className={styles.dropdownMenu} onClick={() => handleLogOut()}>
-          <p>Log Out</p>
+        <div>
+          <div className={styles.dropdownMenu}>
+            <div onClick={() => handleLogOut()}>
+              <p>Đăng xuất</p>
+            </div>
+          </div>
+          <div className={styles.dropdownMenu2}>
+            <div>
+              <p>Tài khoản</p>
+            </div>
+          </div>
+          <div
+            className={styles.dropdownMenu3}
+            onClick={() => navigate('/my-order')}
+          >
+            <div>
+              <p>Đơn hàng</p>
+            </div>
+          </div>
         </div>
       )}
     </div>

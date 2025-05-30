@@ -32,22 +32,32 @@ function CartTotal({ productCart, isLoading }) {
     <div className=''>
       <div className={styles.paymentContainer}>
         <div className={styles.totalContainer}>
-          <div className={styles.title}>Cart totals</div>
+          <div className={styles.title}>Tổng thanh toán</div>
           <div className={styles.line} />
           <div className={styles.subtotal}>
-            <div className={styles.subtotalText}>Subtotal</div>
-            <div className={styles.subtotalValue}>${total.toFixed(2)}</div>
+            <div className={styles.subtotalText}>Tổng</div>
+            <div className={styles.subtotalValue}>
+              {total.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+              })}
+            </div>
           </div>
           <div className={styles.total}>
-            <div className={styles.totalText}>Total</div>
-            <div className={styles.totalValue}>${total.toFixed(2)} </div>
+            <div className={styles.totalText}>Tổng</div>
+            <div className={styles.totalValue}>
+              {total.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+              })}
+            </div>
           </div>
           <div className={styles.btnGroup}>
             <div onClick={() => navigate('/checkout')}>
-              <Button content={'PROCEED TO CHECKOUT'} isPrimary={true} />
+              <Button content={'Tiến hành thanh toán'} isPrimary={true} />
             </div>
             <div onClick={handleBackToShop}>
-              <Button content={'CONTINUE SHOPPING'} isPrimary={false} />
+              <Button content={'Tiếp tục mua hàng'} isPrimary={false} />
             </div>
           </div>
         </div>
@@ -55,20 +65,21 @@ function CartTotal({ productCart, isLoading }) {
       </div>
       <div className={styles.safeCheckoutContainer}>
         <h4>
-          GUARANTEED <span className={styles.safeText}>SAFE</span> CHECKOUT
+          Đảm bảo <span className={styles.safeText}>Bảo mật</span> khi thanh
+          toán
         </h4>
         <div className={styles.paymentIcons}>
           {paymentMethods.map((method, index) => (
             <div key={index} className={styles.paymentIcon}>
               <span className={styles.tooltip}>
-                Pay safely with {method.alt}
+                Thanh toán an toàn với {method.alt}
               </span>
               <img src={method.src} alt={method.alt} />
             </div>
           ))}
         </div>
         <p>
-          Your Payment is <strong>100% Secure</strong>
+          Thanh toán của bạn <strong>100% An toàn</strong>
         </p>
       </div>
     </div>

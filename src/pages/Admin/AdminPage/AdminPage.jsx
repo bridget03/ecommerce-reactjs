@@ -373,15 +373,15 @@ const AdminPage = () => {
             <div id='dashboard-page' className='page active'>
               <div className='stats'>
                 <div className='stat-card'>
-                  <h3>Total Products</h3>
+                  <h3>Tổng sản phẩm</h3>
                   <p id='total-products'>{stats.total}</p>
                 </div>
                 <div className='stat-card'>
-                  <h3>Active Products</h3>
+                  <h3>Sản phẩm hoạt động</h3>
                   <p id='active-products'>{stats.active}</p>
                 </div>
                 <div className='stat-card'>
-                  <h3>Deleted Products</h3>
+                  <h3>Sản phẩm đã xóa</h3>
                   <p id='deleted-products'>{stats.deleted}</p>
                 </div>
               </div>
@@ -396,13 +396,13 @@ const AdminPage = () => {
               style={{ display: 'block' }}
             >
               <div className='products-header'>
-                <h2>Products List</h2>
+                <h2>Danh sách sản phẩm</h2>
                 <div className='filters'>
                   <button
                     className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
                     onClick={() => setFilter('all')}
                   >
-                    All
+                    Tất cả
                   </button>
                   <button
                     className={`filter-btn ${
@@ -410,7 +410,7 @@ const AdminPage = () => {
                     }`}
                     onClick={() => setFilter('active')}
                   >
-                    Active
+                    Hoạt động
                   </button>
                   <button
                     className={`filter-btn ${
@@ -418,7 +418,7 @@ const AdminPage = () => {
                     }`}
                     onClick={() => setFilter('deleted')}
                   >
-                    Deleted
+                    Đã xóa
                   </button>
                 </div>
               </div>
@@ -429,19 +429,19 @@ const AdminPage = () => {
                 <table style={{ border: '1px solid blue' }}>
                   <thead>
                     <tr>
-                      <th>Image</th>
-                      <th>Name</th>
-                      <th>Price</th>
-                      <th>Type</th>
-                      <th>Status</th>
-                      <th>Actions</th>
+                      <th>Ảnh</th>
+                      <th>Tên</th>
+                      <th>Giá</th>
+                      <th>Loại</th>
+                      <th>Trạng thái</th>
+                      <th>Hành động</th>
                     </tr>
                   </thead>
                   <tbody>
                     {products.length === 0 ? (
                       <tr>
                         <td colSpan={6} style={{ textAlign: 'center' }}>
-                          No products found.
+                          Không có sản phẩm nào.
                         </td>
                       </tr>
                     ) : (
@@ -458,13 +458,13 @@ const AdminPage = () => {
                           <td>{product.name}</td>
                           <td>${product.price}</td>
                           <td>{product.type}</td>
-                          <td>{product.deletedAt ? 'Deleted' : 'Active'}</td>
+                          <td>{product.deletedAt ? 'Đã xóa' : 'Hoạt động'}</td>
                           <td className='action-buttons'>
                             <button
                               onClick={() => openEditModal(product)}
                               className='btn edit-btn'
                             >
-                              Edit
+                              Sửa
                             </button>
                             {product.deletedAt ? (
                               <button
@@ -473,14 +473,14 @@ const AdminPage = () => {
                                 }
                                 className='btn restore-btn'
                               >
-                                Restore
+                                Khôi phục
                               </button>
                             ) : (
                               <button
                                 onClick={() => handleDeleteProduct(product._id)}
                                 className='btn delete-btn'
                               >
-                                Delete
+                                Xóa
                               </button>
                             )}
                           </td>
@@ -501,11 +501,11 @@ const AdminPage = () => {
               style={{ display: 'block' }}
             >
               <h2 className='text-xl mb-4' style={{ marginBottom: '35px' }}>
-                Add New Product
+                Thêm sản phẩm mới
               </h2>
               <form id='add-product-form' onSubmit={handleAddProduct}>
                 <div className='form-group'>
-                  <label htmlFor='name'>Product Name *</label>
+                  <label htmlFor='name'>Tên sản phẩm *</label>
                   <input
                     type='text'
                     id='name'
@@ -519,7 +519,7 @@ const AdminPage = () => {
                   />
                 </div>
                 <div className='form-group'>
-                  <label htmlFor='price'>Price *</label>
+                  <label htmlFor='price'>Giá *</label>
                   <input
                     type='number'
                     id='price'
@@ -534,7 +534,7 @@ const AdminPage = () => {
                   />
                 </div>
                 <div className='form-group'>
-                  <label htmlFor='description'>Description</label>
+                  <label htmlFor='description'>Mô tả</label>
                   <textarea
                     id='description'
                     name='description'
@@ -545,7 +545,7 @@ const AdminPage = () => {
                   ></textarea>
                 </div>
                 <div className='form-group'>
-                  <label htmlFor='type'>Type *</label>
+                  <label htmlFor='type'>Loại *</label>
                   <input
                     type='text'
                     id='type'
@@ -558,7 +558,7 @@ const AdminPage = () => {
                   />
                 </div>
                 <div className='form-group'>
-                  <label htmlFor='material'>Material *</label>
+                  <label htmlFor='material'>Chất liệu *</label>
                   <input
                     type='text'
                     id='material'
@@ -571,14 +571,14 @@ const AdminPage = () => {
                   />
                 </div>
                 <div className='form-group'>
-                  <label>Sizes *</label>
+                  <label>Kích cỡ *</label>
                   <div className='sizes-container'>
                     {addForm.size.map((sz, idx) => (
                       <div className='size-input' key={idx}>
                         <input
                           type='text'
                           name='size-name'
-                          placeholder='Size (e.g. S)'
+                          placeholder='Kích cỡ (ví dụ: S)'
                           required
                           value={sz.name}
                           onChange={(e) =>
@@ -588,7 +588,7 @@ const AdminPage = () => {
                         <input
                           type='number'
                           name='size-amount'
-                          placeholder='Amount'
+                          placeholder='Số lượng'
                           required
                           min={0}
                           value={sz.amount}
@@ -599,12 +599,12 @@ const AdminPage = () => {
                       </div>
                     ))}
                     <button type='button' onClick={handleAddSize}>
-                      Add Size
+                      Thêm kích cỡ
                     </button>
                   </div>
                 </div>
                 <div className='form-group'>
-                  <label>Images *</label>
+                  <label>Ảnh *</label>
                   <div className='images-container'>
                     {addForm.images.map((img, idx) => (
                       <input
@@ -618,11 +618,11 @@ const AdminPage = () => {
                       />
                     ))}
                     <button type='button' onClick={handleAddImage}>
-                      Add Image
+                      Thêm ảnh
                     </button>
                   </div>
                 </div>
-                <button type='submit'>Add Product</button>
+                <button type='submit'>Thêm sản phẩm</button>
               </form>
             </div>
           )}
@@ -633,10 +633,10 @@ const AdminPage = () => {
       {showEditModal && editProduct && (
         <div id='edit-modal' className='modal' style={{ display: 'block' }}>
           <div className='modal-content'>
-            <h2>Edit Product</h2>
+            <h2>Sửa sản phẩm</h2>
             <form id='edit-product-form' onSubmit={handleEditProduct}>
               <div className='form-group'>
-                <label htmlFor='edit-name'>Product Name *</label>
+                <label htmlFor='edit-name'>Tên sản phẩm *</label>
                 <input
                   type='text'
                   id='edit-name'
@@ -649,7 +649,7 @@ const AdminPage = () => {
                 />
               </div>
               <div className='form-group'>
-                <label htmlFor='edit-price'>Price *</label>
+                <label htmlFor='edit-price'>Giá *</label>
                 <input
                   type='number'
                   id='edit-price'
@@ -664,7 +664,7 @@ const AdminPage = () => {
                 />
               </div>
               <div className='form-group'>
-                <label htmlFor='edit-description'>Description</label>
+                <label htmlFor='edit-description'>Mô tả</label>
                 <textarea
                   id='edit-description'
                   name='description'
@@ -678,7 +678,7 @@ const AdminPage = () => {
                 ></textarea>
               </div>
               <div className='form-group'>
-                <label htmlFor='edit-type'>Type *</label>
+                <label htmlFor='edit-type'>Loại *</label>
                 <input
                   type='text'
                   id='edit-type'
@@ -691,7 +691,7 @@ const AdminPage = () => {
                 />
               </div>
               <div className='form-group'>
-                <label htmlFor='edit-material'>Material *</label>
+                <label htmlFor='edit-material'>Chất liệu *</label>
                 <input
                   type='text'
                   id='edit-material'
@@ -704,7 +704,7 @@ const AdminPage = () => {
                 />
               </div>
               <div className='form-group'>
-                <label>Sizes *</label>
+                <label>Kích cỡ *</label>
                 <div className='sizes-container'>
                   {editProduct.size.map((sz, idx) => (
                     <div className='size-input' key={idx}>
@@ -730,12 +730,12 @@ const AdminPage = () => {
                     </div>
                   ))}
                   <button type='button' onClick={handleEditAddSize}>
-                    Add Size
+                    Thêm Size
                   </button>
                 </div>
               </div>
               <div className='form-group'>
-                <label>Images *</label>
+                <label>Ảnh *</label>
                 <div className='images-container'>
                   {editProduct.images.map((img, idx) => (
                     <input
@@ -750,20 +750,20 @@ const AdminPage = () => {
                     />
                   ))}
                   <button type='button' onClick={handleEditAddImage}>
-                    Add Image
+                    Thêm ảnh
                   </button>
                 </div>
               </div>
               <div className='modal-buttons'>
                 <button type='submit' className='submit-btn'>
-                  Save Changes
+                  Lưu thay đổi
                 </button>
                 <button
                   type='button'
                   className='cancel-btn'
                   onClick={closeEditModal}
                 >
-                  Cancel
+                  Hủy bỏ
                 </button>
               </div>
             </form>

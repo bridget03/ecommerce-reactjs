@@ -52,10 +52,11 @@ const Login = () => {
       <div className='w-full md:w-1/2 flex items-center justify-center  h-full'>
         <div className='bg-white md:shadow-md rounded-lg px-6 py-14 w-full max-w-md md:mt-0 '>
           <h1 className='text-2xl font-bold mb-4 text-[#2D405A] text-center'>
-            Login your account
+            Đăng nhập hệ thống
           </h1>
           <p className='mb-6 text-[#2D405A] md:text-[16px] text-[13px] text-center'>
-            Welcome back! Please enter your details
+            Chào mừng bạn đến với hệ thống quản lý! Vui lòng nhập thông tin đăng
+            nhập
           </p>
           <form className='space-y-4' onSubmit={handleLogin}>
             <div>
@@ -79,7 +80,7 @@ const Login = () => {
                 htmlFor='password'
                 className='block text-sm font-medium text-[#2D405A]'
               >
-                Password
+                Mật khẩu
               </label>
               <div className='relative'>
                 <input
@@ -104,7 +105,7 @@ const Login = () => {
             </div>
             {error && <div className='text-red-500 text-center'>{error}</div>}
             <div className='w-full item-center flex justify-center mt-4'>
-              <Button content={'Login'} type='submit' />
+              <Button content={'Đăng nhập'} type='submit' />
             </div>
           </form>
         </div>

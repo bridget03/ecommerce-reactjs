@@ -76,12 +76,11 @@ const OrderFail = lazy(() =>
 const OrderStatus = lazy(() =>
   import('@pages/User/CheckOut/components/order-status/OrderStatus.jsx')
 );
-
+const MyOrder = lazy(() => import('@pages/User/MyOrder/MyOrder.jsx'));
 // ADMIN ROUTES
 const AdminLogin = lazy(() => import('@pages/Admin/login/Login.jsx'));
 
 const AdminPage = lazy(() => import('@pages/Admin/AdminPage/AdminPage.jsx'));
-// const AdminUsers = lazy(() => import('@pages/Admin/Users/Users.jsx'));
 
 const AppRoutes = [
   // PUBLIC ROUTES
@@ -91,11 +90,14 @@ const AppRoutes = [
   { path: '/product/:id', component: DetailProduct },
   { path: '/cart', component: Cart },
   { path: '/about-us', component: AboutUs },
+
+  // AUTH ROUTES
   { path: '/my-account', component: MyAccount },
   { path: '/checkout', component: CheckOutPage },
   { path: '/order-success', component: OrderSuccess },
   { path: '/order-fail', component: OrderFail },
   { path: '/order-status', component: OrderStatus },
+  { path: '/my-order', component: MyOrder },
 
   // ADMIN ROUTES (with "/admin" prefix)
   { path: '/admin/login', component: AdminLogin },

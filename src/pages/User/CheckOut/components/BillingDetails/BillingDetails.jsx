@@ -148,45 +148,45 @@ const BillingDetails = ({ billingDetails }) => {
       <div className={styles.wrapper}>
         <div className={styles.container}>
           <div className='bg-white p-6 rounded-lg shadow-lg'>
-            <h2 className='text-2xl font-bold mb-4'>Billing Information</h2>
+            <h2 className='text-2xl font-bold mb-4'>Thông tin thanh toán</h2>
             <div className='grid grid-cols-2 gap-4'>
               <div>
-                <strong>First Name:</strong>
+                <p className='font-medium'>Họ:</p>
                 <p>{billingDetails.firstName}</p>
               </div>
               <div>
-                <strong>Last Name:</strong>
+                <p className='font-medium'>Tên:</p>
                 <p>{billingDetails.lastName}</p>
               </div>
               <div>
-                <strong>Country:</strong>
+                <p className='font-medium'>Quốc gia:</p>
                 <p>{billingDetails.country}</p>
               </div>
               <div>
-                <strong>Street:</strong>
+                <p className='font-medium'>Địa chỉ:</p>
                 <p>{billingDetails.street}</p>
               </div>
               <div>
-                <strong>Apartment:</strong>
+                <p className='font-medium'>Phòng, căn hộ:</p>
                 <p>{billingDetails.apartment || 'N/A'}</p>
               </div>
               <div>
-                <strong>City:</strong>
+                <p className='font-medium'>Thành phố:</p>
                 <p>{billingDetails.city}</p>
               </div>
               <div>
-                <strong>Phone:</strong>
+                <p className='font-medium'>Điện thoại:</p>
                 <p>{billingDetails.phone}</p>
               </div>
               <div className='col-span-2'>
-                <strong>Note:</strong>
-                <p>{billingDetails.note || 'No additional notes'}</p>
+                <p className='font-medium'>Ghi chú:</p>
+                <p>{billingDetails.note || 'Không có ghi chú'}</p>
               </div>
             </div>
           </div>
           <div className='bg-white shadow-xl rounded-xl p-8'>
             <h3 className='text-2xl font-semibold mb-6 text-gray-800'>
-              Your Order
+              Đơn hàng của bạn
             </h3>
 
             {listProductCart.map((item) => (
@@ -220,11 +220,11 @@ const BillingDetails = ({ billingDetails }) => {
             ))}
             <div className={styles.priceGroup}>
               <div className={styles.line}>
-                <span>Subtotal</span>
+                <span>Tổng tiền</span>
                 <span>${total}</span>
               </div>
               <div className={`${styles.line} ${styles.total}`}>
-                <span>Total</span>
+                <span>Tổng cộng</span>
                 <span>${total}</span>
               </div>
             </div>
@@ -233,19 +233,19 @@ const BillingDetails = ({ billingDetails }) => {
               <div onClick={handlePayment}>
                 <Button
                   className={styles.orderButton}
-                  content={isLoading ? 'Processing...' : 'Proceed to Payment'}
+                  content={isLoading ? 'Đang xử lý...' : 'Tiếp tục thanh toán'}
                   disabled={isLoading}
                 />
               </div>
               <div onClick={handleBackToCart}>
-                <Button content={'Back to Cart'} isPrimary={false} />
+                <Button content={'Quay lại giỏ hàng'} isPrimary={false} />
               </div>
             </div>
 
             <div className={styles.safeCheckoutContainer}>
               <h4>
-                GUARANTEED <span className={styles.safeText}>SAFE</span>{' '}
-                CHECKOUT
+                Đảm bảo <span className={styles.safeText}>AN TOÀN</span> THANH
+                TOÁN
               </h4>
               <div className={styles.paymentIcons}>
                 {paymentMethods.map((method, index) => (
@@ -258,7 +258,7 @@ const BillingDetails = ({ billingDetails }) => {
                 ))}
               </div>
               <p>
-                Your Payment is <strong>100% Secure</strong>
+                Thanh toán của bạn <strong>100% an toàn</strong>
               </p>
             </div>
           </div>{' '}

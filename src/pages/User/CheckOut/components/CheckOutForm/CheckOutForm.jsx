@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-
+import { toast } from 'react-toastify';
 const CheckoutForm = ({ billingDetails, setBillingDetails }) => {
   const initialValues = {
     firstName: billingDetails.firstName || '',
@@ -27,6 +27,7 @@ const CheckoutForm = ({ billingDetails, setBillingDetails }) => {
 
   const handleSubmit = (values) => {
     setBillingDetails(values);
+    toast.success('Lưu thông tin thanh toán thành công');
   };
 
   return (
@@ -41,14 +42,14 @@ const CheckoutForm = ({ billingDetails, setBillingDetails }) => {
           onSubmit={handleSubmit}
         >
           <h3 className='text-2xl font-semibold mb-6 text-gray-800'>
-            Shipping Address
+            Địa chỉ giao hàng
           </h3>
 
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div>
               <Field
                 name='firstName'
-                placeholder='First Name *'
+                placeholder='Họ *'
                 className='w-full px-4 py-3 border rounded-lg'
               />
               <ErrorMessage
@@ -61,7 +62,7 @@ const CheckoutForm = ({ billingDetails, setBillingDetails }) => {
             <div>
               <Field
                 name='lastName'
-                placeholder='Last Name *'
+                placeholder='Tên *'
                 className='w-full px-4 py-3 border rounded-lg'
               />
               <ErrorMessage
@@ -75,7 +76,7 @@ const CheckoutForm = ({ billingDetails, setBillingDetails }) => {
           <div className='mt-4'>
             <Field
               name='country'
-              placeholder='Country *'
+              placeholder='Quốc gia *'
               className='w-full px-4 py-3 border rounded-lg'
             />
             <ErrorMessage
@@ -88,7 +89,7 @@ const CheckoutForm = ({ billingDetails, setBillingDetails }) => {
           <div className='mt-4'>
             <Field
               name='street'
-              placeholder='Street address *'
+              placeholder='Địa chỉ *'
               className='w-full px-4 py-3 border rounded-lg'
             />
             <ErrorMessage
@@ -101,7 +102,7 @@ const CheckoutForm = ({ billingDetails, setBillingDetails }) => {
           <div className='mt-4'>
             <Field
               name='apartment'
-              placeholder='Apartment, suite, unit (optional)'
+              placeholder='Phòng, căn hộ (tùy chọn)'
               className='w-full px-4 py-3 border rounded-lg'
             />
           </div>
@@ -109,7 +110,7 @@ const CheckoutForm = ({ billingDetails, setBillingDetails }) => {
           <div className='mt-4'>
             <Field
               name='city'
-              placeholder='City *'
+              placeholder='Thành phố *'
               className='w-full px-4 py-3 border rounded-lg'
             />
             <ErrorMessage
@@ -122,7 +123,7 @@ const CheckoutForm = ({ billingDetails, setBillingDetails }) => {
           <div className='mt-4'>
             <Field
               name='phone'
-              placeholder='Phone *'
+              placeholder='Điện thoại *'
               className='w-full px-4 py-3 border rounded-lg'
             />
             <ErrorMessage
@@ -136,7 +137,7 @@ const CheckoutForm = ({ billingDetails, setBillingDetails }) => {
             <Field
               name='note'
               as='textarea'
-              placeholder='Order Notes (optional)'
+              placeholder='Ghi chú đơn hàng (tùy chọn)'
               className='w-full px-4 py-3 border rounded-lg'
               rows={3}
             />
@@ -147,7 +148,7 @@ const CheckoutForm = ({ billingDetails, setBillingDetails }) => {
               type='submit'
               className='px-6 py-3 bg-[#333] text-white rounded-lg shadow-md hover:bg-white hover:text-[#333] hover:border-[#555] hover:border-1 transition cursor-pointer'
             >
-              Save Billing Details
+              Lưu thông tin thanh toán
             </button>
           </div>
         </Form>

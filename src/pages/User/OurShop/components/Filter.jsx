@@ -45,7 +45,7 @@ function Filter() {
       </div>
       <div className={styles.rightOption}>
         <div className={styles.showText} style={{ color: '#555555' }}>
-          Show
+          Hiển thị
         </div>
 
         <SelectBox

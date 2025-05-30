@@ -12,7 +12,7 @@ function CountDownBanner() {
         <CountDownTimer targetDate={targetDate} />
       </div>
       <div className={styles.title}>The Classics Make A Comeback</div>
-      <Button content={'Buy Now'} />
+      <Button content={'Mua ngay'} />
     </div>
   );
 }

@@ -152,7 +152,9 @@ function ProductItem({
         </div>
         {!isHomepage && (
           <div className={styles.buttonGroup} onClick={handleAddToCart}>
-            <Button content={isLoading ? <LoadingCommon /> : 'ADD TO CART'} />
+            <Button
+              content={isLoading ? <LoadingCommon /> : 'Thêm vào giỏ hàng'}
+            />
           </div>
         )}
       </div>

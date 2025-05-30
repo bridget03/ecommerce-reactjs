@@ -15,7 +15,7 @@ function Banner() {
           </div>
           <div className={styles.title}>The Classics Make A Comeback</div>
           <div className={styles.button}>
-            <Button content={'Buy Now'} />
+            <Button content={'Mua ngay'} />
           </div>
         </div>
       </div>

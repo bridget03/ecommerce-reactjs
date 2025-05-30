@@ -107,6 +107,12 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
       try {
         // Build order payload
         const userId = Cookies.get('userId');
+        const token = Cookies.get('token');
+        if (!token) {
+          toast.error('Vui lòng đăng nhập lại.');
+          navigate('/login');
+          return;
+        }
 
         const orderPayload = {
           userId,
@@ -130,12 +136,22 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
             phone: billingDetails.phone,
           },
           paymentMethod: 'cod',
+          paymentStatus: 'completed',
         };
+        console.log('COD orderPayload:', orderPayload);
 
         const res = await axios.post(
           'http://localhost:4545/api/orders',
-          orderPayload
+          orderPayload,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
+
+        await deleteAll({ userId });
+        handleGetListProductCart(userId, 'cart');
 
         alert('Order placed successfully!');
         navigate('/order-success', {
@@ -274,7 +290,9 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
 
   return (
     <div className='bg-white shadow-xl rounded-xl p-8'>
-      <h3 className='text-2xl font-semibold mb-6 text-gray-800'>Your Order</h3>
+      <h3 className='text-2xl font-normal mb-6 text-gray-800'>
+        Đơn hàng của bạn
+      </h3>
 
       {listProductCart.map((item) => (
         <div key={item.userId}>
@@ -301,7 +319,7 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
                 className={styles.remove}
                 onClick={() => handleClickRemove(item.productId, item.userId)}
               >
-                remove
+                Xoá
               </button>
               <Modal
                 isOpen={isModalOpen}
@@ -318,7 +336,7 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
                 }}
                 title='Remove Item'
               >
-                <p>Are you sure you want to remove?</p>
+                <p>Bạn có chắc chắn muốn xoá sản phẩm này không?</p>
               </Modal>
             </div>
           </div>
@@ -326,17 +344,17 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
       ))}
       <div className={styles.priceGroup}>
         <div className={styles.line}>
-          <span>Subtotal</span>
+          <span>Tổng tiền</span>
           <span>${total}</span>
         </div>
         <div className={`${styles.line} ${styles.total}`}>
-          <span>Total</span>
+          <span>Tổng cộng</span>
           <span>${total}</span>
         </div>
       </div>
 
       <div className='mt-4 flex flex-col'>
-        <h4 className='font-semibold mb-2'>Select Payment Method</h4>
+        <h4 className='font-semibold mb-2'>Chọn phương thức thanh toán</h4>
         <div className=' items-center gap-4'>
           <label className='flex items-center gap-3'>
             <input
@@ -347,11 +365,18 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
               onChange={() => setPaymentMethod('vnpay')}
               className='mr-2'
             />
-            Ví VNPay
+            <div className='flex items-center gap-2 bg-[]'>
+              <img
+                src='https://cdn.brandfetch.io/idV02t6WJs/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B'
+                alt='VNPay'
+                className='w-10 h-10'
+              />
+              Ví VNPay
+            </div>
           </label>
           {paymentMethod === 'vnpay' && (
             <p className='my-2 ml-6 text-md text-gray-500'>
-              We offer direct payment through VNPay.
+              Thanh toán bằng ví VNPay.
             </p>
           )}
           <label className='flex items-center gap-3'>
@@ -363,11 +388,18 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
               onChange={() => setPaymentMethod('momo')}
               className='mr-2'
             />
-            Ví MoMo
+            <div className='flex items-center gap-2'>
+              <img
+                src='https://cdn.brandfetch.io/idn4xaCzTm/w/180/h/180/theme/dark/logo.png?c=1dxbfHSJFAPEGdCLU4o5B'
+                alt='VNPay'
+                className='w-10 h-10'
+              />
+              Ví MoMo
+            </div>
           </label>
           {paymentMethod === 'momo' && (
             <p className='my-2 ml-6 text-md text-gray-500'>
-              We offer direct payment through MoMo.
+              Thanh toán bằng ví MoMo.
             </p>
           )}
           <label className='flex items-center gap-3 mt-4'>
@@ -379,11 +411,18 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
               onChange={() => setPaymentMethod('cash')}
               className='mr-2'
             />
-            Thanh toán khi nhận hàng (COD)
+            <div className='flex items-center gap-2'>
+              <img
+                src='https://cdn-icons-png.flaticon.com/512/2017/2017461.png'
+                alt='VNPay'
+                className='w-10 h-10'
+              />
+              Thanh toán khi nhận hàng (COD)
+            </div>
           </label>
           {paymentMethod === 'cash' && (
             <p className='my-2 ml-6 text-md text-gray-500'>
-              Pay with cash upon delivery.
+              Thanh toán khi nhận hàng (COD).
             </p>
           )}
         </div>
@@ -391,29 +430,29 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
 
       <div className={styles.buttonContainer}>
         <div onClick={handleContinue}>
-          <Button className={styles.orderButton} content={'Continue'}></Button>
+          <Button className={styles.orderButton} content={'Tiếp tục'}></Button>
         </div>
         <div onClick={handleBackToShop}>
-          <Button content={'Back to Cart'} isPrimary={false} />
+          <Button content={'Quay lại giỏ hàng'} isPrimary={false} />
         </div>
       </div>
 
       <div className={styles.safeCheckoutContainer}>
         <h4>
-          GUARANTEED <span className={styles.safeText}>SAFE</span> CHECKOUT
+          Đảm bảo <span className={styles.safeText}>AN TOÀN</span> THANH TOÁN
         </h4>
         <div className={styles.paymentIcons}>
           {paymentMethods.map((method, index) => (
             <div key={index} className={styles.paymentIcon}>
               <span className={styles.tooltip}>
-                Pay safely with {method.alt}
+                Thanh toán an toàn với {method.alt}
               </span>
               <img src={method.src} alt={method.alt} />
             </div>
           ))}
         </div>
         <p>
-          Your Payment is <strong>100% Secure</strong>
+          Thanh toán của bạn <strong>100% an toàn</strong>
         </p>
       </div>
     </div>

@@ -136,8 +136,6 @@ function DetailProduct() {
         size: sizeActive,
       })
         .then((res) => {
-          console.log('add to cart', res);
-
           setIsOpen(true);
           setType('cart');
           setIsLoading(true);
@@ -202,9 +200,9 @@ function DetailProduct() {
                 navigate('/');
               }}
             >
-              Home
+              Trang chủ
             </span>{' '}
-            &gt; Men
+            &gt; Nam
           </div>
           <div className={styles.navigate} onClick={handleBackToPrevious}>
             &lt; Trở về trang trước
@@ -213,9 +211,9 @@ function DetailProduct() {
 
         {!data ? (
           <div className={styles.emptyData}>
-            <p>No Result</p>
+            <p>Không tìm thấy sản phẩm</p>
             <div onClick={handleBackToShop}>
-              <Button content={'Back To Our Shop'} />
+              <Button content={'Trở về cửa hàng'} />
             </div>
           </div>
         ) : (
