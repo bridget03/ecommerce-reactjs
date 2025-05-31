@@ -16,7 +16,7 @@
 }
 
 .containerMiddleBox {
-  padding: 0px 60px;
+  padding: 0px 20px;
   width: 100%;
   @include mixins.flex_box_custom(center, center, 0px);
   flex-direction: column;
@@ -28,7 +28,8 @@
   text-align: center;
   color: vars.$third-color;
   @media (max-width: 830px) {
-    font-size: 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
   }
   @media (max-width: 425px) {
     text-align: center;
@@ -42,6 +43,6 @@
   text-align: center;
 
   @media (max-width: 830px) {
-    font-size: 20px;
+    font-size: 16px;
   }
 }
