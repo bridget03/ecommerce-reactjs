@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 import Logo from '@icons/images/logo.svg';
-
+import { useNavigate } from 'react-router-dom';
 import {
   FaCcApplePay,
   FaCcDiscover,
@@ -10,6 +10,7 @@ import {
 } from 'react-icons/fa';
 
 function Footer() {
+  const navigate = useNavigate();
   return (
     <div className={styles.container}>
       <div className={styles.bgOverlay}></div>
@@ -22,29 +23,29 @@ function Footer() {
       </div>
       <div className={styles.funcBtn}>
         <div className={styles.funcBtnItem}>
-          <a href='#'>Home</a>
+          <a href='/'>Trang chủ</a>
         </div>
         <div>
           <a href='#'>Element</a>
         </div>
         <div>
-          <a href='/shop'>Shop</a>
+          <a href='/shop'>Cửa hàng</a>
         </div>
         <div>
           <a href='#'>Blog</a>
         </div>
         <div>
-          <a href='about-us'>About Us</a>
+          <a href='/about-us'>Giới thiệu</a>
         </div>
         <div>
-          <a href='#'>Contact Us</a>
+          <a href='#'>Liên hệ</a>
         </div>
         <div>
-          <a href='#'>Compare</a>
+          <a href='#'>So sánh</a>
         </div>
       </div>
       <div className={styles.payMethod}>
-        <p>Guaranteed safe checkout</p>
+        <p>Thanh toán an toàn</p>
         <div className={styles.icon}>
           <FaCcApplePay />
           <FaCcDiscover />
@@ -54,7 +55,7 @@ function Footer() {
         </div>
       </div>
       <div className={styles.copyright}>
-        <p>Copyright 2025 SatoStore. Created by me</p>
+        <p>Copyright 2025 SatoStore. Created by SatoStore</p>
       </div>
     </div>
   );

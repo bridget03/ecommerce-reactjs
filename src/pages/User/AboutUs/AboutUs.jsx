@@ -1,7 +1,7 @@
 import Header from '@components/Header/Header.jsx';
 import MainLayout from '@components/Layout/Layout.jsx';
 import Footer from '@components/Footer/Footer.jsx';
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   Accordion,
@@ -15,19 +15,17 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 import styles from './styles.module.scss';
 
 function AboutUs() {
-  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className={styles.container}>
       <Header />
       <MainLayout>
         <section className='text-center py-10'>
-          {/* <p className='text-xl font-normal mb-2'>WE TRY OUR BEST FOR YOU</p> */}
           <p className='text-sm font-medium text-gray-500 tracking-widest mb-2 flex items-center justify-center'>
             <span className='flex-grow border-t border-gray-300 mx-4'></span>
             WE TRY OUR BEST FOR YOU
             <span className='flex-grow border-t border-gray-300 mx-4'></span>
           </p>
-          <h1 className='text-3xl mb-8'>Welcome to the Sato Store</h1>
+          <h1 className='text-3xl mb-8'>Chào mừng bạn đến với Sato Store</h1>
 
           <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
             {['/about-us/1.png', '/about-us/2.png', '/about-us/3.png'].map(
@@ -68,18 +66,18 @@ function AboutUs() {
 
           <div className='mt-16'>
             <p className='text-sm font-normal  mb-4 text-[#555]'>
-              WE ARE HAPPY TO HELP YOU
+              Chúng tôi rất vui khi giúp bạn
             </p>
             <p className='text-[28px] font-normal mb-6 text-gray-800'>
-              Have Any Questions?
+              Có bất kỳ câu hỏi nào không?
             </p>
             <Accordion className='w-full max-w-5xl mx-auto'>
               {[
-                'What is your return policy?',
-                'How do I choose the right size?',
-                'Can I customize my order?',
-                'What payment methods are accepted?',
-                'How can I track my order?',
+                'Chính sách đổi trả như thế nào?',
+                'Làm thế nào để chọn đúng kích cỡ?',
+                'Tôi có thể tùy chỉnh đơn hàng của mình không?',
+                'Phương thức thanh toán nào được chấp nhận?',
+                'Làm thế nào để theo dõi đơn hàng của tôi?',
               ].map((question, index) => (
                 <AccordionItem key={index} className='border-b'>
                   <AccordionItemHeading>
@@ -90,15 +88,15 @@ function AboutUs() {
                   </AccordionItemHeading>
                   <AccordionItemPanel className='p-3 text-gray-600'>
                     {index === 0 &&
-                      'We accept returns within 30 days of purchase with the original receipt.'}
+                      'Chúng tôi chấp nhận đổi trả trong vòng 30 ngày kể từ ngày mua hàng với hóa đơn gốc.'}
                     {index === 1 &&
-                      'Please refer to our size guide for accurate measurements or contact support for help.'}
+                      'Vui lòng tham khảo hướng dẫn kích cỡ của chúng tôi để đo đạc chính xác hoặc liên hệ hỗ trợ để được hỗ trợ.'}
                     {index === 2 &&
-                      'Yes, we offer customization for selected products. Contact support for details.'}
+                      'Có, chúng tôi cung cấp tùy chỉnh cho các sản phẩm được chọn. Liên hệ hỗ trợ để biết thêm chi tiết.'}
                     {index === 3 &&
-                      'We accept major credit cards, PayPal, and bank transfers.'}
+                      'Chúng tôi chấp nhận các thẻ tín dụng chính, PayPal và chuyển khoản ngân hàng.'}
                     {index === 4 &&
-                      'After purchase, you will receive a tracking link via email to monitor your order.'}
+                      'Sau khi mua hàng, bạn sẽ nhận được liên kết theo dõi qua email để theo dõi đơn hàng của mình.'}
                   </AccordionItemPanel>
                 </AccordionItem>
               ))}

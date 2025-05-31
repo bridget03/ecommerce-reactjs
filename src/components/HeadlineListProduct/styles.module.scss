@@ -4,14 +4,14 @@
   @include mixins.flex_box_custom(space-between, flex-start, 20px);
   max-width: 1400px;
   margin: 2rem auto;
-  @media (max-width: 425px) {
+  @media (max-width: 768px) {
     flex-direction: column;
   }
 }
 
 .containerItem1 {
   width: 50%;
-  @media (max-width: 425px) {
+  @media (max-width: 768px) {
     width: 100%;
   }
 }
@@ -19,8 +19,8 @@
 .containerItem2 {
   width: 50%;
 
-  @include mixins.flex_box_custom(left, center, 52px);
-  @media (max-width: 425px) {
+  @include mixins.flex_box_custom(left, center, 16px);
+  @media (max-width: 768px) {
     width: 100%;
   }
 }
