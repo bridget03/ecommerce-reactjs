@@ -91,7 +91,9 @@ function CartTable({ productCart, getData, isLoading }) {
                   🗑️
                 </button>
               </td>
-              <td className={styles.blurText}>${item.price.toFixed(2)}</td>
+              <td className={styles.blurText}>
+                {item.price.toLocaleString('vi-VN')} VNĐ
+              </td>
               <td>
                 <SelectBox
                   options={showOptions}
@@ -103,7 +105,7 @@ function CartTable({ productCart, getData, isLoading }) {
                 />
               </td>
               <td className={styles.blurText}>
-                ${(item.price * item.quantity).toFixed(2)}
+                {(item.price * item.quantity).toLocaleString('vi-VN')} VNĐ
               </td>
             </tr>
           ))}

@@ -211,7 +211,8 @@ const BillingDetails = ({ billingDetails }) => {
                       }}
                     >
                       <span>
-                        {item.quantity} × ${item.price}
+                        {item.quantity} × {item.price.toLocaleString('vi-VN')}
+                        VNĐ
                       </span>
                     </p>
                   </div>
@@ -221,11 +222,11 @@ const BillingDetails = ({ billingDetails }) => {
             <div className={styles.priceGroup}>
               <div className={styles.line}>
                 <span>Tổng tiền</span>
-                <span>${total}</span>
+                <span>{total.toLocaleString('vi-VN')} VNĐ</span>
               </div>
               <div className={`${styles.line} ${styles.total}`}>
                 <span>Tổng cộng</span>
-                <span>${total}</span>
+                <span>{total.toLocaleString('vi-VN')} VNĐ</span>
               </div>
             </div>
 

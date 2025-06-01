@@ -313,7 +313,7 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
                   type='show'
                   value={item.quantity}
                 />
-                <span>× ${item.price}</span>
+                <span>× {item.price.toLocaleString('vi-VN')} VNĐ</span>
               </p>
               <button
                 className={styles.remove}
@@ -345,11 +345,11 @@ const OrderSummary = ({ billingDetails, setIsFilled }) => {
       <div className={styles.priceGroup}>
         <div className={styles.line}>
           <span>Tổng tiền</span>
-          <span>${total}</span>
+          <span>{total.toLocaleString('vi-VN')} VNĐ</span>
         </div>
         <div className={`${styles.line} ${styles.total}`}>
           <span>Tổng cộng</span>
-          <span>${total}</span>
+          <span>{total.toLocaleString('vi-VN')} VNĐ</span>
         </div>
       </div>
 

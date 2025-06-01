@@ -4,16 +4,19 @@ import Footer from '@components/Footer/Footer.jsx';
 import Step from '@components/Step/Step';
 import Content from './components/Content/Content';
 import { useState } from 'react';
+import MainLayout from '@components/Layout/Layout';
 
 function Cart() {
   const [activeStep, setActiveStep] = useState(1);
   return (
     <>
       <Header />
-      <div className={styles.cartBody}>
-        <Step activeStep={activeStep} setActiveStep={setActiveStep} />
-        <Content />
-      </div>
+      <MainLayout>
+        <div className={styles.cartBody}>
+          <Step activeStep={activeStep} setActiveStep={setActiveStep} />
+          <Content />
+        </div>
+      </MainLayout>
       <Footer />
     </>
   );

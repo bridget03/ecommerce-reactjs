@@ -240,7 +240,9 @@ function DetailProduct() {
             </div>
             <div className={styles.infoGroup}>
               <div className={styles.name}>{data?.name}</div>
-              <div className={styles.price}>${data?.price}</div>
+              <div className={styles.price}>
+                {data?.price.toLocaleString('vi-VN')} VNĐ
+              </div>
               <div className={styles.description}>
                 <p>{data?.description}</p>
               </div>
