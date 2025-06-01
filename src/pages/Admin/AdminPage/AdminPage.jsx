@@ -1,5 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from 'recharts';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './styles.css';
 const API_URL = 'http://localhost:4545/api';
@@ -11,6 +24,9 @@ const AdminPage = () => {
   const [stats, setStats] = useState({ total: 0, active: 0, deleted: 0 });
   const [showEditModal, setShowEditModal] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
+  const [orders, setOrders] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [showOrderModal, setShowOrderModal] = useState(false);
   const [addForm, setAddForm] = useState({
     name: '',
     price: '',
@@ -19,6 +35,16 @@ const AdminPage = () => {
     material: '',
     size: [{ name: '', amount: '' }],
     images: [''],
+  });
+  const [revenue, setRevenue] = useState({
+    totalRevenue: 0,
+    totalOrders: 0,
+    revenueByStatus: {
+      pending: {
+        totalAmount: 0,
+        count: 0,
+      },
+    },
   });
   const navigate = useNavigate();
   const token = localStorage.getItem('adminToken');
@@ -33,7 +59,6 @@ const AdminPage = () => {
       });
       const data = await response.json();
       if (data.success && data.user && data.user.role === 'admin') {
-        // Thêm dòng này để lưu token vào localStorage
         localStorage.setItem('adminToken', data.token);
         window.location.href = '/admin/fekhach';
       } else if (data.success === false) {
@@ -45,6 +70,7 @@ const AdminPage = () => {
       setError('Đăng nhập thất bại!');
     }
   };
+  console.log('????????????????????????????????', orders);
   // Fetch products and stats
   const fetchProducts = async () => {
     try {
@@ -52,7 +78,6 @@ const AdminPage = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
-      console.log('API response:', data);
       if (data.success) {
         let filtered = data.products;
         if (filter === 'active')
@@ -71,8 +96,65 @@ const AdminPage = () => {
     }
   };
 
+  // Fetch orders
+  const fetchOrders = async () => {
+    try {
+      const res = await fetch(`${API_URL}/admin/orders`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setOrders(data.orders);
+        console.log('list orders:ssssssssssssssss', data.orders);
+      } else {
+        console.error('Failed to fetch orders:', data.message);
+      }
+    } catch (err) {
+      console.error('Error fetching orders:', err);
+    }
+  };
+
+  // Fetch revenue statistics
+  const fetchRevenue = async () => {
+    try {
+      const res = await fetch(`${API_URL}/admin/orders/revenue`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      console.log('API Response:', data);
+
+      if (data.success) {
+        console.log('Revenue Data:', {
+          totalRevenue: data.totalRevenue,
+          totalOrders: data.totalOrders,
+          revenueByStatus: data.revenueByStatus,
+        });
+
+        setRevenue(data);
+
+        // Log state after update
+        console.log('Revenue State after update:', {
+          totalRevenue: data.totalRevenue,
+          totalOrders: data.totalOrders,
+          pending: data.revenueByStatus?.pending,
+        });
+      } else {
+        console.error('Failed to fetch revenue:', data.message);
+      }
+    } catch (err) {
+      console.error('Error fetching revenue:', err);
+    }
+  };
+
+  // Log revenue state when it changes
+  useEffect(() => {
+    console.log('Current Revenue State:', revenue);
+  }, [revenue]);
+
   useEffect(() => {
     fetchProducts();
+    fetchOrders();
+    fetchRevenue();
   }, []);
 
   useEffect(() => {
@@ -315,7 +397,6 @@ const AdminPage = () => {
       ...p,
       images: [...p.images, ''],
     }));
-  console.log('activeTab:', activeTab, 'products:', products);
   // UI
   return (
     <div className='container'>
@@ -347,6 +428,12 @@ const AdminPage = () => {
             >
               <i className='fas fa-plus'></i> <span>Add Product</span>
             </li>
+            <li
+              className={activeTab === 'orders' ? 'active' : ''}
+              onClick={() => setActiveTab('orders')}
+            >
+              <i className='fas fa-shopping-cart'></i> <span>Orders</span>
+            </li>
             <li id='logout' onClick={handleLogout}>
               <i className='fas fa-sign-out-alt'></i> <span>Logout</span>
             </li>
@@ -373,16 +460,152 @@ const AdminPage = () => {
             <div id='dashboard-page' className='page active'>
               <div className='stats'>
                 <div className='stat-card'>
+                  <h3>Tổng doanh thu</h3>
+                  <p>
+                    {(revenue?.totalRevenue || 0).toLocaleString('vi-VN')} VNĐ
+                  </p>
+                </div>
+                <div className='stat-card'>
+                  <h3>Doanh thu từ đơn chờ xử lý</h3>
+                  <p>
+                    {(
+                      revenue?.revenueByStatus?.pending?.totalAmount || 0
+                    ).toLocaleString('vi-VN')}{' '}
+                    VNĐ
+                  </p>
+                </div>
+                <div className='stat-card'>
+                  <h3>Tổng đơn hàng</h3>
+                  <p>{revenue?.totalOrders || 0}</p>
+                </div>
+                <div className='stat-card'>
+                  <h3>Đơn hàng chờ xử lý</h3>
+                  <p>{revenue?.revenueByStatus?.pending?.count || 0}</p>
+                </div>
+                <div className='stat-card'>
                   <h3>Tổng sản phẩm</h3>
-                  <p id='total-products'>{stats.total}</p>
+                  <p>{stats.total}</p>
                 </div>
                 <div className='stat-card'>
                   <h3>Sản phẩm hoạt động</h3>
-                  <p id='active-products'>{stats.active}</p>
+                  <p>{stats.active}</p>
                 </div>
                 <div className='stat-card'>
                   <h3>Sản phẩm đã xóa</h3>
-                  <p id='deleted-products'>{stats.deleted}</p>
+                  <p>{stats.deleted}</p>
+                </div>
+              </div>
+
+              {/* Charts Section */}
+              <div className='charts-container'>
+                {/* Revenue by Status Bar Chart */}
+                <div className='chart-card'>
+                  <h3>Thống kê doanh thu theo trạng thái</h3>
+                  <div className='chart-wrapper'>
+                    <ResponsiveContainer width='100%' height={300}>
+                      <BarChart
+                        data={[
+                          {
+                            name: 'Chờ xử lý',
+                            amount:
+                              revenue?.revenueByStatus?.pending?.totalAmount ||
+                              0,
+                          },
+                        ]}
+                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                      >
+                        <CartesianGrid strokeDasharray='3 3' />
+                        <XAxis dataKey='name' />
+                        <YAxis />
+                        <Tooltip
+                          formatter={(value) =>
+                            value.toLocaleString('vi-VN') + ' VNĐ'
+                          }
+                        />
+                        <Legend />
+                        <Bar dataKey='amount' fill='#8884d8' name='Doanh thu' />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* Orders by Status Pie Chart */}
+                <div className='chart-card'>
+                  <h3>Thống kê đơn hàng theo trạng thái</h3>
+                  <div className='chart-wrapper'>
+                    <ResponsiveContainer width='100%' height={300}>
+                      <PieChart>
+                        <Pie
+                          data={[
+                            {
+                              name: 'Chờ xử lý',
+                              value:
+                                revenue?.revenueByStatus?.pending?.count || 0,
+                            },
+                            {
+                              name: 'Khác',
+                              value:
+                                (revenue?.totalOrders || 0) -
+                                (revenue?.revenueByStatus?.pending?.count || 0),
+                            },
+                          ]}
+                          cx='50%'
+                          cy='50%'
+                          labelLine={false}
+                          label={({ name, percent }) =>
+                            `${name}: ${(percent * 100).toFixed(0)}%`
+                          }
+                          outerRadius={80}
+                          fill='#8884d8'
+                          dataKey='value'
+                        >
+                          <Cell fill='#8884d8' />
+                          <Cell fill='#82ca9d' />
+                        </Pie>
+                        <Tooltip
+                          formatter={(value) => value.toLocaleString('vi-VN')}
+                        />
+                        <Legend />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* Products Status Pie Chart */}
+                <div className='chart-card'>
+                  <h3>Thống kê trạng thái sản phẩm</h3>
+                  <div className='chart-wrapper'>
+                    <ResponsiveContainer width='100%' height={300}>
+                      <PieChart>
+                        <Pie
+                          data={[
+                            {
+                              name: 'Đang hoạt động',
+                              value: stats.active,
+                            },
+                            {
+                              name: 'Đã xóa',
+                              value: stats.deleted,
+                            },
+                          ]}
+                          cx='50%'
+                          cy='50%'
+                          labelLine={false}
+                          label={({ name, percent }) =>
+                            `${name}: ${(percent * 100).toFixed(0)}%`
+                          }
+                          outerRadius={80}
+                          fill='#8884d8'
+                          dataKey='value'
+                        >
+                          <Cell fill='#82ca9d' />
+                          <Cell fill='#ff8042' />
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
                 </div>
               </div>
             </div>
@@ -626,6 +849,65 @@ const AdminPage = () => {
               </form>
             </div>
           )}
+
+          {/* Orders Page */}
+          {activeTab === 'orders' && (
+            <div id='orders-page' className='page' style={{ display: 'block' }}>
+              <div className='orders-header'>
+                <h2>Danh sách đơn hàng</h2>
+              </div>
+              <div className='orders-table'>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Mã đơn hàng</th>
+                      <th>Khách hàng</th>
+                      <th>Email</th>
+                      <th>Số điện thoại</th>
+                      <th>Tổng tiền</th>
+                      <th>Trạng thái</th>
+                      <th>Ngày đặt</th>
+                      <th>Hành động</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {orders.length === 0 ? (
+                      <tr>
+                        <td colSpan={8} style={{ textAlign: 'center' }}>
+                          Không có đơn hàng nào.
+                        </td>
+                      </tr>
+                    ) : (
+                      orders.map((order) => (
+                        <tr key={order._id}>
+                          <td>{order._id}</td>
+                          <td>{order.shippingAddress.fullName}</td>
+                          <td>{order.shippingAddress.email}</td>
+                          <td>{order.shippingAddress.phone}</td>
+                          <td>{order.totalAmount} VNĐ</td>
+                          <td>{order.orderStatus}</td>
+                          <td>
+                            {new Date(order.createdAt).toLocaleDateString()}
+                          </td>
+                          <td>
+                            <button
+                              className='btn view-btn'
+                              onClick={() => {
+                                setSelectedOrder(order);
+                                setShowOrderModal(true);
+                              }}
+                            >
+                              Xem chi tiết
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -767,6 +1049,91 @@ const AdminPage = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Order Detail Modal */}
+      {showOrderModal && selectedOrder && (
+        <div className='modal' style={{ display: 'block' }}>
+          <div className='modal-content order-detail-modal'>
+            <h2>Chi tiết đơn hàng</h2>
+            <div className='order-info'>
+              <h3>Thông tin khách hàng</h3>
+              <p>
+                <strong>Họ tên:</strong>{' '}
+                {selectedOrder.shippingAddress.fullName}
+              </p>
+              <p>
+                <strong>Email:</strong> {selectedOrder.shippingAddress.email}
+              </p>
+              <p>
+                <strong>Số điện thoại:</strong>{' '}
+                {selectedOrder.shippingAddress.phone}
+              </p>
+              <p>
+                <strong>Địa chỉ:</strong>{' '}
+                {selectedOrder.shippingAddress.address}
+              </p>
+
+              <h3>Thông tin đơn hàng</h3>
+              <p>
+                <strong>Mã đơn hàng:</strong> {selectedOrder._id}
+              </p>
+              <p>
+                <strong>Ngày đặt:</strong>{' '}
+                {new Date(selectedOrder.createdAt).toLocaleDateString()}
+              </p>
+              <p>
+                <strong>Trạng thái:</strong> {selectedOrder.orderStatus}
+              </p>
+              <p>
+                <strong>Tổng tiền:</strong> {selectedOrder.totalAmount} VNĐ
+              </p>
+
+              <h3>Danh sách sản phẩm</h3>
+              <div className='order-items'>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Sản phẩm</th>
+                      <th>Kích cỡ</th>
+                      <th>Số lượng</th>
+                      <th>Giá</th>
+                      <th>Tổng</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedOrder.items.map((item, index) => (
+                      <tr key={index}>
+                        <td>
+                          <div className='product-info'>
+                            <img
+                              src={item.image}
+                              alt={item.name}
+                              className='product-image'
+                            />
+                            <span>{item.name}</span>
+                          </div>
+                        </td>
+                        <td>{item.size}</td>
+                        <td>{item.quantity}</td>
+                        <td>{item.price} VNĐ</td>
+                        <td>{item.price * item.quantity} VNĐ</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div className='modal-buttons'>
+              <button
+                className='cancel-btn'
+                onClick={() => setShowOrderModal(false)}
+              >
+                Đóng
+              </button>
+            </div>
           </div>
         </div>
       )}
